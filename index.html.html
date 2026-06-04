@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RDS — Riye Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500;600&family=Spline+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   RDS — Riye Design System
+   Visual signature: the "system grid" — a precise dotted/lined
+   structural grid motif + a distinct token-card treatment.
+   Palette: warm paper + deep ink, single confident accent (clay/rust).
+   ============================================================ */
+
+:root {
+  /* --- Accent + brand (theme-invariant) --- */
+  --rds-accent:        #b5462b;   /* clay / rust — confident, warm, not purple */
+  --rds-accent-soft:   #c9694f;
+  --rds-accent-deep:   #8f3420;
+  --rds-grid-line:     rgba(20, 16, 12, 0.055);
+
+  /* --- Light theme (paper) --- */
+  --rds-color-background-default: #f4f0e8;
+  --rds-color-background-alt:     #ece6da;
+  --rds-color-surface-card:       #fbf9f4;
+  --rds-color-surface-raised:     #ffffff;
+  --rds-color-surface-sunken:     #ebe5d8;
+  --rds-color-text-primary:       #1c1814;
+  --rds-color-text-secondary:     #524b40;
+  --rds-color-text-muted:         #8a8175;
+  --rds-color-border-default:     #d9d1c1;
+  --rds-color-border-strong:      #c2b8a4;
+  --rds-color-success:            #3f6f4a;
+  --rds-color-danger:             #a23a2a;
+  --rds-code-bg:                  #2a2520;
+  --rds-code-text:                #ece6da;
+
+  /* --- Spacing scale --- */
+  --rds-space-1: 4px;
+  --rds-space-2: 8px;
+  --rds-space-3: 12px;
+  --rds-space-4: 16px;
+  --rds-space-5: 24px;
+  --rds-space-6: 32px;
+  --rds-space-7: 48px;
+  --rds-space-8: 64px;
+  --rds-space-9: 96px;
+
+  /* --- Radius --- */
+  --rds-radius-sm: 4px;
+  --rds-radius-md: 8px;
+  --rds-radius-lg: 14px;
+  --rds-radius-xl: 22px;
+
+  /* --- Motion --- */
+  --rds-motion-fast: 140ms cubic-bezier(0.4, 0, 0.2, 1);
+  --rds-motion-base: 240ms cubic-bezier(0.32, 0.72, 0, 1);
+
+  /* --- Type --- */
+  --rds-font-display: "Fraunces", Georgia, serif;
+  --rds-font-body:    "Spline Sans", system-ui, sans-serif;
+  --rds-font-serif:   "Newsreader", Georgia, serif;
+  --rds-font-mono:    "IBM Plex Mono", ui-monospace, monospace;
+
+  --rds-shadow-sm: 0 1px 2px rgba(28,24,20,0.06), 0 1px 1px rgba(28,24,20,0.04);
+  --rds-shadow-md: 0 4px 14px rgba(28,24,20,0.07), 0 2px 4px rgba(28,24,20,0.05);
+  --rds-shadow-lg: 0 18px 48px rgba(28,24,20,0.12), 0 4px 12px rgba(28,24,20,0.06);
+}
+
+html[data-theme="dark"] {
+  --rds-accent:        #e07a5f;
+  --rds-accent-soft:   #ec9b85;
+  --rds-accent-deep:   #c45f44;
+  --rds-grid-line:     rgba(255, 248, 240, 0.05);
+
+  --rds-color-background-default: #16130f;
+  --rds-color-background-alt:     #1d1915;
+  --rds-color-surface-card:       #211d18;
+  --rds-color-surface-raised:     #292420;
+  --rds-color-surface-sunken:     #100d0a;
+  --rds-color-text-primary:       #f2ece2;
+  --rds-color-text-secondary:     #c3b9aa;
+  --rds-color-text-muted:         #8a8073;
+  --rds-color-border-default:     #342e27;
+  --rds-color-border-strong:      #443d34;
+  --rds-color-success:            #6fae7e;
+  --rds-color-danger:             #e08070;
+  --rds-code-bg:                  #0c0a08;
+  --rds-code-text:                #e8e0d2;
+
+  --rds-shadow-sm: 0 1px 2px rgba(0,0,0,0.4);
+  --rds-shadow-md: 0 4px 14px rgba(0,0,0,0.45);
+  --rds-shadow-lg: 0 18px 48px rgba(0,0,0,0.6);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--rds-font-body);
+  background: var(--rds-color-background-default);
+  color: var(--rds-color-text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  transition: background var(--rds-motion-base), color var(--rds-motion-base);
+  /* SYSTEM GRID MOTIF — the recognizable RDS signature */
+  background-image:
+    linear-gradient(var(--rds-grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--rds-grid-line) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-position: -1px -1px;
+}
+
+::selection { background: var(--rds-accent); color: #fff; }
+
+/* ---------- Layout shell ---------- */
+.app { display: flex; min-height: 100vh; }
+
+/* ---------- Sidebar ---------- */
+.sidebar {
+  width: 272px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  border-right: 1px solid var(--rds-color-border-default);
+  background: var(--rds-color-background-alt);
+  padding: var(--rds-space-5) 0 var(--rds-space-7);
+  transition: transform var(--rds-motion-base), background var(--rds-motion-base);
+  z-index: 40;
+}
+.brand {
+  display: flex; align-items: center; gap: 12px;
+  padding: 0 var(--rds-space-5) var(--rds-space-5);
+  text-decoration: none; color: inherit;
+}
+/* RDS logo lockup — grid-cell glyph */
+.brand-mark {
+  width: 38px; height: 38px; flex-shrink: 0;
+  border: 1.5px solid var(--rds-color-text-primary);
+  border-radius: 9px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  overflow: hidden;
+  position: relative;
+}
+.brand-mark span { border: 0.75px solid var(--rds-color-border-strong); }
+.brand-mark span:nth-child(1) { background: var(--rds-accent); }
+.brand-mark span:nth-child(4) { background: var(--rds-color-text-primary); }
+.brand-name { font-family: var(--rds-font-display); font-weight: 600; font-size: 20px; letter-spacing: -0.02em; line-height: 1; }
+.brand-sub { font-size: 11px; color: var(--rds-color-text-muted); letter-spacing: 0.06em; text-transform: uppercase; margin-top: 3px; }
+
+.nav-group { padding: var(--rds-space-4) var(--rds-space-5) 0; }
+.nav-group-label {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--rds-color-text-muted);
+  padding: 0 var(--rds-space-3) var(--rds-space-2);
+}
+.nav-link {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px var(--rds-space-3);
+  border-radius: var(--rds-radius-md);
+  color: var(--rds-color-text-secondary);
+  text-decoration: none; font-size: 14.5px; font-weight: 500;
+  cursor: pointer;
+  transition: background var(--rds-motion-fast), color var(--rds-motion-fast);
+  border: 1px solid transparent;
+}
+.nav-link:hover { background: var(--rds-color-surface-card); color: var(--rds-color-text-primary); }
+.nav-link.sub { font-size: 13.5px; padding-left: var(--rds-space-6); color: var(--rds-color-text-muted); }
+.nav-link.active {
+  background: var(--rds-color-surface-raised);
+  color: var(--rds-color-text-primary);
+  border-color: var(--rds-color-border-default);
+  box-shadow: var(--rds-shadow-sm);
+}
+.nav-link.active .nav-dot { background: var(--rds-accent); }
+.nav-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--rds-color-border-strong); flex-shrink: 0; transition: background var(--rds-motion-fast); }
+
+/* ---------- Main ---------- */
+.main { flex: 1; min-width: 0; }
+.topbar {
+  position: sticky; top: 0; z-index: 30;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: var(--rds-space-3) var(--rds-space-6);
+  border-bottom: 1px solid var(--rds-color-border-default);
+  background: color-mix(in srgb, var(--rds-color-background-default) 82%, transparent);
+  backdrop-filter: blur(12px);
+}
+.topbar-left { display: flex; align-items: center; gap: 14px; }
+.menu-btn { display: none; background: none; border: 1px solid var(--rds-color-border-default); border-radius: 8px; padding: 7px 9px; cursor: pointer; color: inherit; }
+.crumb { font-size: 13px; color: var(--rds-color-text-muted); font-family: var(--rds-font-mono); }
+.crumb b { color: var(--rds-color-text-secondary); font-weight: 500; }
+.topbar-right { display: flex; align-items: center; gap: 10px; }
+
+.theme-toggle {
+  display: flex; align-items: center; gap: 7px;
+  background: var(--rds-color-surface-card);
+  border: 1px solid var(--rds-color-border-default);
+  border-radius: 999px; padding: 6px 13px; cursor: pointer;
+  font-size: 13px; font-weight: 500; color: var(--rds-color-text-secondary);
+  font-family: var(--rds-font-body);
+  transition: all var(--rds-motion-fast);
+}
+.theme-toggle:hover { border-color: var(--rds-color-border-strong); color: var(--rds-color-text-primary); }
+
+.content { max-width: 1080px; margin: 0 auto; padding: var(--rds-space-8) var(--rds-space-6) var(--rds-space-9); }
+.page { display: none; animation: fadeUp 0.5s cubic-bezier(0.32,0.72,0,1); }
+.page.active { display: block; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+/* ---------- Reusable type ---------- */
+.eyebrow {
+  font-family: var(--rds-font-mono); font-size: 12px; font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--rds-accent);
+  display: inline-flex; align-items: center; gap: 8px; margin-bottom: var(--rds-space-4);
+}
+.eyebrow::before { content: ""; width: 22px; height: 1.5px; background: var(--rds-accent); }
+h1.page-title { font-family: var(--rds-font-display); font-weight: 600; font-size: clamp(34px, 5vw, 52px); line-height: 1.02; letter-spacing: -0.025em; margin-bottom: var(--rds-space-4); }
+.lede { font-family: var(--rds-font-serif); font-size: clamp(18px, 2.2vw, 22px); line-height: 1.5; color: var(--rds-color-text-secondary); max-width: 68ch; }
+h2.section-title { font-family: var(--rds-font-display); font-weight: 600; font-size: clamp(24px, 3vw, 32px); letter-spacing: -0.02em; margin-bottom: var(--rds-space-3); }
+h3.sub-title { font-family: var(--rds-font-display); font-weight: 600; font-size: 20px; letter-spacing: -0.01em; margin-bottom: var(--rds-space-2); }
+.section { margin-top: var(--rds-space-9); }
+.section-intro { font-size: 16.5px; color: var(--rds-color-text-secondary); max-width: 70ch; margin-bottom: var(--rds-space-6); }
+p { color: var(--rds-color-text-secondary); }
+
+/* ---------- Status badge ---------- */
+.status-badge {
+  display: inline-flex; align-items: center; gap: 9px;
+  background: var(--rds-color-surface-card);
+  border: 1px solid var(--rds-color-border-strong);
+  border-radius: 999px; padding: 7px 15px 7px 12px;
+  font-size: 13px; font-weight: 500; color: var(--rds-color-text-secondary);
+}
+.status-badge .pulse { position: relative; width: 8px; height: 8px; }
+.status-badge .pulse::before { content:""; position:absolute; inset:0; border-radius:50%; background: var(--rds-accent); }
+.status-badge .pulse::after { content:""; position:absolute; inset:0; border-radius:50%; background: var(--rds-accent); animation: pulse 2s ease-out infinite; }
+@keyframes pulse { 0%{transform:scale(1);opacity:.7} 100%{transform:scale(3);opacity:0} }
+.status-badge code { font-family: var(--rds-font-mono); color: var(--rds-accent); font-weight:600; }
+
+/* ---------- Buttons (the real RDS button component) ---------- */
+.rds-btn {
+  font-family: var(--rds-font-body); font-weight: 600; font-size: 14.5px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 11px 20px; border-radius: var(--rds-radius-md);
+  border: 1px solid transparent; cursor: pointer; text-decoration: none;
+  min-height: 44px; line-height: 1; position: relative;
+  transition: background var(--rds-motion-fast), border-color var(--rds-motion-fast), transform var(--rds-motion-fast), box-shadow var(--rds-motion-fast), color var(--rds-motion-fast);
+}
+.rds-btn:active { transform: translateY(1px); }
+.rds-btn:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--rds-color-background-default), 0 0 0 4px var(--rds-accent); }
+.rds-btn--primary { background: var(--rds-accent); color: #fff; }
+.rds-btn--primary:hover { background: var(--rds-accent-deep); }
+.rds-btn--secondary { background: var(--rds-color-surface-card); color: var(--rds-color-text-primary); border-color: var(--rds-color-border-strong); }
+.rds-btn--secondary:hover { background: var(--rds-color-surface-raised); border-color: var(--rds-color-text-muted); }
+.rds-btn--tertiary { background: transparent; color: var(--rds-color-text-primary); border-color: var(--rds-color-border-default); }
+.rds-btn--tertiary:hover { background: var(--rds-color-surface-card); }
+.rds-btn--ghost { background: transparent; color: var(--rds-color-text-secondary); }
+.rds-btn--ghost:hover { background: var(--rds-color-surface-sunken); color: var(--rds-color-text-primary); }
+.rds-btn--destructive { background: var(--rds-color-danger); color: #fff; }
+.rds-btn--destructive:hover { filter: brightness(0.9); }
+.rds-btn--link { background: transparent; color: var(--rds-accent); padding: 6px 4px; min-height: auto; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1.5px; }
+.rds-btn--link:hover { color: var(--rds-accent-deep); }
+.rds-btn:disabled, .rds-btn[aria-disabled="true"] { opacity: 0.45; cursor: not-allowed; transform: none; }
+.rds-btn.sm { padding: 7px 13px; min-height: 34px; font-size: 13px; }
+.rds-btn .spinner { width: 15px; height: 15px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: spin 0.6s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.btn-row { display: flex; flex-wrap: wrap; gap: var(--rds-space-3); margin-top: var(--rds-space-5); }
+
+/* ---------- Cards & grids ---------- */
+.card {
+  background: var(--rds-color-surface-card);
+  border: 1px solid var(--rds-color-border-default);
+  border-radius: var(--rds-radius-lg);
+  padding: var(--rds-space-5);
+  transition: border-color var(--rds-motion-fast), transform var(--rds-motion-fast), box-shadow var(--rds-motion-fast);
+}
+.card.hover:hover { border-color: var(--rds-color-border-strong); transform: translateY(-2px); box-shadow: var(--rds-shadow-md); }
+.grid { display: grid; gap: var(--rds-space-4); }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+/* ---------- Hero ---------- */
+.hero { position: relative; padding: var(--rds-space-7) 0 var(--rds-space-8); }
+.hero-grid-accent {
+  position: absolute; top: -20px; right: -40px; width: 320px; height: 320px;
+  pointer-events: none; opacity: 0.5;
+  background-image:
+    linear-gradient(var(--rds-accent) 1px, transparent 1px),
+    linear-gradient(90deg, var(--rds-accent) 1px, transparent 1px);
+  background-size: 40px 40px;
+  -webkit-mask-image: radial-gradient(circle at 70% 30%, #000, transparent 65%);
+  mask-image: radial-gradient(circle at 70% 30%, #000, transparent 65%);
+  opacity: 0.14;
+}
+.hero h1 { font-family: var(--rds-font-display); font-weight: 600; font-size: clamp(40px, 6.5vw, 76px); line-height: 0.98; letter-spacing: -0.035em; margin: var(--rds-space-4) 0 var(--rds-space-5); max-width: 16ch; }
+.hero h1 em { font-style: italic; color: var(--rds-accent); }
+.hero .lede { max-width: 56ch; margin-bottom: var(--rds-space-6); }
+
+/* ---------- Audience / value cards ---------- */
+.audience-card { display: flex; flex-direction: column; gap: 10px; }
+.audience-card .ac-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--rds-color-surface-sunken); display: flex; align-items: center; justify-content: center; border: 1px solid var(--rds-color-border-default); }
+.audience-card h3 { font-family: var(--rds-font-display); font-size: 17px; font-weight: 600; }
+.audience-card p { font-size: 14px; line-height: 1.55; }
+
+.pillar { position: relative; padding-left: var(--rds-space-6); }
+.pillar .num { position: absolute; left: 0; top: 0; font-family: var(--rds-font-mono); font-size: 13px; color: var(--rds-accent); font-weight: 600; }
+.pillar h3 { font-family: var(--rds-font-display); font-size: 19px; font-weight: 600; margin-bottom: 6px; }
+.pillar p { font-size: 14.5px; }
+
+/* ---------- Comparison ---------- */
+.compare { display: grid; grid-template-columns: 1fr 1fr; gap: var(--rds-space-4); }
+.compare-col { padding: var(--rds-space-5); border-radius: var(--rds-radius-lg); border: 1px solid var(--rds-color-border-default); }
+.compare-col.them { background: var(--rds-color-surface-sunken); }
+.compare-col.us { background: var(--rds-color-surface-card); border-color: var(--rds-accent); position: relative; }
+.compare-col.us::before { content: "RDS"; position: absolute; top: -10px; left: 20px; background: var(--rds-accent); color: #fff; font-family: var(--rds-font-mono); font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 5px; letter-spacing: 0.05em; }
+.compare-col h4 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--rds-color-text-muted); margin-bottom: var(--rds-space-4); font-weight: 600; }
+.compare-col ul { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+.compare-col li { display: flex; gap: 10px; align-items: flex-start; font-size: 14.5px; color: var(--rds-color-text-secondary); }
+.compare-col li svg { flex-shrink: 0; margin-top: 3px; }
+
+/* ---------- Pull-quote lines ---------- */
+.statement { font-family: var(--rds-font-display); font-weight: 500; font-size: clamp(20px, 2.6vw, 27px); line-height: 1.3; letter-spacing: -0.01em; color: var(--rds-color-text-primary); max-width: 24ch; }
+.statement-block { border-left: 2px solid var(--rds-accent); padding-left: var(--rds-space-5); }
+
+/* ---------- Token cards (RDS SIGNATURE TREATMENT) ---------- */
+.token-card {
+  background: var(--rds-color-surface-card);
+  border: 1px solid var(--rds-color-border-default);
+  border-radius: var(--rds-radius-lg);
+  overflow: hidden;
+  transition: border-color var(--rds-motion-fast), box-shadow var(--rds-motion-fast);
+  display: flex; flex-direction: column;
+}
+.token-card:hover { border-color: var(--rds-color-border-strong); box-shadow: var(--rds-shadow-sm); }
+.token-swatch { height: 76px; border-bottom: 1px solid var(--rds-color-border-default); position: relative; display: flex; align-items: center; justify-content: center; }
+.token-swatch.grid-bg { background-image: linear-gradient(45deg, var(--rds-color-border-default) 25%, transparent 25%, transparent 75%, var(--rds-color-border-default) 75%), linear-gradient(45deg, var(--rds-color-border-default) 25%, transparent 25%, transparent 75%, var(--rds-color-border-default) 75%); background-size: 14px 14px; background-position: 0 0, 7px 7px; }
+.token-spacedemo { background: var(--rds-accent); border-radius: 3px; }
+.token-radiusdemo { width: 50px; height: 50px; background: var(--rds-color-surface-sunken); border: 1.5px solid var(--rds-accent); }
+.token-motiondemo { width: 40px; height: 14px; border-radius: 999px; background: var(--rds-accent); animation: slide 1.6s var(--rds-motion-base) infinite alternate; }
+@keyframes slide { from { transform: translateX(-16px); } to { transform: translateX(16px); } }
+.token-body { padding: var(--rds-space-4); display: flex; flex-direction: column; gap: 10px; flex: 1; }
+.token-name { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.token-name code { font-family: var(--rds-font-mono); font-size: 12.5px; font-weight: 600; color: var(--rds-color-text-primary); word-break: break-all; }
+.token-meta { font-size: 13px; color: var(--rds-color-text-secondary); line-height: 1.5; }
+.token-meta b { color: var(--rds-color-text-primary); font-weight: 600; }
+.token-value-pill { font-family: var(--rds-font-mono); font-size: 11.5px; background: var(--rds-color-surface-sunken); padding: 2px 7px; border-radius: 4px; color: var(--rds-color-text-secondary); border: 1px solid var(--rds-color-border-default); }
+.copy-btn {
+  background: var(--rds-color-surface-sunken); border: 1px solid var(--rds-color-border-default);
+  border-radius: 6px; padding: 5px 7px; cursor: pointer; color: var(--rds-color-text-muted);
+  display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-family: var(--rds-font-mono);
+  transition: all var(--rds-motion-fast); flex-shrink: 0;
+}
+.copy-btn:hover { color: var(--rds-color-text-primary); border-color: var(--rds-color-border-strong); }
+.copy-btn.copied { color: var(--rds-color-success); border-color: var(--rds-color-success); }
+.theme-tag { font-size: 11px; font-family: var(--rds-font-mono); color: var(--rds-color-text-muted); display: inline-flex; align-items: center; gap: 5px; margin-top: 2px; }
+.theme-tag .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--rds-accent); }
+
+/* ---------- Code block ---------- */
+.code {
+  background: var(--rds-code-bg); color: var(--rds-code-text);
+  font-family: var(--rds-font-mono); font-size: 13px; line-height: 1.7;
+  border-radius: var(--rds-radius-md); padding: var(--rds-space-4) var(--rds-space-5);
+  overflow-x: auto; border: 1px solid var(--rds-color-border-strong);
+}
+.code .c { color: #8a8073; }
+.code .k { color: var(--rds-accent-soft); }
+
+/* ---------- Steps / workflow ---------- */
+.steps { display: flex; flex-direction: column; }
+.step { display: flex; gap: var(--rds-space-4); padding: var(--rds-space-4) 0; border-bottom: 1px dashed var(--rds-color-border-default); }
+.step:last-child { border-bottom: none; }
+.step-num { width: 30px; height: 30px; flex-shrink: 0; border-radius: 8px; background: var(--rds-color-surface-card); border: 1px solid var(--rds-color-border-strong); display: flex; align-items: center; justify-content: center; font-family: var(--rds-font-mono); font-size: 13px; font-weight: 600; color: var(--rds-accent); }
+.step-body h4 { font-size: 15.5px; font-weight: 600; margin-bottom: 2px; color: var(--rds-color-text-primary); }
+.step-body p { font-size: 14px; }
+
+/* ---------- Anatomy diagram ---------- */
+.anatomy { display: grid; grid-template-columns: 1fr 1fr; gap: var(--rds-space-6); align-items: center; }
+.anatomy-stage { background: var(--rds-color-surface-sunken); border-radius: var(--rds-radius-lg); border: 1px solid var(--rds-color-border-default); padding: var(--rds-space-8) var(--rds-space-5); display: flex; align-items: center; justify-content: center; position: relative; min-height: 220px; background-image: radial-gradient(var(--rds-grid-line) 1.5px, transparent 1.5px); background-size: 18px 18px; }
+.anatomy-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+.anatomy-list li { display: flex; gap: 12px; align-items: flex-start; font-size: 14.5px; }
+.anatomy-list .a-num { font-family: var(--rds-font-mono); font-size: 12px; font-weight: 600; color: #fff; background: var(--rds-accent); width: 22px; height: 22px; border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.anatomy-list b { color: var(--rds-color-text-primary); font-weight: 600; }
+.anatomy-list span.d { color: var(--rds-color-text-muted); }
+
+/* ---------- State grid ---------- */
+.state-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--rds-space-4); }
+.state-cell { background: var(--rds-color-surface-card); border: 1px solid var(--rds-color-border-default); border-radius: var(--rds-radius-md); padding: var(--rds-space-5); display: flex; flex-direction: column; align-items: center; gap: var(--rds-space-4); }
+.state-cell .label { font-family: var(--rds-font-mono); font-size: 12px; color: var(--rds-color-text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.state-cell .desc { font-size: 13px; text-align: center; color: var(--rds-color-text-secondary); }
+.demo-btn-default { background: var(--rds-accent); color: #fff; }
+.demo-btn-hover { background: var(--rds-accent-deep); color: #fff; }
+.demo-btn-active { background: var(--rds-accent-deep); color: #fff; transform: translateY(1px); box-shadow: inset 0 2px 4px rgba(0,0,0,0.2); }
+.demo-btn-focus { background: var(--rds-accent); color: #fff; box-shadow: 0 0 0 2px var(--rds-color-surface-card), 0 0 0 4px var(--rds-accent); }
+
+/* ---------- Checklist ---------- */
+.checklist { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+.checklist li { display: flex; gap: 12px; align-items: center; padding: 13px var(--rds-space-4); border-radius: var(--rds-radius-md); background: var(--rds-color-surface-card); border: 1px solid var(--rds-color-border-default); font-size: 14.5px; color: var(--rds-color-text-secondary); cursor: pointer; transition: all var(--rds-motion-fast); }
+.checklist li:hover { border-color: var(--rds-color-border-strong); }
+.checklist .box { width: 20px; height: 20px; border-radius: 5px; border: 1.5px solid var(--rds-color-border-strong); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all var(--rds-motion-fast); }
+.checklist li.checked .box { background: var(--rds-accent); border-color: var(--rds-accent); }
+.checklist li.checked .box svg { opacity: 1; }
+.checklist .box svg { opacity: 0; }
+.checklist li.checked span { color: var(--rds-color-text-primary); }
+
+/* ---------- A11y examples ---------- */
+.a11y-demo { display: flex; flex-direction: column; gap: 8px; padding: var(--rds-space-4); border-radius: var(--rds-radius-md); border: 1px solid var(--rds-color-border-default); }
+.a11y-good { border-left: 3px solid var(--rds-color-success); }
+.a11y-bad { border-left: 3px solid var(--rds-color-danger); }
+.a11y-tag { font-size: 11px; font-family: var(--rds-font-mono); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+.a11y-good .a11y-tag { color: var(--rds-color-success); }
+.a11y-bad .a11y-tag { color: var(--rds-color-danger); }
+.contrast-good { background: #1c1814; color: #f4f0e8; padding: 10px 14px; border-radius: 6px; font-size: 14px; }
+.contrast-bad { background: #cabfa8; color: #d6cbb5; padding: 10px 14px; border-radius: 6px; font-size: 14px; }
+
+/* ---------- Roadmap ---------- */
+.roadmap { position: relative; padding-left: var(--rds-space-6); }
+.roadmap::before { content:""; position: absolute; left: 9px; top: 8px; bottom: 8px; width: 1.5px; background: var(--rds-color-border-strong); }
+.rm-item { position: relative; padding-bottom: var(--rds-space-6); }
+.rm-item:last-child { padding-bottom: 0; }
+.rm-dot { position: absolute; left: -27px; top: 4px; width: 20px; height: 20px; border-radius: 6px; background: var(--rds-color-surface-card); border: 1.5px solid var(--rds-color-border-strong); display:flex; align-items:center; justify-content:center; }
+.rm-item.current .rm-dot { background: var(--rds-accent); border-color: var(--rds-accent); }
+.rm-item.current .rm-dot::after { content:""; width:7px; height:7px; border-radius:2px; background:#fff; }
+.rm-ver { display: flex; align-items: center; gap: 12px; margin-bottom: var(--rds-space-3); }
+.rm-ver h3 { font-family: var(--rds-font-display); font-size: 22px; font-weight: 600; }
+.rm-pill { font-family: var(--rds-font-mono); font-size: 11px; padding: 3px 9px; border-radius: 5px; font-weight: 600; letter-spacing: 0.04em; }
+.rm-pill.now { background: var(--rds-accent); color: #fff; }
+.rm-pill.next { background: var(--rds-color-surface-sunken); color: var(--rds-color-text-secondary); border: 1px solid var(--rds-color-border-default); }
+.rm-list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 18px; margin-top: var(--rds-space-2); }
+.rm-list li { font-size: 14px; color: var(--rds-color-text-secondary); display: flex; gap: 8px; align-items: center; }
+.rm-list li::before { content:""; width: 4px; height: 4px; border-radius: 50%; background: var(--rds-color-border-strong); flex-shrink:0; }
+
+/* ---------- Changelog ---------- */
+.cl-entry { display: grid; grid-template-columns: 150px 1fr; gap: var(--rds-space-5); padding: var(--rds-space-5) 0; border-bottom: 1px dashed var(--rds-color-border-default); }
+.cl-entry:last-child { border-bottom: none; }
+.cl-meta { display: flex; flex-direction: column; gap: 6px; }
+.cl-date { font-family: var(--rds-font-mono); font-size: 13px; color: var(--rds-color-text-primary); font-weight: 500; }
+.cl-ver { font-family: var(--rds-font-mono); font-size: 12px; color: var(--rds-color-text-muted); }
+.cl-changes { display: flex; flex-direction: column; gap: var(--rds-space-3); }
+.cl-change { display: flex; gap: 12px; align-items: flex-start; }
+.cl-type { font-family: var(--rds-font-mono); font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; flex-shrink: 0; min-width: 78px; text-align: center; letter-spacing: 0.03em; }
+.cl-type.added { background: color-mix(in srgb, var(--rds-color-success) 16%, transparent); color: var(--rds-color-success); }
+.cl-type.improved { background: color-mix(in srgb, var(--rds-accent) 16%, transparent); color: var(--rds-accent); }
+.cl-type.fixed { background: var(--rds-color-surface-sunken); color: var(--rds-color-text-secondary); }
+.cl-type.deprecated { background: color-mix(in srgb, var(--rds-color-danger) 14%, transparent); color: var(--rds-color-danger); }
+.cl-change p { font-size: 14.5px; color: var(--rds-color-text-secondary); }
+
+/* ---------- Component library ---------- */
+.lib-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--rds-space-4); }
+.comp-card {
+  position: relative; display: flex; flex-direction: column; gap: var(--rds-space-3);
+  background: var(--rds-color-surface-card);
+  border: 1px solid var(--rds-color-border-default);
+  border-radius: var(--rds-radius-lg);
+  padding: var(--rds-space-5);
+  transition: border-color var(--rds-motion-fast), transform var(--rds-motion-fast), box-shadow var(--rds-motion-fast);
+}
+.comp-card.available { border-color: var(--rds-accent); cursor: pointer; }
+.comp-card.available:hover { transform: translateY(-2px); box-shadow: var(--rds-shadow-md); }
+.comp-card.soon { background: var(--rds-color-background-alt); }
+.comp-card.soon:hover { border-color: var(--rds-color-border-strong); }
+.comp-card.soon .comp-preview { opacity: 0.72; }
+.comp-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.comp-head h3 { font-family: var(--rds-font-display); font-size: 18px; font-weight: 600; color: var(--rds-color-text-primary); letter-spacing: -0.01em; }
+.comp-status {
+  font-family: var(--rds-font-mono); font-size: 10.5px; font-weight: 600;
+  letter-spacing: 0.05em; text-transform: uppercase; padding: 3px 9px; border-radius: 999px;
+  flex-shrink: 0; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;
+}
+.comp-status.available { background: var(--rds-accent); color: #fff; }
+.comp-status.available .pdot { width: 5px; height: 5px; border-radius: 50%; background: #fff; }
+.comp-status.soon { background: var(--rds-color-surface-sunken); color: var(--rds-color-text-muted); border: 1px solid var(--rds-color-border-default); }
+.comp-desc { font-size: 13.5px; line-height: 1.55; color: var(--rds-color-text-secondary); }
+.comp-preview {
+  margin-top: 2px; background: var(--rds-color-surface-sunken);
+  border: 1px solid var(--rds-color-border-default); border-radius: var(--rds-radius-md);
+  padding: 13px var(--rds-space-4); min-height: 58px;
+  display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap;
+  background-image: radial-gradient(var(--rds-grid-line) 1.2px, transparent 1.2px); background-size: 14px 14px;
+}
+.comp-std { display: flex; flex-wrap: wrap; gap: 5px; margin-top: auto; padding-top: 4px; }
+.comp-std .std-chip { font-family: var(--rds-font-mono); font-size: 10px; padding: 2px 7px; border-radius: 4px; background: transparent; border: 1px solid var(--rds-color-border-default); color: var(--rds-color-text-muted); }
+.comp-card.available .comp-std .std-chip { border-color: color-mix(in srgb, var(--rds-accent) 40%, var(--rds-color-border-default)); color: var(--rds-accent); }
+.comp-link { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--rds-accent); margin-top: 2px; }
+/* tiny preview primitives for coming-soon cards */
+.pv-line { height: 8px; border-radius: 3px; background: var(--rds-color-border-strong); }
+.pv-box { border: 1px solid var(--rds-color-border-strong); border-radius: 5px; background: var(--rds-color-surface-card); }
+.pv-pill { padding: 2px 9px; border-radius: 999px; font-size: 10px; font-family: var(--rds-font-mono); border: 1px solid var(--rds-color-border-strong); color: var(--rds-color-text-muted); background: var(--rds-color-surface-card); }
+.pv-dot { width: 8px; height: 8px; border-radius: 50%; }
+@media (max-width: 900px) { .lib-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .lib-grid { grid-template-columns: 1fr; } }
+
+/* ---------- Quick links ---------- */
+.quicklinks { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--rds-space-3); }
+.ql {
+  display: flex; flex-direction: column; gap: 8px; padding: var(--rds-space-4);
+  border-radius: var(--rds-radius-md); border: 1px solid var(--rds-color-border-default);
+  background: var(--rds-color-surface-card); cursor: pointer; text-decoration: none; color: inherit;
+  transition: all var(--rds-motion-fast);
+}
+.ql:hover { border-color: var(--rds-accent); transform: translateY(-2px); box-shadow: var(--rds-shadow-sm); }
+.ql .ql-arrow { color: var(--rds-accent); }
+.ql h4 { font-size: 14.5px; font-weight: 600; color: var(--rds-color-text-primary); }
+.ql p { font-size: 12.5px; color: var(--rds-color-text-muted); }
+
+/* ---------- CTA band ---------- */
+.cta-band { margin-top: var(--rds-space-9); background: var(--rds-color-text-primary); color: var(--rds-color-background-default); border-radius: var(--rds-radius-xl); padding: var(--rds-space-8); position: relative; overflow: hidden; }
+.cta-band h2 { font-family: var(--rds-font-display); font-weight: 600; font-size: clamp(26px, 3.5vw, 38px); letter-spacing: -0.02em; max-width: 18ch; margin-bottom: var(--rds-space-3); color: var(--rds-color-background-default); }
+.cta-band p { color: color-mix(in srgb, var(--rds-color-background-default) 70%, transparent); max-width: 50ch; }
+.cta-band .grid-deco { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px); background-size: 28px 28px; pointer-events: none; }
+.cta-band .rds-btn--secondary { background: var(--rds-color-background-default); color: var(--rds-color-text-primary); border-color: transparent; }
+
+/* ---------- Misc ---------- */
+.tag { display: inline-flex; align-items: center; font-family: var(--rds-font-mono); font-size: 11px; padding: 3px 9px; border-radius: 999px; background: var(--rds-color-surface-sunken); color: var(--rds-color-text-secondary); border: 1px solid var(--rds-color-border-default); }
+.future-note { display: flex; gap: 10px; align-items: center; font-size: 13px; color: var(--rds-color-text-muted); font-style: italic; margin-top: var(--rds-space-4); }
+.divider { height: 1px; background: var(--rds-color-border-default); margin: var(--rds-space-7) 0; }
+.toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--rds-color-text-primary); color: var(--rds-color-background-default); padding: 11px 20px; border-radius: 999px; font-size: 14px; font-weight: 500; box-shadow: var(--rds-shadow-lg); opacity: 0; pointer-events: none; transition: all var(--rds-motion-base); z-index: 100; display: flex; align-items: center; gap: 9px; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.muted-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: var(--rds-space-4); }
+.scrim { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 35; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .sidebar { position: fixed; transform: translateX(-100%); box-shadow: var(--rds-shadow-lg); }
+  .sidebar.open { transform: translateX(0); }
+  .menu-btn { display: inline-flex; }
+  .scrim.show { display: block; }
+  .grid-3, .grid-4, .quicklinks { grid-template-columns: repeat(2, 1fr); }
+  .compare, .anatomy, .grid-2 { grid-template-columns: 1fr; }
+  .state-grid { grid-template-columns: 1fr; }
+  .rm-list { grid-template-columns: 1fr; }
+  .cl-entry { grid-template-columns: 1fr; gap: var(--rds-space-3); }
+  .content { padding: var(--rds-space-6) var(--rds-space-4) var(--rds-space-8); }
+}
+@media (max-width: 560px) {
+  .grid-3, .grid-4, .quicklinks { grid-template-columns: 1fr; }
+  body { background-size: 24px 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+<div id="app-root"></div>
+<div class="toast" id="toast"></div>
+<script>
+/* ============================================================
+   RDS — Riye Design System  ·  app shell + pages
+   ============================================================ */
+
+const I = {
+  arrow: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  copy: '<svg width="13" height="13" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M3 11V4a1 1 0 011-1h7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>',
+  check: '<svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.5 3.5L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  checkW: '<svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.5 3.5L13 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  plus: '<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+  dash: '<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10" stroke="var(--rds-color-text-muted)" stroke-width="1.5" stroke-linecap="round"/></svg>',
+  tick: '<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.5 3.5L13 5" stroke="var(--rds-accent)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  sun: '<svg width="15" height="15" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3.2" stroke="currentColor" stroke-width="1.3"/><path d="M8 1v1.5M8 13.5V15M15 8h-1.5M2.5 8H1M12.7 3.3l-1 1M4.3 11.7l-1 1M12.7 12.7l-1-1M4.3 4.3l-1-1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>',
+  moon: '<svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M13.5 9.5A5.5 5.5 0 016.5 2.5 5.5 5.5 0 1013.5 9.5z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>',
+  x: '<svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="var(--rds-color-danger)" stroke-width="1.5" stroke-linecap="round"/></svg>',
+  menu: '<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 5h14M2 9h14M2 13h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+};
+
+const PAGES = [
+  { group: "Get started", items: [
+    { id: "overview", label: "Overview" },
+    { id: "getting-started", label: "Getting Started" },
+  ]},
+  { group: "System", items: [
+    { id: "foundations", label: "Foundations" },
+    { id: "design-tokens", label: "Design Tokens" },
+    { id: "components", label: "Components" },
+    { id: "button", label: "Button", sub: true },
+  ]},
+  { group: "Quality", items: [
+    { id: "accessibility", label: "Accessibility" },
+  ]},
+  { group: "Project", items: [
+    { id: "roadmap", label: "Roadmap" },
+    { id: "changelog", label: "Changelog" },
+  ]},
+];
+
+const LABELS = {};
+PAGES.forEach(g => g.items.forEach(i => LABELS[i.id] = i.label));
+
+function buildShell() {
+  const nav = PAGES.map(g => `
+    <div class="nav-group">
+      <div class="nav-group-label">${g.group}</div>
+      ${g.items.map(i => `
+        <a class="nav-link ${i.sub ? 'sub' : ''}" data-nav="${i.id}">
+          <span class="nav-dot"></span>${i.label}
+        </a>`).join('')}
+    </div>`).join('');
+
+  document.getElementById('app-root').innerHTML = `
+    <div class="scrim" id="scrim"></div>
+    <div class="app">
+      <aside class="sidebar" id="sidebar">
+        <a class="brand" data-nav="overview">
+          <div class="brand-mark"><span></span><span></span><span></span><span></span></div>
+          <div>
+            <div class="brand-name">RDS</div>
+            <div class="brand-sub">Riye Design System</div>
+          </div>
+        </a>
+        ${nav}
+      </aside>
+      <div class="main">
+        <div class="topbar">
+          <div class="topbar-left">
+            <button class="menu-btn" id="menuBtn" aria-label="Open navigation">${I.menu}</button>
+            <div class="crumb">RDS / <b id="crumb">Overview</b></div>
+          </div>
+          <div class="topbar-right">
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle colour theme">
+              <span id="themeIcon">${I.moon}</span><span id="themeLabel">Dark</span>
+            </button>
+          </div>
+        </div>
+        <div class="content" id="content"></div>
+      </div>
+    </div>`;
+}
+
+/* ---- helpers ---- */
+function tokenCard(t) {
+  return `
+  <div class="token-card">
+    <div class="token-swatch ${t.swatchClass||''}" style="${t.swatchStyle||''}">${t.swatchInner||''}</div>
+    <div class="token-body">
+      <div class="token-name">
+        <code>${t.name}</code>
+        <button class="copy-btn" data-copy="${t.name}">${I.copy}<span>Copy</span></button>
+      </div>
+      ${t.value ? `<span class="token-value-pill">${t.value}</span>` : ''}
+      <div class="token-meta"><b>Purpose.</b> ${t.purpose}</div>
+      <div class="token-meta"><b>Usage.</b> ${t.usage}</div>
+      ${t.theme ? `<div class="theme-tag"><span class="dot"></span>${t.theme}</div>` : ''}
+    </div>
+  </div>`;
+}
+
+/* ---- theme ---- */
+function initTheme() {
+  const html = document.documentElement;
+  document.getElementById('themeToggle').addEventListener('click', () => {
+    const dark = html.getAttribute('data-theme') === 'dark';
+    html.setAttribute('data-theme', dark ? 'light' : 'dark');
+    document.getElementById('themeIcon').innerHTML = dark ? I.moon : I.sun;
+    document.getElementById('themeLabel').textContent = dark ? 'Dark' : 'Light';
+  });
+}
+
+/* ---- toast ---- */
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.innerHTML = `${I.check} ${msg}`;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 1700);
+}
+
+/* ---- routing ---- */
+function go(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.toggle('active', p.id === 'page-' + id));
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.toggle('active', l.dataset.nav === id));
+  document.getElementById('crumb').textContent = LABELS[id] || 'Overview';
+  document.getElementById('content').scrollTo?.(0, 0);
+  window.scrollTo(0, 0);
+  closeSidebar();
+  history.replaceState(null, '', '#' + id);
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('scrim').classList.remove('show');
+}
+
+function wireEvents() {
+  document.body.addEventListener('click', (e) => {
+    const nav = e.target.closest('[data-nav]');
+    if (nav) { e.preventDefault(); go(nav.dataset.nav); return; }
+
+    const copy = e.target.closest('[data-copy]');
+    if (copy) {
+      const val = copy.dataset.copy;
+      navigator.clipboard?.writeText(val).catch(()=>{});
+      copy.classList.add('copied');
+      copy.querySelector('span').textContent = 'Copied';
+      showToast('Token copied');
+      setTimeout(() => { copy.classList.remove('copied'); copy.querySelector('span').textContent = 'Copy'; }, 1500);
+      return;
+    }
+
+    const chk = e.target.closest('.checklist li');
+    if (chk) { chk.classList.toggle('checked'); return; }
+
+    const loadBtn = e.target.closest('[data-loading]');
+    if (loadBtn && !loadBtn.classList.contains('is-loading')) {
+      const orig = loadBtn.innerHTML;
+      loadBtn.classList.add('is-loading');
+      loadBtn.setAttribute('aria-busy', 'true');
+      loadBtn.innerHTML = '<span class="spinner"></span> Saving';
+      setTimeout(() => { loadBtn.innerHTML = orig; loadBtn.classList.remove('is-loading'); loadBtn.removeAttribute('aria-busy'); }, 1600);
+    }
+  });
+
+  document.getElementById('menuBtn').addEventListener('click', () => {
+    document.getElementById('sidebar').classList.add('open');
+    document.getElementById('scrim').classList.add('show');
+  });
+  document.getElementById('scrim').addEventListener('click', closeSidebar);
+}
+
+/* ============================================================
+   PAGE CONTENT
+   ============================================================ */
+
+function pageOverview() {
+  return `
+  <div class="page" id="page-overview">
+    <section class="hero">
+      <div class="hero-grid-accent"></div>
+      <div class="status-badge"><span class="pulse"></span>Phase 1: <code>Foundations &amp; system identity</code></div>
+      <h1>Build faster without <em>rebuilding</em> the basics.</h1>
+      <p class="lede">RDS is a documentation-first design system for creating consistent, accessible, and scalable digital products across industries.</p>
+      <div class="btn-row">
+        <a class="rds-btn rds-btn--primary" data-nav="getting-started">Start with Getting Started ${I.arrow}</a>
+        <a class="rds-btn rds-btn--secondary" data-nav="foundations">Explore Foundations</a>
+        <a class="rds-btn rds-btn--tertiary" data-nav="design-tokens">View Design Tokens</a>
+        <a class="rds-btn rds-btn--ghost" data-nav="button">Review Button Component</a>
+      </div>
+    </section>
+
+    <section class="section" style="margin-top:var(--rds-space-7)">
+      <div class="card" style="background:var(--rds-color-surface-card);padding:var(--rds-space-6)">
+        <div class="eyebrow">What RDS is</div>
+        <p style="font-size:18px;line-height:1.6;color:var(--rds-color-text-primary);max-width:72ch">
+          RDS is a reusable product design foundation built around principles, tokens, components, documentation, and accessibility. It helps designers and small teams create clearer interfaces without making every design decision from scratch.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">Who it is for</div>
+      <h2 class="section-title">Built for people who reuse decisions.</h2>
+      <p class="section-intro">RDS meets different practitioners where they work, from first principles to front-end handoff.</p>
+      <div class="grid grid-3">
+        ${[
+          ['Product designers','Start projects from a consistent foundation instead of rebuilding interface decisions every time.','◳'],
+          ['Freelance designers','Speed up client work while keeping typography, spacing, colour, components, and handoff decisions consistent.','◷'],
+          ['No-code builders','Guide Claude, Lovable, Framer, Webflow, or other builders with clearer structure, tokens, and UI rules.','◰'],
+          ['Front-end developers','Use token naming, component guidance, and accessibility rules to translate design into maintainable implementation.','◱'],
+          ['Small product teams','Share one language for UI decisions so the whole team ships consistent work without a dedicated systems hire.','◲'],
+          ['Portfolio builders','Show system thinking, documentation, and reusable product logic, not just polished screens.','◴'],
+          ['Design students','Learn the decisions behind good interfaces: why a token exists, when a variant applies, how accessibility is built in.','◵'],
+        ].map(([t,d,ic]) => `
+          <div class="card hover audience-card">
+            <div class="ac-icon" style="font-size:18px;color:var(--rds-accent)">${ic}</div>
+            <h3>${t}</h3>
+            <p>${d}</p>
+          </div>`).join('')}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="grid grid-2" style="align-items:start;gap:var(--rds-space-6)">
+        <div class="statement-block">
+          <div class="eyebrow">The problem</div>
+          <p class="statement" style="max-width:none;margin-bottom:var(--rds-space-4)">The same UI gets rebuilt on every project, usually undocumented.</p>
+          <p style="font-size:15px">Buttons, cards, forms, navigation, spacing, typography, and tokens are recreated repeatedly across projects. This slows work down, creates inconsistency, and makes handoff harder.</p>
+        </div>
+        <div class="card" style="background:var(--rds-color-text-primary);color:var(--rds-color-background-default);border:none">
+          <div class="eyebrow" style="color:var(--rds-accent-soft)">The RDS solution</div>
+          <p class="statement" style="color:var(--rds-color-background-default);max-width:none;margin-bottom:var(--rds-space-4)">Turn repeated decisions into reusable structure.</p>
+          <p style="color:color-mix(in srgb,var(--rds-color-background-default) 72%,transparent);font-size:15px">Instead of starting from a blank page, you start from foundations, tokens, components, and guidance that scale across different product types.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">What RDS helps you do</div>
+      <h2 class="section-title">Five things, done with intent.</h2>
+      <div class="grid grid-2" style="margin-top:var(--rds-space-6);gap:var(--rds-space-6) var(--rds-space-7)">
+        ${[
+          ['01','Build faster','Reusable foundations, components, and guidance so you do not start every project from scratch.'],
+          ['02','Stay consistent','Shared rules for typography, spacing, layout, colour, elevation, radius, and components.'],
+          ['03','Design accessibly','Accessibility guidance across foundations, tokens, components, and interaction states.'],
+          ['04','Scale across industries','Product-agnostic foundations that support SaaS, fintech, Web3, hospitality, EV, AI, marketplaces, dashboards, and enterprise tools.'],
+          ['05','Think in systems','Move beyond isolated screens into reusable patterns, tokens, and documented decisions.'],
+        ].map(([n,t,d]) => `
+          <div class="pillar"><span class="num">${n}</span><h3>${t}</h3><p>${d}</p></div>`).join('')}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">Positioning</div>
+      <h2 class="section-title">Not just another UI kit.</h2>
+      <p class="section-intro">RDS is not trying to win by having the largest number of components, templates, or ready-made screens. It is built to help you understand and reuse the decisions behind good interfaces, prioritising clarity, accessibility, documentation, and system thinking before scale.</p>
+      <div class="compare">
+        <div class="compare-col them">
+          <h4>Asset-heavy UI kits focus on</h4>
+          <ul>
+            ${['Large component libraries','Ready-made screens','Visual speed','Templates and examples','Immediate output']
+              .map(x => `<li>${I.dash}${x}</li>`).join('')}
+          </ul>
+        </div>
+        <div class="compare-col us">
+          <h4>RDS focuses on</h4>
+          <ul>
+            ${['Reusable foundations','Design tokens','Documentation','Accessibility guidance','Component rules','System thinking','Long-term maintainability']
+              .map(x => `<li>${I.tick}${x}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+      <div class="grid grid-2" style="margin-top:var(--rds-space-5)">
+        <div class="card"><p class="statement" style="font-size:19px;max-width:none">Built for reusable decisions, not one-off screens.</p></div>
+        <div class="card"><p class="statement" style="font-size:19px;max-width:none">Start with structure before scaling into templates.</p></div>
+        <div class="card"><p style="font-size:15.5px;color:var(--rds-color-text-primary);font-family:var(--rds-font-serif)">Design systems should help you understand what to use, when to use it, and why it matters.</p></div>
+        <div class="card"><p style="font-size:15.5px;color:var(--rds-color-text-primary);font-family:var(--rds-font-serif)">RDS focuses on the decisions behind the interface, not just the interface itself.</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="grid grid-2" style="gap:var(--rds-space-6);align-items:start">
+        <div>
+          <div class="eyebrow">In this release</div>
+          <h2 class="section-title">What is included in Phase 1</h2>
+          <p style="margin-bottom:var(--rds-space-4)">RDS starts with fewer, better-documented decisions that can scale into a larger system over time. This is intentionally focused, not unfinished.</p>
+          <div class="grid" style="grid-template-columns:1fr 1fr;gap:8px">
+            ${['Product principles','Foundations','Design tokens','Button documentation','Accessibility baseline','Roadmap','Changelog','Basic system identity']
+              .map(x => `<div class="step" style="border:none;padding:6px 0"><span style="color:var(--rds-accent)">${I.tick}</span><span style="font-size:14.5px;color:var(--rds-color-text-primary)">${x}</span></div>`).join('')}
+          </div>
+        </div>
+        <div class="card" style="background:var(--rds-color-surface-sunken)">
+          <div class="eyebrow">Coming next</div>
+          <h3 class="sub-title">Applied system examples</h3>
+          <p style="font-size:14px;margin-bottom:var(--rds-space-4)">Future templates are framed as applied examples of the system, not random screen packs.</p>
+          <div class="muted-tags">
+            ${['SaaS dashboard','Marketplace flow','Admin panel','Authentication flow','Settings page','Product listing','Hospitality booking','Web3 wallet dashboard','EV product landing']
+              .map(x => `<span class="tag">${x}</span>`).join('')}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">Honesty first</div>
+      <h2 class="section-title">Proof we will build over time</h2>
+      <p class="section-intro">RDS is early. These are planned proof points, not existing claims. We would rather earn trust than manufacture it.</p>
+      <div class="grid grid-3">
+        ${['Products built with RDS','Community feedback','Contributor credits','Figma Community saves','Case studies','Public changelog','Before/after workflow examples']
+          .map(x => `<div class="card" style="display:flex;align-items:center;gap:12px;background:var(--rds-color-surface-card)">
+            <span class="tag" style="background:transparent;border-style:dashed">Planned</span>
+            <span style="font-size:14.5px;color:var(--rds-color-text-primary);font-weight:500">${x}</span>
+          </div>`).join('')}
+      </div>
+      <div class="future-note">${I.tick} Every item above is a future target. Nothing here is being claimed as a current metric.</div>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">Quick links</div>
+      <h2 class="section-title">Jump straight in.</h2>
+      <div class="quicklinks" style="margin-top:var(--rds-space-5)">
+        ${[
+          ['getting-started','Getting Started','Structure before screens'],
+          ['foundations','Foundations','Principles &amp; system basics'],
+          ['design-tokens','Design Tokens','The source of truth'],
+          ['button','Button','Anatomy, states, usage'],
+          ['accessibility','Accessibility','A baseline, not an afterthought'],
+          ['roadmap','Roadmap','Honest, staged growth'],
+          ['changelog','Changelog','A transparent record'],
+          ['components','Components','What is documented now'],
+        ].map(([id,t,d]) => `
+          <a class="ql" data-nav="${id}">
+            <span class="ql-arrow">${I.arrow}</span>
+            <h4>${t}</h4><p>${d}</p>
+          </a>`).join('')}
+      </div>
+    </section>
+
+    <section class="cta-band">
+      <div class="grid-deco"></div>
+      <div class="eyebrow" style="color:var(--rds-accent-soft)">Phase 1 · available now</div>
+      <h2>Move from scattered UI decisions to reusable product structure.</h2>
+      <p>Read the principles, apply the tokens, use the documented components, and build screens from structure.</p>
+      <div class="btn-row">
+        <a class="rds-btn rds-btn--secondary" data-nav="getting-started">Get started ${I.arrow}</a>
+        <a class="rds-btn rds-btn--ghost" data-nav="design-tokens" style="color:var(--rds-color-background-default)">Browse tokens</a>
+      </div>
+    </section>
+  </div>`;
+}
+
+function pageGettingStarted() {
+  return `
+  <div class="page" id="page-getting-started">
+    <div class="eyebrow">Getting started</div>
+    <h1 class="page-title">Start with structure, not screens.</h1>
+    <p class="lede">RDS is not designed to be pasted into a project blindly. Start by understanding the foundations, then apply tokens, then use components, then combine them into patterns. This keeps your work consistent and prevents every project from becoming a collection of disconnected UI decisions.</p>
+
+    <section class="section">
+      <div class="eyebrow">The workflow</div>
+      <h2 class="section-title">Eight steps, in order.</h2>
+      <p class="section-intro">Each step builds on the last. Skipping ahead to screens is exactly the habit RDS is designed to replace.</p>
+      <div class="card" style="padding:var(--rds-space-3) var(--rds-space-5)">
+        <div class="steps">
+          ${[
+            ['Read the principles','Understand what RDS values and why, before touching a single component.'],
+            ['Review foundations','Internalise the rules for colour, type, spacing, and layout.'],
+            ['Apply tokens','Reference tokens instead of hard-coded values for every visual decision.'],
+            ['Use documented components','Reach for documented components rather than inventing new ones.'],
+            ['Build screens from structure','Compose screens out of foundations, tokens, and components.'],
+            ['Customise only what the product requires','Change what the product genuinely needs; keep the rest consistent.'],
+            ['Document reusable decisions','When you create something reusable, write down what it is and when to use it.'],
+            ['Feed improvements back into RDS','Return useful patterns to the system so the next project starts further ahead.'],
+          ].map(([t,d],idx) => `
+            <div class="step">
+              <div class="step-num">${idx+1}</div>
+              <div class="step-body"><h4>${t}</h4><p>${d}</p></div>
+            </div>`).join('')}
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="grid grid-2" style="gap:var(--rds-space-6);align-items:start">
+        <div>
+          <div class="eyebrow">Working with builders</div>
+          <h2 class="section-title">How to use RDS with AI and no-code tools</h2>
+          <p style="margin-bottom:var(--rds-space-5)">RDS works best as the source of truth that everything else answers to, including generated UI.</p>
+          <div class="steps">
+            ${[
+              'Use RDS as your source of truth before prompting.',
+              'Reference RDS tokens when asking for UI updates.',
+              'Ask the builder to follow RDS spacing, typography, and component rules.',
+              'Avoid accepting random UI output that breaks the system.',
+              'Use RDS documentation to review whether generated UI is consistent.',
+            ].map(x => `<div class="step"><span style="color:var(--rds-accent);margin-top:2px">${I.tick}</span><div class="step-body"><p style="color:var(--rds-color-text-primary);font-size:14.5px">${x}</p></div></div>`).join('')}
+          </div>
+        </div>
+        <div class="card" style="background:var(--rds-code-bg);border-color:var(--rds-color-border-strong)">
+          <div class="theme-tag" style="color:#8a8073;margin-bottom:var(--rds-space-3)"><span class="dot"></span>Example prompt</div>
+          <div class="code" style="border:none;padding:0;background:transparent">
+<span class="c">// Anchor the builder to RDS</span><br>
+Use <span class="k">RDS</span> tokens and rules.<br>
+Spacing: <span class="k">--rds-space-4</span> between fields.<br>
+Radius: <span class="k">--rds-radius-md</span> on inputs.<br>
+Primary action uses the <span class="k">primary</span> button<br>
+variant. One primary per form.<br>
+Keep focus states visible and<br>
+text contrast accessible.<br><br>
+<span class="c">// Then review the output against</span><br>
+<span class="c">// the RDS documentation.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="cta-band">
+      <div class="grid-deco"></div>
+      <h2>Foundations first. The rest follows.</h2>
+      <p>Once the workflow makes sense, the foundations are where the system actually begins.</p>
+      <div class="btn-row">
+        <a class="rds-btn rds-btn--secondary" data-nav="foundations">Go to Foundations ${I.arrow}</a>
+      </div>
+    </div>
+  </div>`;
+}
+
+function pageFoundations() {
+  const principles = [
+    ['Reusable by default','Decisions are made once, documented, and reused, not recreated per project.'],
+    ['Clarity over cleverness','A foundation is only useful if people understand what to use and why.'],
+    ['Accessible from the start','Contrast, focus, and structure are baseline requirements, not add-ons.'],
+    ['Structure before scale','Depth and documentation come before breadth of components.'],
+    ['Product-agnostic','The system supports many industries rather than one visual trend.'],
+    ['Honest about maturity','Phase 1 is foundations. We say what exists and what is planned.'],
+  ];
+  return `
+  <div class="page" id="page-foundations">
+    <div class="eyebrow">Foundations</div>
+    <h1 class="page-title">The decisions everything else inherits.</h1>
+    <p class="lede">Foundations are the shared rules beneath every screen: principles, colour, typography, spacing, and layout. Get these right and consistency becomes the path of least resistance.</p>
+
+    <section class="section">
+      <div class="eyebrow">Principles</div>
+      <h2 class="section-title">Six principles guide every decision.</h2>
+      <div class="grid grid-3" style="margin-top:var(--rds-space-5)">
+        ${principles.map(([t,d],i) => `
+          <div class="card hover">
+            <span class="num" style="font-family:var(--rds-font-mono);font-size:12px;color:var(--rds-accent);font-weight:600">P${i+1}</span>
+            <h3 class="sub-title" style="margin-top:8px">${t}</h3>
+            <p style="font-size:14px">${d}</p>
+          </div>`).join('')}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">Colour</div>
+      <h2 class="section-title">A restrained, accessible palette.</h2>
+      <p class="section-intro">RDS uses a calm paper-and-ink base with a single confident accent. Fewer colours, used deliberately, are easier to keep accessible and consistent than a broad palette.</p>
+      <div class="grid grid-4">
+        ${[
+          ['Background','var(--rds-color-background-default)','Base canvas'],
+          ['Surface','var(--rds-color-surface-card)','Cards &amp; panels'],
+          ['Ink','var(--rds-color-text-primary)','Primary text'],
+          ['Accent','var(--rds-accent)','Single action colour'],
+        ].map(([n,v,d]) => `
+          <div class="token-card">
+            <div class="token-swatch" style="background:${v}"></div>
+            <div class="token-body"><div class="token-name"><code>${n}</code></div><div class="token-meta">${d}</div></div>
+          </div>`).join('')}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">Typography</div>
+      <h2 class="section-title">Display, body, and mono with clear jobs.</h2>
+      <div class="grid grid-3" style="margin-top:var(--rds-space-5)">
+        <div class="card"><div class="token-value-pill">Display · Fraunces</div><p style="font-family:var(--rds-font-display);font-size:34px;line-height:1.05;color:var(--rds-color-text-primary);margin-top:14px">Aa Bb Cc</p><p style="font-size:13px;margin-top:10px">Headlines and section titles. Used sparingly for emphasis and identity.</p></div>
+        <div class="card"><div class="token-value-pill">Body · Spline Sans</div><p style="font-family:var(--rds-font-body);font-size:34px;line-height:1.05;color:var(--rds-color-text-primary);margin-top:14px">Aa Bb Cc</p><p style="font-size:13px;margin-top:10px">Interface text, navigation, and most reading. Neutral and legible.</p></div>
+        <div class="card"><div class="token-value-pill">Mono · IBM Plex Mono</div><p style="font-family:var(--rds-font-mono);font-size:30px;line-height:1.1;color:var(--rds-color-text-primary);margin-top:14px">Aa Bb Cc</p><p style="font-size:13px;margin-top:10px">Tokens, code, and metadata. Signals something technical or copyable.</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="grid grid-2" style="gap:var(--rds-space-6);align-items:start">
+        <div>
+          <div class="eyebrow">Spacing</div>
+          <h2 class="section-title">A consistent rhythm.</h2>
+          <p class="section-intro">Spacing comes from a fixed scale so gaps stay predictable across the whole system.</p>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            ${[['space-1','4'],['space-2','8'],['space-3','12'],['space-4','16'],['space-5','24'],['space-6','32'],['space-7','48']].map(([n,px]) => `
+              <div style="display:flex;align-items:center;gap:14px">
+                <code style="font-family:var(--rds-font-mono);font-size:12px;width:90px;color:var(--rds-color-text-secondary)">--rds-${n}</code>
+                <div style="height:14px;width:${px}px;background:var(--rds-accent);border-radius:3px"></div>
+                <span style="font-size:12px;color:var(--rds-color-text-muted);font-family:var(--rds-font-mono)">${px}px</span>
+              </div>`).join('')}
+          </div>
+        </div>
+        <div>
+          <div class="eyebrow">Layout</div>
+          <h2 class="section-title">The system grid.</h2>
+          <p class="section-intro">RDS leans on a visible structural grid as both a layout tool and a piece of identity. Structure is something the system shows, not hides.</p>
+          <div class="anatomy-stage" style="min-height:200px;background-image:linear-gradient(var(--rds-grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--rds-grid-line) 1px,transparent 1px);background-size:24px 24px">
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%">
+              ${[1,2,3,4,5,6].map(() => `<div style="height:34px;background:var(--rds-color-surface-card);border:1px solid var(--rds-color-border-default);border-radius:6px"></div>`).join('')}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="cta-band">
+      <div class="grid-deco"></div>
+      <h2>Foundations become tokens.</h2>
+      <p>Every foundation decision is captured as a token so it can be reused and themed.</p>
+      <div class="btn-row"><a class="rds-btn rds-btn--secondary" data-nav="design-tokens">View Design Tokens ${I.arrow}</a></div>
+    </div>
+  </div>`;
+}
+
+function pageDesignTokens() {
+  const tokens = [
+    { name:'--rds-color-background-default', value:'#f4f0e8 / #16130f', swatchStyle:'background:var(--rds-color-background-default)',
+      purpose:'Main page background.', usage:'Use for the base background of product pages and documentation pages.', theme:'Changes between light and dark mode.' },
+    { name:'--rds-color-surface-card', value:'#fbf9f4 / #211d18', swatchStyle:'background:var(--rds-color-surface-card)',
+      purpose:'Card and grouped content surfaces.', usage:'Use for cards, panels, documentation blocks, and grouped UI sections.', theme:'Adjusts based on theme surface hierarchy.' },
+    { name:'--rds-color-text-primary', value:'#1c1814 / #f2ece2', swatchStyle:'background:var(--rds-color-text-primary)',
+      purpose:'Main readable text.', usage:'Use for headings, body text, and primary information.', theme:'Maintains strong contrast across themes.' },
+    { name:'--rds-space-4', value:'16px', swatchInner:'<div class="token-spacedemo" style="width:16px;height:16px"></div>',
+      purpose:'Common spacing unit.', usage:'Use for gaps between related elements or internal component spacing.' },
+    { name:'--rds-radius-md', value:'8px', swatchInner:'<div class="token-radiusdemo" style="border-radius:8px"></div>',
+      purpose:'Default component radius.', usage:'Use for buttons, inputs, and standard interactive elements.' },
+    { name:'--rds-motion-fast', value:'140ms', swatchInner:'<div class="token-motiondemo"></div>',
+      purpose:'Fast UI feedback.', usage:'Use for hover, focus, and small state transitions.' },
+  ];
+  return `
+  <div class="page" id="page-design-tokens">
+    <div class="eyebrow">Design tokens</div>
+    <h1 class="page-title">The source of truth for visual decisions.</h1>
+    <p class="lede">Tokens turn one-off styling into reusable, named decisions. They are the layer where foundations become something a designer or developer can apply consistently and theme with confidence.</p>
+
+    <section class="section" style="margin-top:var(--rds-space-7)">
+      <div class="statement-block">
+        <div class="eyebrow">Token philosophy</div>
+        <p class="statement" style="max-width:36ch">Tokens are the source of truth for reusable visual decisions in RDS.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">Why tokens matter</div>
+      <h2 class="section-title">Six reasons to reach for a token.</h2>
+      <div class="grid grid-3" style="margin-top:var(--rds-space-5)">
+        ${[
+          'Reduce inconsistent design decisions',
+          'Make theme changes easier',
+          'Help designers and developers speak the same language',
+          'Make light and dark mode easier to maintain',
+          'Prevent one-off styling',
+          'Make the system easier to scale',
+        ].map(x => `<div class="card" style="display:flex;gap:12px;align-items:flex-start"><span style="color:var(--rds-accent);margin-top:2px">${I.tick}</span><span style="font-size:14.5px;color:var(--rds-color-text-primary)">${x}</span></div>`).join('')}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">Token reference</div>
+      <h2 class="section-title">A starter set, fully documented.</h2>
+      <p class="section-intro">Phase 1 ships a focused set of tokens. Each one explains its purpose, where to use it, how it behaves across themes, and is copyable in one click.</p>
+      <div class="grid grid-3">
+        ${tokens.map(tokenCard).join('')}
+      </div>
+      <div class="future-note">${I.tick} Try the theme toggle in the top bar, then watch the colour tokens above re-resolve live.</div>
+    </section>
+
+    <div class="cta-band">
+      <div class="grid-deco"></div>
+      <h2>Tokens power components.</h2>
+      <p>See how the Button component is built entirely from these tokens, with usage and accessibility documented.</p>
+      <div class="btn-row"><a class="rds-btn rds-btn--secondary" data-nav="button">Review the Button ${I.arrow}</a></div>
+    </div>
+  </div>`;
+}
+
+function pageComponents() {
+  // tiny inline previews for coming-soon cards, keyed by component
+  const PV = {
+    Input: `<div style="display:flex;flex-direction:column;gap:5px;width:80%"><div class="pv-line" style="width:32%;height:6px"></div><div class="pv-box" style="height:22px"></div></div>`,
+    Card: `<div class="pv-box" style="width:74%;height:38px;padding:7px;display:flex;flex-direction:column;gap:5px"><div class="pv-line" style="width:55%;height:6px"></div><div class="pv-line" style="width:85%;height:5px;background:var(--rds-color-border-default)"></div></div>`,
+    Badge: `<span class="pv-pill" style="color:var(--rds-accent);border-color:var(--rds-accent)">Active</span><span class="pv-pill">Draft</span>`,
+    Modal: `<div class="pv-box" style="width:70%;height:40px;padding:7px;display:flex;flex-direction:column;gap:5px;box-shadow:var(--rds-shadow-sm)"><div class="pv-line" style="width:45%;height:6px"></div><div style="display:flex;gap:5px;margin-top:auto"><div class="pv-box" style="width:28px;height:11px;background:var(--rds-accent);border:none"></div><div class="pv-box" style="width:28px;height:11px"></div></div></div>`,
+    Tabs: `<div style="display:flex;gap:0;border-bottom:1px solid var(--rds-color-border-strong);width:80%"><div style="padding:4px 10px;border-bottom:2px solid var(--rds-accent);font-size:10px;color:var(--rds-accent);font-family:var(--rds-font-mono)">One</div><div style="padding:4px 10px;font-size:10px;color:var(--rds-color-text-muted);font-family:var(--rds-font-mono)">Two</div></div>`,
+    Navigation: `<div style="display:flex;flex-direction:column;gap:4px;width:60%"><div style="display:flex;gap:6px;align-items:center"><span class="pv-dot" style="background:var(--rds-accent)"></span><div class="pv-line" style="width:60%;height:5px;background:var(--rds-accent)"></div></div><div style="display:flex;gap:6px;align-items:center"><span class="pv-dot" style="background:var(--rds-color-border-strong)"></span><div class="pv-line" style="width:70%;height:5px"></div></div></div>`,
+    'Form field': `<div style="display:flex;flex-direction:column;gap:4px;width:80%"><div class="pv-line" style="width:30%;height:5px"></div><div class="pv-box" style="height:20px"></div><div class="pv-line" style="width:50%;height:4px;background:var(--rds-color-border-default)"></div></div>`,
+    Checkbox: `<div style="display:flex;gap:7px;align-items:center"><span class="pv-box" style="width:16px;height:16px;background:var(--rds-accent);border:none;display:flex;align-items:center;justify-content:center">${I.checkW}</span><span class="pv-box" style="width:16px;height:16px"></span></div>`,
+    Radio: `<div style="display:flex;gap:7px;align-items:center"><span class="pv-box" style="width:16px;height:16px;border-radius:50%;border-color:var(--rds-accent);display:flex;align-items:center;justify-content:center"><span class="pv-dot" style="width:7px;height:7px;background:var(--rds-accent)"></span></span><span class="pv-box" style="width:16px;height:16px;border-radius:50%"></span></div>`,
+    Select: `<div class="pv-box" style="width:78%;height:22px;display:flex;align-items:center;justify-content:space-between;padding:0 8px"><div class="pv-line" style="width:40%;height:5px"></div><span style="color:var(--rds-color-text-muted);font-size:9px">▾</span></div>`,
+    Textarea: `<div class="pv-box" style="width:80%;height:38px;padding:6px;display:flex;flex-direction:column;gap:4px"><div class="pv-line" style="width:90%;height:4px;background:var(--rds-color-border-default)"></div><div class="pv-line" style="width:70%;height:4px;background:var(--rds-color-border-default)"></div></div>`,
+    Tooltip: `<div style="position:relative;display:flex;flex-direction:column;align-items:center;gap:4px"><div class="pv-box" style="background:var(--rds-color-text-primary);border:none;padding:3px 8px;font-size:9px;color:var(--rds-color-background-default);font-family:var(--rds-font-mono)">Tooltip</div><span class="pv-dot" style="background:var(--rds-color-border-strong)"></span></div>`,
+    Toast: `<div class="pv-box" style="width:80%;height:24px;display:flex;align-items:center;gap:6px;padding:0 8px;box-shadow:var(--rds-shadow-sm)"><span class="pv-dot" style="background:var(--rds-color-success)"></span><div class="pv-line" style="width:55%;height:5px"></div></div>`,
+    Table: `<div style="display:flex;flex-direction:column;gap:3px;width:82%"><div style="display:flex;gap:4px"><div class="pv-line" style="flex:1;height:6px;background:var(--rds-color-border-strong)"></div><div class="pv-line" style="flex:1;height:6px;background:var(--rds-color-border-strong)"></div></div><div style="display:flex;gap:4px"><div class="pv-line" style="flex:1;height:5px;background:var(--rds-color-border-default)"></div><div class="pv-line" style="flex:1;height:5px;background:var(--rds-color-border-default)"></div></div><div style="display:flex;gap:4px"><div class="pv-line" style="flex:1;height:5px;background:var(--rds-color-border-default)"></div><div class="pv-line" style="flex:1;height:5px;background:var(--rds-color-border-default)"></div></div></div>`,
+    Accordion: `<div style="display:flex;flex-direction:column;gap:4px;width:80%"><div class="pv-box" style="height:16px;display:flex;align-items:center;justify-content:space-between;padding:0 7px"><div class="pv-line" style="width:45%;height:4px"></div><span style="font-size:9px;color:var(--rds-color-text-muted)">−</span></div><div class="pv-box" style="height:14px;display:flex;align-items:center;justify-content:space-between;padding:0 7px"><div class="pv-line" style="width:55%;height:4px;background:var(--rds-color-border-default)"></div><span style="font-size:9px;color:var(--rds-color-text-muted)">+</span></div></div>`,
+    Breadcrumb: `<div style="display:flex;gap:5px;align-items:center;font-family:var(--rds-font-mono);font-size:9px;color:var(--rds-color-text-muted)"><span>RDS</span><span>/</span><span>Lib</span><span>/</span><span style="color:var(--rds-color-text-primary)">Page</span></div>`,
+    Avatar: `<div style="display:flex;gap:-4px"><span class="pv-dot" style="width:24px;height:24px;background:var(--rds-accent);border:2px solid var(--rds-color-surface-sunken);display:flex;align-items:center;justify-content:center;color:#fff;font-size:9px;font-family:var(--rds-font-mono)">R</span><span class="pv-dot" style="width:24px;height:24px;background:var(--rds-color-text-primary);border:2px solid var(--rds-color-surface-sunken);margin-left:-6px"></span></div>`,
+  };
+
+  const library = [
+    ['Button','available','Action component for triggering decisions, submissions, and product flow movement. Includes anatomy, variants, states, accessibility, token usage, and button pairing rules.',
+      ['Anatomy','Variants','States','Token usage','Accessibility','Pairing rules']],
+    ['Input','soon','Text entry component for forms and search experiences. Future documentation will include anatomy, validation states, labels, helper text, error behaviour, token usage, and accessibility guidance.',
+      ['Anatomy','Validation states','Labels','Helper text','Token usage','Accessibility']],
+    ['Card','soon','Surface component for grouping related content and actions. Future documentation will include spacing rules, surface tokens, hierarchy, content structure, and responsive behaviour.',
+      ['Spacing rules','Surface tokens','Hierarchy','Content structure','Responsive']],
+    ['Badge','soon','Compact status and category indicator. Future documentation will include semantic usage, colour rules, contrast, sizing, and when not to use badges.',
+      ['Semantic usage','Colour rules','Contrast','Sizing','When not to use']],
+    ['Modal','soon','Focused overlay for important decisions or temporary tasks. Future documentation will include anatomy, focus trapping, dismissal rules, destructive flows, and accessibility behaviour.',
+      ['Anatomy','Focus trapping','Dismissal rules','Destructive flows','Accessibility']],
+    ['Tabs','soon','Navigation pattern for switching between related content views. Future documentation will include active states, keyboard behaviour, layout rules, and responsive usage.',
+      ['Active states','Keyboard behaviour','Layout rules','Responsive']],
+    ['Navigation','soon','Wayfinding system for moving through product sections. Future documentation will include sidebar, top navigation, breadcrumbs, active states, and accessibility guidance.',
+      ['Sidebar','Top navigation','Breadcrumbs','Active states','Accessibility']],
+    ['Form field','soon','Reusable structure for labels, inputs, helper text, validation, and errors. Future documentation will include required states, error messaging, accessibility, and layout rules.',
+      ['Required states','Error messaging','Accessibility','Layout rules']],
+    ['Checkbox','soon','Binary selection control for opting in or toggling individual options. Future documentation will include states, indeterminate behaviour, grouping, token usage, and accessibility guidance.',
+      ['States','Indeterminate','Grouping','Token usage','Accessibility']],
+    ['Radio','soon','Single-choice control for selecting one option from a set. Future documentation will include grouping, states, keyboard behaviour, token usage, and accessibility guidance.',
+      ['Grouping','States','Keyboard behaviour','Token usage','Accessibility']],
+    ['Select','soon','Dropdown control for choosing from a defined list of options. Future documentation will include anatomy, states, keyboard behaviour, long lists, and accessibility guidance.',
+      ['Anatomy','States','Keyboard behaviour','Long lists','Accessibility']],
+    ['Textarea','soon','Multi-line text entry for longer content and notes. Future documentation will include sizing, resize behaviour, validation, token usage, and accessibility guidance.',
+      ['Sizing','Resize behaviour','Validation','Token usage','Accessibility']],
+    ['Tooltip','soon','Contextual hint surfaced on hover or focus. Future documentation will include positioning, timing, focus behaviour, content limits, and accessibility guidance.',
+      ['Positioning','Timing','Focus behaviour','Content limits','Accessibility']],
+    ['Toast','soon','Transient feedback message for confirming actions and surfacing system status. Future documentation will include variants, timing, stacking, dismissal, and accessibility guidance.',
+      ['Variants','Timing','Stacking','Dismissal','Accessibility']],
+    ['Table','soon','Structured display for rows and columns of data. Future documentation will include layout, sorting, density, responsive behaviour, and accessibility guidance.',
+      ['Layout','Sorting','Density','Responsive','Accessibility']],
+    ['Accordion','soon','Expandable sections for progressively disclosing content. Future documentation will include states, single vs multi open, keyboard behaviour, and accessibility guidance.',
+      ['States','Single vs multi','Keyboard behaviour','Accessibility']],
+    ['Breadcrumb','soon','Wayfinding trail showing location within the product hierarchy. Future documentation will include structure, truncation, separators, active states, and accessibility guidance.',
+      ['Structure','Truncation','Separators','Active states','Accessibility']],
+    ['Avatar','soon','Visual representation of a person or entity. Future documentation will include sizing, fallbacks, grouping, status indicators, and accessibility guidance.',
+      ['Sizing','Fallbacks','Grouping','Status indicators','Accessibility']],
+  ];
+
+  const availablePreview = `
+    <span class="rds-btn rds-btn--primary sm">Primary</span>
+    <span class="rds-btn rds-btn--secondary sm">Secondary</span>
+    <span class="rds-btn rds-btn--ghost sm">Ghost</span>`;
+
+  const card = ([name, status, desc, std]) => {
+    const isAvail = status === 'available';
+    const preview = isAvail ? availablePreview : (PV[name] || '');
+    return `
+    <div class="comp-card ${isAvail ? 'available' : 'soon'}" ${isAvail ? 'data-nav="button"' : ''}>
+      <div class="comp-head">
+        <h3>${name}</h3>
+        ${isAvail
+          ? `<span class="comp-status available"><span class="pdot"></span>Available</span>`
+          : `<span class="comp-status soon">Coming soon</span>`}
+      </div>
+      <div class="comp-preview">${preview}</div>
+      <p class="comp-desc">${desc}</p>
+      <div class="comp-std">${std.map(s => `<span class="std-chip">${s}</span>`).join('')}</div>
+      ${isAvail ? `<span class="comp-link">View documentation ${I.arrow}</span>` : ''}
+    </div>`;
+  };
+
+  const availableCount = library.filter(c => c[1] === 'available').length;
+  const soonCount = library.length - availableCount;
+
+  return `
+  <div class="page" id="page-components">
+    <div class="eyebrow">Components</div>
+    <h1 class="page-title">Documented decisions, not a dumping ground.</h1>
+    <p class="lede">This is the planned RDS component library. Button is the first fully documented Phase 1 component. The rest of the architecture is mapped out here and will be documented with the same level of care, one credible component at a time.</p>
+
+    <div class="card" style="margin-top:var(--rds-space-6);background:var(--rds-color-surface-card);border-left:2px solid var(--rds-accent)">
+      <p style="font-family:var(--rds-font-serif);font-size:16.5px;line-height:1.55;color:var(--rds-color-text-primary);max-width:74ch">
+        RDS will not ship shallow components just to look complete. Each component will be added with anatomy, states, accessibility guidance, token usage, and real product examples.
+      </p>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:var(--rds-space-4);margin-top:var(--rds-space-5);flex-wrap:wrap">
+      <span class="comp-status available"><span class="pdot"></span>${availableCount} Available</span>
+      <span class="comp-status soon">${soonCount} Coming soon</span>
+      <span style="font-size:13px;color:var(--rds-color-text-muted);font-family:var(--rds-font-mono)">${library.length} components mapped</span>
+    </div>
+
+    <section class="section" style="margin-top:var(--rds-space-6)">
+      <div class="eyebrow">Component library</div>
+      <h2 class="section-title">One library. One standard.</h2>
+      <p class="section-intro">Every card below commits to the same documentation standard, shown as chips. Available components link straight to their docs; planned components show exactly what their documentation will cover.</p>
+      <div class="lib-grid">
+        ${library.map(card).join('')}
+      </div>
+      <div class="future-note">${I.tick} The order reflects intent, not a rigid release sequence. Button ships first because actions are where hierarchy, states, and accessibility matter most.</div>
+    </section>
+
+    <div class="cta-band">
+      <div class="grid-deco"></div>
+      <h2>Start with the one component that is ready.</h2>
+      <p>The Button page shows the standard every other component in this library will be held to.</p>
+      <div class="btn-row"><a class="rds-btn rds-btn--secondary" data-nav="button">Open the Button docs ${I.arrow}</a></div>
+    </div>
+  </div>`;
+}
+
+function pageButton() {
+  const variants = [
+    ['Primary','primary','Use for the most important action.','Continue · Save changes · Create account · Confirm booking'],
+    ['Secondary','secondary','Use for important supporting actions.','Cancel · Back · Preview · Save draft'],
+    ['Tertiary','tertiary','Use for low-emphasis actions that still need button affordance.','Learn more · See options'],
+    ['Ghost','ghost','Use for lightweight actions in dense interfaces.','Add note · View details · Open menu'],
+    ['Destructive','destructive','Use only for destructive or irreversible actions.','Delete · Remove user · Cancel subscription · Reset data'],
+    ['Link','link','Use when the action behaves like navigation.','View documentation'],
+  ];
+  return `
+  <div class="page" id="page-button">
+    <div class="crumb" style="margin-bottom:var(--rds-space-3);font-family:var(--rds-font-mono);font-size:12px;color:var(--rds-color-text-muted)">Components / <b style="color:var(--rds-color-text-secondary)">Button</b></div>
+    <div class="eyebrow">Component · Button</div>
+    <h1 class="page-title">Button</h1>
+    <p class="lede">Buttons allow users to trigger actions, make decisions, submit information, or move through a product flow. In RDS, button variants communicate action hierarchy and help users understand which action matters most.</p>
+
+    <section class="section">
+      <div class="eyebrow">Anatomy</div>
+      <h2 class="section-title">Every part has a job.</h2>
+      <div class="anatomy" style="margin-top:var(--rds-space-5)">
+        <div class="anatomy-stage">
+          <span class="rds-btn rds-btn--primary" style="font-size:16px;padding:13px 24px">
+            <span style="display:inline-flex">${I.plus}</span> Save changes
+          </span>
+        </div>
+        <ul class="anatomy-list">
+          ${[
+            ['Container','the tappable surface that carries the variant style'],
+            ['Label','the action text, written as a clear verb'],
+            ['Leading icon','optional icon before the label for recognition'],
+            ['Trailing icon','optional icon after the label, e.g. direction'],
+            ['Loading indicator','replaces content while an action is in flight'],
+            ['Focus ring','a visible ring shown on keyboard focus'],
+            ['State layer','the hover / active feedback over the container'],
+          ].map(([t,d],i) => `<li><span class="a-num">${i+1}</span><div><b>${t}.</b> <span class="d">${d}</span></div></li>`).join('')}
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">Action hierarchy</div>
+      <h2 class="section-title">Six variants, ranked by emphasis.</h2>
+      <p class="section-intro">Variants are not decoration. They tell the user which action matters most in a given area.</p>
+      <div class="grid grid-2">
+        ${variants.map(([name,cls,rule,ex]) => `
+          <div class="card" style="display:flex;flex-direction:column;gap:14px">
+            <div style="display:flex;align-items:center;gap:14px">
+              <span class="rds-btn rds-btn--${cls}">${name}</span>
+            </div>
+            <div><h4 style="font-size:15px;font-weight:600;color:var(--rds-color-text-primary)">${rule}</h4></div>
+            <div class="token-value-pill" style="white-space:normal;line-height:1.6">${ex}</div>
+          </div>`).join('')}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">Pairing rules</div>
+      <h2 class="section-title">How variants work together.</h2>
+      <div class="compare">
+        <div class="compare-col us" style="border-color:var(--rds-color-success)">
+          <h4 style="color:var(--rds-color-success)">Do</h4>
+          <ul>
+            ${['Use one primary action per decision area','Pair primary with secondary for common forms','Pair destructive actions with cancel or confirmation']
+              .map(x => `<li>${I.tick}${x}</li>`).join('')}
+          </ul>
+          <div class="btn-row" style="margin-top:var(--rds-space-4)">
+            <span class="rds-btn rds-btn--primary sm">Save changes</span>
+            <span class="rds-btn rds-btn--secondary sm">Cancel</span>
+          </div>
+        </div>
+        <div class="compare-col them" style="border-color:var(--rds-color-danger)">
+          <h4 style="color:var(--rds-color-danger)">Avoid</h4>
+          <ul>
+            ${['Multiple competing primary buttons','Destructive styling for non-destructive actions','Making every action visually loud']
+              .map(x => `<li>${I.x}${x}</li>`).join('')}
+          </ul>
+          <div class="btn-row" style="margin-top:var(--rds-space-4)">
+            <span class="rds-btn rds-btn--primary sm">Save</span>
+            <span class="rds-btn rds-btn--primary sm">Cancel</span>
+            <span class="rds-btn rds-btn--destructive sm">Delete</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">States</div>
+      <h2 class="section-title">Six states, all accounted for.</h2>
+      <p class="section-intro">Focus must be visible. Loading must prevent repeated submission. Disabled must remain understandable.</p>
+      <div class="state-grid">
+        <div class="state-cell"><span class="rds-btn demo-btn-default">Default</span><span class="label">Default</span><span class="desc">The resting state.</span></div>
+        <div class="state-cell"><span class="rds-btn demo-btn-hover">Hover</span><span class="label">Hover</span><span class="desc">Pointer feedback via a darker accent.</span></div>
+        <div class="state-cell"><span class="rds-btn demo-btn-active">Active</span><span class="label">Active</span><span class="desc">Pressed: a slight inset and shift.</span></div>
+        <div class="state-cell"><span class="rds-btn demo-btn-focus">Focus</span><span class="label">Focus</span><span class="desc">A visible ring for keyboard users.</span></div>
+        <div class="state-cell"><span class="rds-btn rds-btn--primary" aria-disabled="true">Disabled</span><span class="label">Disabled</span><span class="desc">Reduced opacity, still readable.</span></div>
+        <div class="state-cell"><button class="rds-btn rds-btn--primary" data-loading="true">Save changes</button><span class="label">Loading</span><span class="desc">Click it: blocks repeat submission.</span></div>
+      </div>
+      <div class="future-note">${I.tick} Tab through this page with your keyboard to see real focus rings, then click the Loading button.</div>
+    </section>
+
+    <section class="section">
+      <div class="grid grid-2" style="gap:var(--rds-space-6);align-items:start">
+        <div>
+          <div class="eyebrow">Accessibility</div>
+          <h2 class="section-title">Built to be operable.</h2>
+          <div class="steps">
+            ${[
+              ['Touch targets','Maintain a minimum target around 44px so buttons are easy to tap.'],
+              ['Contrast','Label and container must meet contrast expectations in both themes.'],
+              ['Keyboard focus','Focus is always visible and never removed without a replacement.'],
+              ['Icon-only labels','Icon-only buttons carry an accessible label for screen readers.'],
+              ['Loading communication','Loading sets aria-busy and disables repeat submission.'],
+              ['Clear action labels','Labels are specific verbs, not vague words like "OK".'],
+            ].map(([t,d]) => `<div class="step"><span style="color:var(--rds-accent);margin-top:2px">${I.tick}</span><div class="step-body"><h4>${t}</h4><p>${d}</p></div></div>`).join('')}
+          </div>
+        </div>
+        <div>
+          <div class="eyebrow">Token usage</div>
+          <h2 class="section-title">Made entirely of tokens.</h2>
+          <p class="section-intro">The button hard-codes nothing. Every property maps to a token, which is why theming just works.</p>
+          <div class="card" style="padding:var(--rds-space-2)">
+            ${[
+              ['Background','--rds-accent'],
+              ['Text','#fff / --rds-color-text-primary'],
+              ['Border','--rds-color-border-strong'],
+              ['Radius','--rds-radius-md'],
+              ['Spacing','--rds-space-3 / --rds-space-5'],
+              ['Focus ring','--rds-accent'],
+              ['Motion','--rds-motion-fast'],
+            ].map(([k,v]) => `<div style="display:flex;justify-content:space-between;align-items:center;padding:11px var(--rds-space-3);border-bottom:1px dashed var(--rds-color-border-default)"><span style="font-size:13.5px;color:var(--rds-color-text-secondary)">${k}</span><code style="font-family:var(--rds-font-mono);font-size:12px;color:var(--rds-accent)">${v}</code></div>`).join('')}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="cta-band">
+      <div class="grid-deco"></div>
+      <h2>Accessibility is a foundation, not a checkbox.</h2>
+      <p>The same care applied to this button runs through the whole accessibility baseline.</p>
+      <div class="btn-row"><a class="rds-btn rds-btn--secondary" data-nav="accessibility">Read the baseline ${I.arrow}</a></div>
+    </div>
+  </div>`;
+}
+
+function pageAccessibility() {
+  return `
+  <div class="page" id="page-accessibility">
+    <div class="eyebrow">Accessibility</div>
+    <h1 class="page-title">A baseline, not an afterthought.</h1>
+    <p class="lede">Accessibility is treated as a foundation in RDS. It shapes colour, focus, structure, and feedback from the start, because a system that excludes people is not actually reusable.</p>
+
+    <section class="section">
+      <div class="eyebrow">Principles</div>
+      <h2 class="section-title">Six accessibility principles.</h2>
+      <div class="grid grid-3" style="margin-top:var(--rds-space-5)">
+        ${[
+          ['Clear by default','Interfaces communicate plainly without relying on hidden knowledge.'],
+          ['Operable by keyboard','Everything actionable can be reached and used without a mouse.'],
+          ['Visible focus','Focus is always shown, so keyboard users never get lost.'],
+          ['Sufficient contrast','Text and essential UI meet contrast expectations in both themes.'],
+          ['Understandable feedback','State changes and errors are explained, not just styled.'],
+          ['Motion with care','Animation is purposeful and respects reduced-motion preferences.'],
+        ].map(([t,d],i) => `<div class="card hover"><span style="font-family:var(--rds-font-mono);font-size:12px;color:var(--rds-accent);font-weight:600">A${i+1}</span><h3 class="sub-title" style="margin-top:8px">${t}</h3><p style="font-size:14px">${d}</p></div>`).join('')}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">Practical examples</div>
+      <h2 class="section-title">Right and wrong, side by side.</h2>
+      <div class="grid grid-2" style="margin-top:var(--rds-space-5)">
+        <div class="a11y-demo a11y-good">
+          <span class="a11y-tag">Accessible · focus state</span>
+          <div style="padding:14px 0;display:flex;justify-content:center"><span class="rds-btn demo-btn-focus">Visible focus ring</span></div>
+          <p style="font-size:13px">A clear ring makes the focused element obvious for keyboard navigation.</p>
+        </div>
+        <div class="a11y-demo a11y-good">
+          <span class="a11y-tag">Accessible · text contrast</span>
+          <div style="padding:14px 0"><div class="contrast-good">High-contrast text passes comfortably.</div></div>
+          <p style="font-size:13px">Ink on paper keeps a strong contrast ratio across themes.</p>
+        </div>
+        <div class="a11y-demo a11y-bad">
+          <span class="a11y-tag">Inaccessible · low contrast</span>
+          <div style="padding:14px 0"><div class="contrast-bad">Low-contrast text is hard to read.</div></div>
+          <p style="font-size:13px">Light text on a light surface fails contrast and excludes readers.</p>
+        </div>
+        <div class="a11y-demo a11y-good">
+          <span class="a11y-tag">Accessible · form label</span>
+          <div style="padding:14px 0;display:flex;flex-direction:column;gap:6px">
+            <label for="ax-email" style="font-size:13px;font-weight:600;color:var(--rds-color-text-primary)">Email address</label>
+            <input id="ax-email" type="email" placeholder="you@example.com" style="padding:10px 12px;border:1px solid var(--rds-color-border-strong);border-radius:8px;background:var(--rds-color-surface-raised);color:var(--rds-color-text-primary);font-family:var(--rds-font-body)">
+          </div>
+          <p style="font-size:13px">A persistent label stays visible, unlike a placeholder that disappears.</p>
+        </div>
+        <div class="a11y-demo a11y-good">
+          <span class="a11y-tag">Accessible · error not by colour alone</span>
+          <div style="padding:14px 0;display:flex;align-items:center;gap:8px;color:var(--rds-color-danger);font-size:13.5px;font-weight:500">${I.x} Enter a valid email address.</div>
+          <p style="font-size:13px">The error pairs colour with an icon and text, so meaning is not colour-dependent.</p>
+        </div>
+        <div class="a11y-demo a11y-good">
+          <span class="a11y-tag">Accessible · icon-only button</span>
+          <div style="padding:14px 0;display:flex;justify-content:center"><button class="rds-btn rds-btn--secondary" aria-label="Add note" style="padding:11px">${I.plus}</button></div>
+          <p style="font-size:13px">An icon-only control still exposes <code style="font-family:var(--rds-font-mono);font-size:12px">aria-label="Add note"</code>.</p>
+        </div>
+      </div>
+      <div class="card" style="margin-top:var(--rds-space-4);background:var(--rds-color-surface-sunken)">
+        <span class="a11y-tag" style="color:var(--rds-accent)">Reduced motion</span>
+        <p style="font-size:14px;margin-top:8px">RDS animations are subtle and decorative. When a user prefers reduced motion, transitions collapse to near-instant so nothing essential depends on movement.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">Checklist</div>
+      <h2 class="section-title">Run this before you ship.</h2>
+      <p class="section-intro">Tap each item to mark it done. A quick pass that catches the most common, most excluding mistakes.</p>
+      <ul class="checklist">
+        ${[
+          'Does text meet contrast expectations?',
+          'Can the user navigate with keyboard?',
+          'Are focus states visible?',
+          'Are form labels persistent?',
+          'Are errors descriptive?',
+          'Are icons supported by text or labels?',
+          'Are touch targets large enough?',
+          'Is motion purposeful and reducible?',
+        ].map(x => `<li><span class="box">${I.checkW}</span><span>${x}</span></li>`).join('')}
+      </ul>
+    </section>
+  </div>`;
+}
+
+function pageRoadmap() {
+  const versions = [
+    ['v0.1','Phase 1 · now','now','current',['Product structure','Foundations','Tokens','Button documentation','Accessibility baseline','Roadmap','Changelog']],
+    ['v1.0','Planned','next','',['Full core component library','Figma-ready library structure','Stronger accessibility documentation','Pattern library','Starter templates','Public contribution guidelines']],
+    ['v2.0','Planned','next','',['Industry template examples','Theme builder','Advanced tokens','Community feedback process','Documentation search improvement','Built-with-RDS gallery']],
+    ['v3.0','Planned','next','',['React component library','Tailwind token package','Public documentation site','Community contribution model','Wider adoption strategy']],
+  ];
+  return `
+  <div class="page" id="page-roadmap">
+    <div class="eyebrow">Roadmap</div>
+    <h1 class="page-title">Depth before scale.</h1>
+    <p class="lede">RDS will not chase scale before usefulness. Each version should deepen the system before expanding it. This roadmap shows honest, staged growth rather than a promise of instant maturity.</p>
+
+    <section class="section">
+      <div class="roadmap" style="margin-top:var(--rds-space-6)">
+        ${versions.map(([ver,phase,pill,cls,items]) => `
+          <div class="rm-item ${cls}">
+            <div class="rm-dot"></div>
+            <div class="rm-ver">
+              <h3>RDS ${ver}</h3>
+              <span class="rm-pill ${pill}">${phase}</span>
+            </div>
+            <p style="font-size:14px;max-width:60ch">${cls === 'current' ? 'The current release. Focused on getting the foundations and identity right.' : 'A planned milestone. Listed so the direction is transparent, not as a current claim.'}</p>
+            <ul class="rm-list">${items.map(x => `<li>${x}</li>`).join('')}</ul>
+          </div>`).join('')}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="card" style="background:var(--rds-color-text-primary);color:var(--rds-color-background-default);border:none;position:relative;overflow:hidden">
+        <div class="grid-deco"></div>
+        <div class="eyebrow" style="color:var(--rds-accent-soft)">A note on pacing</div>
+        <p class="statement" style="color:var(--rds-color-background-default);max-width:40ch">RDS will not chase scale before usefulness. Each version should deepen the system before expanding it.</p>
+      </div>
+    </section>
+  </div>`;
+}
+
+function pageChangelog() {
+  const entries = [
+    ['31 May 2026','v0.1.0',[
+      ['added','Accessibility baseline and checklist.'],
+      ['added','Design Tokens page with token examples and copy interactions.'],
+      ['improved','Button page documentation with anatomy, states, variants, and accessibility guidance.'],
+    ]],
+    ['24 May 2026','v0.0.9',[
+      ['added','Foundation pages for colour, typography, spacing, and layout.'],
+      ['improved','Overview page positioning to clarify RDS\u2019s structure-led value proposition.'],
+    ]],
+    ['17 May 2026','v0.0.7',[
+      ['added','Roadmap with honest, staged version planning.'],
+      ['added','System identity: logo lockup, grid motif, and token-card treatment.'],
+      ['fixed','Inconsistent spacing between documentation sections.'],
+    ]],
+    ['09 May 2026','v0.0.4',[
+      ['added','Initial project structure and navigation.'],
+      ['deprecated','Early placeholder copy in favour of outcome-based messaging.'],
+    ]],
+  ];
+  return `
+  <div class="page" id="page-changelog">
+    <div class="eyebrow">Changelog</div>
+    <h1 class="page-title">An honest maintenance record.</h1>
+    <p class="lede">RDS builds trust through transparency rather than polish or social proof. This is a plain record of what changed and when, kept in public from the very first release.</p>
+
+    <section class="section" style="margin-top:var(--rds-space-6)">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:var(--rds-space-5)">
+        ${[['added','Added'],['improved','Improved'],['fixed','Fixed'],['deprecated','Deprecated']].map(([c,l]) => `<span class="cl-type ${c}">${l}</span>`).join('')}
+      </div>
+      <div class="card" style="padding:0 var(--rds-space-6)">
+        ${entries.map(([date,ver,changes]) => `
+          <div class="cl-entry">
+            <div class="cl-meta"><span class="cl-date">${date}</span><span class="cl-ver">${ver}</span></div>
+            <div class="cl-changes">
+              ${changes.map(([type,desc]) => `<div class="cl-change"><span class="cl-type ${type}">${type[0].toUpperCase()+type.slice(1)}</span><p>${desc}</p></div>`).join('')}
+            </div>
+          </div>`).join('')}
+      </div>
+      <div class="future-note">${I.tick} Entries reflect the build of RDS itself. As real usage grows, the changelog stays the single source of what shipped.</div>
+    </section>
+  </div>`;
+}
+
+/* ============================================================
+   BOOT
+   ============================================================ */
+function render() {
+  buildShell();
+  document.getElementById('content').innerHTML =
+    pageOverview() + pageGettingStarted() + pageFoundations() +
+    pageDesignTokens() + pageComponents() + pageButton() +
+    pageAccessibility() + pageRoadmap() + pageChangelog();
+  initTheme();
+  wireEvents();
+  const hash = (location.hash || '#overview').slice(1);
+  go(LABELS[hash] ? hash : 'overview');
+}
+render();
+
+</script>
+</body>
+</html>
