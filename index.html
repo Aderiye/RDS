@@ -46,6 +46,13 @@
   --rds-color-action-on-primary:  #ffffff;
   --rds-focus-ring-default:       var(--rds-focus-ring);
 
+  /* --- Destructive: a true error red, distinct from oxblood primary --- */
+  --rds-color-destructive:        #c24135;
+  --rds-color-destructive-hover:  #9f2f28;
+  --rds-color-destructive-soft:   #f7dad6;
+  --rds-color-destructive-text:   #a33a32;
+  --rds-color-on-destructive:     #fff9f0;
+
   /* --- Spacing scale --- */
   --rds-space-1: 4px;
   --rds-space-2: 8px;
@@ -99,6 +106,11 @@ html[data-theme="dark"] {
   --rds-color-border-strong:      #443d34;
   --rds-color-success:            #6fae7e;
   --rds-color-danger:             #e08070;
+  --rds-color-destructive:        #e0584a;
+  --rds-color-destructive-hover:  #c24135;
+  --rds-color-destructive-soft:   #3a201c;
+  --rds-color-destructive-text:   #f0998c;
+  --rds-color-on-destructive:     #fff9f0;
   --rds-code-bg:                  #0c0a08;
   --rds-code-text:                #e8e0d2;
 
@@ -274,8 +286,8 @@ p { color: var(--rds-color-text-secondary); }
 .rds-btn--tertiary:hover { background: var(--rds-color-surface-card); }
 .rds-btn--ghost { background: transparent; color: var(--rds-color-text-secondary); }
 .rds-btn--ghost:hover { background: var(--rds-color-surface-sunken); color: var(--rds-color-text-primary); }
-.rds-btn--destructive { background: var(--rds-color-danger); color: #fff; }
-.rds-btn--destructive:hover { filter: brightness(0.9); }
+.rds-btn--destructive { background: var(--rds-color-destructive); color: var(--rds-color-on-destructive); }
+.rds-btn--destructive:hover { background: var(--rds-color-destructive-hover); }
 .rds-btn--link { background: transparent; color: var(--rds-accent); padding: 6px 4px; min-height: auto; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1.5px; }
 .rds-btn--link:hover { color: var(--rds-accent-deep); }
 .rds-btn:disabled, .rds-btn[aria-disabled="true"] { opacity: 0.45; cursor: not-allowed; transform: none; }
@@ -455,8 +467,9 @@ p { color: var(--rds-color-text-secondary); }
 .cl-meta { display: flex; flex-direction: column; gap: 6px; }
 .cl-date { font-family: var(--rds-font-mono); font-size: 13px; color: var(--rds-color-text-primary); font-weight: 500; }
 .cl-ver { font-family: var(--rds-font-mono); font-size: 12px; color: var(--rds-color-text-muted); }
-.cl-changes { display: flex; flex-direction: column; gap: var(--rds-space-3); }
+.cl-changes { display: flex; flex-direction: column; gap: var(--rds-space-4); }
 .cl-change { display: flex; gap: 12px; align-items: flex-start; }
+.cl-change-body { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 0; }
 .cl-type { font-family: var(--rds-font-mono); font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; flex-shrink: 0; min-width: 78px; text-align: center; letter-spacing: 0.03em; }
 .cl-type.added { background: color-mix(in srgb, var(--rds-color-success) 16%, transparent); color: var(--rds-color-success); }
 .cl-type.improved { background: color-mix(in srgb, var(--rds-accent) 16%, transparent); color: var(--rds-accent); }
@@ -538,6 +551,48 @@ p { color: var(--rds-color-text-secondary); }
 .muted-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: var(--rds-space-4); }
 .scrim { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 35; }
 
+/* ===== Contribution vetting form ===== */
+.cform { background: var(--rds-color-surface-card); border: 1px solid var(--rds-color-border-default); border-radius: var(--rds-radius-lg); padding: var(--rds-space-6); }
+.cform-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--rds-space-5); }
+.cfield { display: flex; flex-direction: column; gap: 7px; }
+.cfield.full { grid-column: 1 / -1; }
+.cfield label { font-size: 13px; font-weight: 600; color: var(--rds-color-text-primary); }
+.cfield label .req { color: var(--rds-color-destructive-text); margin-left: 3px; }
+.cfield input[type="text"], .cfield input[type="email"], .cfield select, .cfield textarea {
+  font-family: var(--rds-font-body); font-size: 14px; color: var(--rds-color-text-primary);
+  background: var(--rds-color-surface-raised); border: 1px solid var(--rds-color-border-strong);
+  border-radius: var(--rds-radius-md); padding: 10px 12px; width: 100%;
+  transition: border-color var(--rds-motion-fast), box-shadow var(--rds-motion-fast);
+}
+.cfield textarea { resize: vertical; min-height: 78px; line-height: 1.5; }
+.cfield input:focus, .cfield select:focus, .cfield textarea:focus { outline: none; border-color: var(--rds-accent); box-shadow: 0 0 0 3px var(--rds-focus-ring); }
+.cfield input.invalid, .cfield select.invalid, .cfield textarea.invalid { border-color: var(--rds-color-destructive); }
+.cfield .cf-error { display: none; align-items: center; gap: 6px; font-size: 12.5px; color: var(--rds-color-destructive-text); font-weight: 500; }
+.cfield .cf-error.show { display: flex; }
+.cfield .cf-hint { font-size: 12px; color: var(--rds-color-text-muted); }
+.cf-options { display: flex; flex-wrap: wrap; gap: 8px 16px; }
+.cf-opt { display: flex; align-items: center; gap: 8px; font-size: 13.5px; color: var(--rds-color-text-secondary); cursor: pointer; }
+.cf-opt input { width: 16px; height: 16px; accent-color: var(--rds-accent); cursor: pointer; }
+.cf-opt input:focus-visible { outline: 2px solid var(--rds-focus-ring); outline-offset: 2px; }
+.cform-note { display: flex; gap: 9px; align-items: flex-start; font-size: 12.5px; color: var(--rds-color-text-muted); font-style: italic; margin-top: var(--rds-space-4); padding-top: var(--rds-space-4); border-top: 1px dashed var(--rds-color-border-default); }
+.cform-prelude { background: var(--rds-color-surface-sunken); border-left: 3px solid var(--rds-accent); border-radius: var(--rds-radius-md); padding: var(--rds-space-4) var(--rds-space-5); margin-bottom: var(--rds-space-5); font-size: 14.5px; color: var(--rds-color-text-primary); }
+
+/* review outcome cards + badges */
+.review-card { border-radius: var(--rds-radius-lg); border: 1px solid var(--rds-color-border-default); padding: var(--rds-space-5); display: flex; flex-direction: column; gap: 10px; }
+.review-card.pending { border-left: 3px solid var(--rds-focus-ring); background: var(--rds-color-surface-card); }
+.review-card.accepted { border-left: 3px solid var(--rds-color-success); background: var(--rds-color-surface-card); }
+.review-card.declined { border-left: 3px solid var(--rds-color-destructive); background: var(--rds-color-surface-sunken); }
+.review-head { display: flex; align-items: center; gap: 10px; }
+.review-badge { font-family: var(--rds-font-mono); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; padding: 4px 11px; border-radius: 999px; display: inline-flex; align-items: center; gap: 6px; }
+.review-badge.pending { background: color-mix(in srgb, var(--rds-focus-ring) 18%, transparent); color: var(--rds-focus-ring); }
+.review-badge.accepted { background: color-mix(in srgb, var(--rds-color-success) 18%, transparent); color: var(--rds-color-success); }
+.review-badge.declined { background: var(--rds-color-destructive-soft); color: var(--rds-color-destructive-text); }
+.review-row { font-size: 14px; color: var(--rds-color-text-secondary); }
+.review-row b { color: var(--rds-color-text-primary); font-weight: 600; }
+.review-result { display: none; margin-top: var(--rds-space-5); }
+.review-result.show { display: block; animation: fadeUp 0.4s var(--rds-motion-base); }
+@media (max-width: 900px) { .cform-grid { grid-template-columns: 1fr; } }
+
 /* ===== Keyboard accessibility: global focus-visible ===== */
 a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-visible, .nav-link:focus-visible, .ql:focus-visible, .comp-card:focus-visible {
   outline: none; box-shadow: 0 0 0 2px var(--rds-color-background-default), 0 0 0 4px var(--rds-focus-ring); border-radius: var(--rds-radius-sm);
@@ -550,17 +605,26 @@ a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-vis
 .ver-pill.phase { background: var(--rds-color-surface-card); color: var(--rds-color-text-secondary); border: 1px solid var(--rds-color-border-strong); }
 
 /* ===== Sidebar search ===== */
-.nav-search { padding: 0 var(--rds-space-5) var(--rds-space-3); position: relative; }
-.nav-search input {
-  width: 100%; font-family: var(--rds-font-body); font-size: 13.5px;
-  padding: 9px 12px 9px 32px; border-radius: var(--rds-radius-md);
-  background: var(--rds-color-surface-card); border: 1px solid var(--rds-color-border-default);
-  color: var(--rds-color-text-primary); transition: border-color var(--rds-motion-fast);
+.nav-search { padding: 0 var(--rds-space-5) var(--rds-space-3); }
+.nav-search .search-wrap {
+  display: flex; align-items: center; gap: 9px;
+  background: var(--rds-color-surface-card);
+  border: 1px solid var(--rds-color-border-default);
+  border-radius: var(--rds-radius-md);
+  padding: 0 11px; height: 38px;
+  cursor: text;
+  transition: border-color var(--rds-motion-fast), box-shadow var(--rds-motion-fast);
 }
+.nav-search .search-wrap:focus-within { border-color: var(--rds-accent); box-shadow: 0 0 0 3px var(--rds-focus-ring); }
+.nav-search .s-icon { display: flex; align-items: center; justify-content: center; color: var(--rds-color-text-muted); flex-shrink: 0; pointer-events: none; }
+.nav-search input {
+  flex: 1 1 auto; min-width: 0; width: 100%; border: none; outline: none; background: transparent;
+  font-family: var(--rds-font-body); font-size: 13.5px; height: 100%;
+  color: var(--rds-color-text-primary); padding: 0; margin: 0;
+}
+.nav-search input:focus { outline: none; box-shadow: none; }
 .nav-search input::placeholder { color: var(--rds-color-text-muted); }
-.nav-search input:focus { outline: none; border-color: var(--rds-accent); }
-.nav-search .s-icon { position: absolute; left: calc(var(--rds-space-5) + 11px); top: 50%; transform: translateY(-50%); color: var(--rds-color-text-muted); pointer-events: none; display: flex; align-items: center; justify-content: center; line-height: 0; }
-.nav-search .s-kbd { position: absolute; right: calc(var(--rds-space-5) + 9px); top: 50%; transform: translateY(-50%); font-family: var(--rds-font-mono); font-size: 10px; color: var(--rds-color-text-muted); border: 1px solid var(--rds-color-border-default); border-radius: 4px; padding: 1px 5px; pointer-events: none; display: flex; align-items: center; justify-content: center; line-height: 1; }
+.nav-search .s-kbd { display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-family: var(--rds-font-mono); font-size: 10px; color: var(--rds-color-text-muted); border: 1px solid var(--rds-color-border-default); border-radius: 4px; padding: 1px 5px; line-height: 1; pointer-events: none; }
 .nav-link.hidden-search { display: none; }
 .nav-group.hidden-search { display: none; }
 .nav-soon { margin-left: auto; font-family: var(--rds-font-mono); font-size: 9px; color: var(--rds-color-text-muted); border: 1px solid var(--rds-color-border-default); border-radius: 4px; padding: 1px 5px; letter-spacing: 0.03em; }
@@ -674,9 +738,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-vis
 .cl-filter:hover { border-color: var(--rds-color-border-strong); }
 .cl-filter.active { background: var(--rds-color-text-primary); color: var(--rds-color-background-default); border-color: var(--rds-color-text-primary); }
 .cl-change.filtered-out { display: none; }
-.cl-impact { font-size: 13px; color: var(--rds-color-text-muted); margin-top: 4px; padding-left: 90px; }
+.cl-impact { font-size: 13px; color: var(--rds-color-text-muted); line-height: 1.5; }
 .cl-impact b { color: var(--rds-color-text-secondary); font-weight: 600; }
-@media (max-width: 900px) { .cl-impact { padding-left: 0; } }
 
 /* ===== Maturity row on component cards ===== */
 .comp-maturity { display: flex; flex-direction: column; gap: 5px; padding-top: 4px; border-top: 1px dashed var(--rds-color-border-default); margin-top: 2px; }
@@ -804,9 +867,11 @@ function buildShell() {
           <span class="ver-pill phase">Phase 1</span>
         </div>
         <div class="nav-search">
-          <span class="s-icon">${I.search}</span>
-          <input type="text" id="navSearch" placeholder="Search documentation" aria-label="Search documentation">
-          <span class="s-kbd">/</span>
+          <label class="search-wrap" for="navSearch">
+            <span class="s-icon">${I.search}</span>
+            <input type="text" id="navSearch" placeholder="Search RDS..." aria-label="Search documentation">
+            <span class="s-kbd">/</span>
+          </label>
         </div>
         <div id="navList">${nav}</div>
       </aside>
@@ -981,6 +1046,42 @@ function wireEvents() {
       });
       return;
     }
+
+    // contribution form submit
+    const sub = e.target.closest('#cf-submit');
+    if (sub) {
+      e.preventDefault();
+      const required = [
+        ['cf-name','err-cf-name'],
+        ['cf-type','err-cf-type'],
+        ['cf-title','err-cf-title'],
+        ['cf-problem','err-cf-problem'],
+        ['cf-belong','err-cf-belong'],
+      ];
+      let firstBad = null, ok = true;
+      required.forEach(([fieldId, errId]) => {
+        const field = document.getElementById(fieldId);
+        const err = document.getElementById(errId);
+        const empty = !field || !field.value.trim();
+        if (field) field.classList.toggle('invalid', empty);
+        if (field) field.setAttribute('aria-invalid', empty ? 'true' : 'false');
+        if (err) err.classList.toggle('show', empty);
+        if (empty && !firstBad) firstBad = field;
+        if (empty) ok = false;
+      });
+      if (!ok) {
+        firstBad && firstBad.focus();
+        showToast('Please complete the required fields');
+        return;
+      }
+      const result = document.getElementById('cf-result');
+      if (result) {
+        result.classList.add('show');
+        result.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      showToast('Contribution submitted for review');
+      return;
+    }
   });
 
   // keyboard: Enter/Space on nav links + Enter activates focused nav
@@ -996,6 +1097,17 @@ function wireEvents() {
 
   const search = document.getElementById('navSearch');
   if (search) search.addEventListener('input', (e) => filterNav(e.target.value));
+
+  // clear contribution-form errors as the user fixes them
+  document.body.addEventListener('input', (e) => {
+    const f = e.target;
+    if (f && f.id && f.id.startsWith('cf-') && f.classList.contains('invalid') && f.value.trim()) {
+      f.classList.remove('invalid');
+      f.setAttribute('aria-invalid', 'false');
+      const err = document.getElementById('err-' + f.id);
+      if (err) err.classList.remove('show');
+    }
+  });
 
   document.getElementById('menuBtn').addEventListener('click', () => {
     document.getElementById('sidebar').classList.add('open');
@@ -1770,6 +1882,14 @@ function pageButton() {
             <div class="token-value-pill" style="white-space:normal;line-height:1.6">${ex}</div>
           </div>`).join('')}
       </div>
+      <div class="card" style="margin-top:var(--rds-space-5);background:var(--rds-color-surface-card);border-left:3px solid var(--rds-color-destructive)">
+        <h3 class="sub-title" style="margin-bottom:8px">Primary and Destructive are not the same colour</h3>
+        <div class="grid grid-2" style="gap:var(--rds-space-4);margin-top:var(--rds-space-3)">
+          <div style="display:flex;align-items:center;gap:12px"><span class="rds-btn rds-btn--primary sm">Save changes</span><span style="font-size:13px;color:var(--rds-color-text-secondary)">Primary uses the RDS brand action colour (oxblood).</span></div>
+          <div style="display:flex;align-items:center;gap:12px"><span class="rds-btn rds-btn--destructive sm">Delete account</span><span style="font-size:13px;color:var(--rds-color-text-secondary)">Destructive uses a separate semantic error red.</span></div>
+        </div>
+        <p style="font-size:14px;margin-top:var(--rds-space-4)">Destructive should only be used for risky, destructive, or irreversible actions. Do not use destructive styling just to make an action feel urgent, the colour is a warning, not an emphasis tool.</p>
+      </div>
     </section>
 
     <section class="section">
@@ -2113,21 +2233,28 @@ function pageRoadmap() {
 
 function pageChangelog() {
   const entries = [
-    ['31 May 2026','v0.1.0',[
+    ['5 June 2026','v0.1',[
+      ['fixed','Sidebar search is now a single full-width text field with leading and trailing icons, instead of an input boxed between them.','Makes the search bar read and behave as one clear, clickable field.'],
+      ['added','Contributor vetting form with validation and a Pending / Accepted / Declined review model.','Lets RDS stay open to contribution while protecting the system from becoming messy.'],
+      ['improved','Destructive button now uses a distinct semantic error red, separate from the oxblood primary.','Removes the hierarchy confusion between brand actions and risky, irreversible ones.'],
+      ['fixed','Sidebar search icon alignment so it sits centred inside the input.','Small detail, but a design system cannot ship misaligned UI in its own search field.'],
+      ['fixed','Changelog impact now aligns under each change record.','Makes the record easier to scan and read as a single unit.'],
+    ]],
+    ['31 May 2026','v0.1',[
       ['added','Accessibility baseline and copyable checklist.','Helps users review interface decisions before shipping.'],
       ['added','Design Tokens page with categories, examples, and copy interactions.','Makes tokens a practical working asset, not a static reference.'],
       ['improved','Button documentation with anatomy, states, variants, pairing rules, decisions, and good and weak patterns.','Helps users make better decisions around action hierarchy and interaction behaviour.'],
     ]],
-    ['24 May 2026','v0.0.9',[
+    ['24 May 2026','v0.1',[
       ['added','Foundation pages for colour, typography, spacing, and layout.','Gives users a clearer starting point before applying tokens or components.'],
       ['improved','Overview positioning with a product preview and Use RDS today actions.','Makes the product easier to understand within the first few seconds.'],
     ]],
-    ['17 May 2026','v0.0.7',[
+    ['17 May 2026','v0.1',[
       ['added','Roadmap with Now, Next, Later, and Future staging.','Connects honest planning to real component availability.'],
       ['added','System identity: logo lockup, grid motif, and token-card treatment.','Gives RDS a distinct, ownable visual signature.'],
       ['fixed','Inconsistent spacing between documentation sections.','Improves scannability across long pages.'],
     ]],
-    ['09 May 2026','v0.0.4',[
+    ['09 May 2026','v0.1',[
       ['added','Initial project structure and navigation.','Establishes the documentation shell the system grows inside.'],
       ['deprecated','Early placeholder copy in favour of outcome-based messaging.','Removes vague marketing language in favour of practical value.'],
     ]],
@@ -2150,11 +2277,11 @@ function pageChangelog() {
             <div class="cl-changes">
               ${changes.map(([type,desc,impact]) => `
                 <div class="cl-change" data-type="${type}">
-                  <div style="display:flex;gap:12px;align-items:flex-start">
-                    <span class="cl-type ${type}">${type[0].toUpperCase()+type.slice(1)}</span>
+                  <span class="cl-type ${type}">${type[0].toUpperCase()+type.slice(1)}</span>
+                  <div class="cl-change-body">
                     <p>${desc}</p>
+                    <div class="cl-impact"><b>Impact.</b> ${impact}</div>
                   </div>
-                  <div class="cl-impact"><b>Impact.</b> ${impact}</div>
                 </div>`).join('')}
             </div>
           </div>`).join('')}
@@ -2326,6 +2453,175 @@ function pageContributing() {
           'Would another designer understand when and why to use it?',
         ].map(x => `<li><span class="box">${I.checkW}</span><span>${x}</span></li>`).join('')}
       </ul>
+    </section>
+
+
+    <section class="section">
+      <div class="eyebrow">Submit a contribution for review</div>
+      <h2 class="section-title">Propose something. We will vet it.</h2>
+      <div class="cform-prelude">
+        RDS accepts documented decisions, not random components. Use this form to explain what you want to contribute, why it matters, and how it improves the system. Contributions can be accepted or declined based on fit, clarity, accessibility, and maintainability.
+      </div>
+      <div class="cform">
+        <div class="cform-grid">
+          <div class="cfield">
+            <label for="cf-name">Contributor name <span class="req" aria-hidden="true">*</span></label>
+            <input type="text" id="cf-name" placeholder="Your name" aria-required="true">
+            <span class="cf-error" id="err-cf-name">${I.x} Name is required.</span>
+          </div>
+          <div class="cfield">
+            <label for="cf-email">Email or contact</label>
+            <input type="email" id="cf-email" placeholder="your@email.com">
+            <span class="cf-hint">Optional, only used if we need to follow up.</span>
+          </div>
+          <div class="cfield">
+            <label for="cf-type">Contribution type <span class="req" aria-hidden="true">*</span></label>
+            <select id="cf-type" aria-required="true">
+              <option value="">Select a type</option>
+              <option>Component suggestion</option>
+              <option>Token proposal</option>
+              <option>Documentation improvement</option>
+              <option>Accessibility improvement</option>
+              <option>AI prompt improvement</option>
+              <option>Real product example</option>
+              <option>Bug or inconsistency report</option>
+              <option>Other</option>
+            </select>
+            <span class="cf-error" id="err-cf-type">${I.x} Contribution type is required.</span>
+          </div>
+          <div class="cfield">
+            <label for="cf-title">Contribution title <span class="req" aria-hidden="true">*</span></label>
+            <input type="text" id="cf-title" placeholder="Example, Add Input component documentation" aria-required="true">
+            <span class="cf-error" id="err-cf-title">${I.x} Contribution title is required.</span>
+          </div>
+          <div class="cfield full">
+            <label for="cf-problem">What problem does this solve? <span class="req" aria-hidden="true">*</span></label>
+            <textarea id="cf-problem" placeholder="Explain the reusable problem this contribution addresses." aria-required="true"></textarea>
+            <span class="cf-error" id="err-cf-problem">${I.x} A problem statement is required.</span>
+          </div>
+          <div class="cfield full">
+            <label for="cf-belong">Why should this belong in RDS? <span class="req" aria-hidden="true">*</span></label>
+            <textarea id="cf-belong" placeholder="Explain why this is useful across more than one product or project." aria-required="true"></textarea>
+            <span class="cf-error" id="err-cf-belong">${I.x} Please explain why this belongs in RDS.</span>
+          </div>
+          <div class="cfield full">
+            <label id="lbl-affect">Which part of RDS does it affect?</label>
+            <div class="cf-options" role="group" aria-labelledby="lbl-affect">
+              <label class="cf-opt"><input type="checkbox" name="cf-affect" value="Foundations"> Foundations</label>
+              <label class="cf-opt"><input type="checkbox" name="cf-affect" value="Tokens"> Tokens</label>
+              <label class="cf-opt"><input type="checkbox" name="cf-affect" value="Components"> Components</label>
+              <label class="cf-opt"><input type="checkbox" name="cf-affect" value="Accessibility"> Accessibility</label>
+              <label class="cf-opt"><input type="checkbox" name="cf-affect" value="AI builder prompts"> AI builder prompts</label>
+              <label class="cf-opt"><input type="checkbox" name="cf-affect" value="Roadmap"> Roadmap</label>
+              <label class="cf-opt"><input type="checkbox" name="cf-affect" value="Changelog"> Changelog</label>
+              <label class="cf-opt"><input type="checkbox" name="cf-affect" value="Contribution guide"> Contribution guide</label>
+              <label class="cf-opt"><input type="checkbox" name="cf-affect" value="Other"> Other</label>
+            </div>
+          </div>
+          <div class="cfield">
+            <label id="lbl-a11y">Does this improve accessibility?</label>
+            <div class="cf-options" role="radiogroup" aria-labelledby="lbl-a11y">
+              <label class="cf-opt"><input type="radio" name="cf-a11y" value="yes"> Yes</label>
+              <label class="cf-opt"><input type="radio" name="cf-a11y" value="no"> No</label>
+              <label class="cf-opt"><input type="radio" name="cf-a11y" value="notsure"> Not sure</label>
+            </div>
+          </div>
+          <div class="cfield">
+            <label for="cf-a11y-how">If yes, explain how</label>
+            <input type="text" id="cf-a11y-how" placeholder="Optional">
+          </div>
+          <div class="cfield full">
+            <label id="lbl-principles">Does this follow RDS principles?</label>
+            <div class="cf-options" role="group" aria-labelledby="lbl-principles">
+              <label class="cf-opt"><input type="checkbox" name="cf-principle" value="It is reusable across product types"> It is reusable across product types</label>
+              <label class="cf-opt"><input type="checkbox" name="cf-principle" value="It improves clarity"> It improves clarity</label>
+              <label class="cf-opt"><input type="checkbox" name="cf-principle" value="It improves consistency"> It improves consistency</label>
+              <label class="cf-opt"><input type="checkbox" name="cf-principle" value="It improves accessibility"> It improves accessibility</label>
+              <label class="cf-opt"><input type="checkbox" name="cf-principle" value="It improves maintainability"> It improves maintainability</label>
+              <label class="cf-opt"><input type="checkbox" name="cf-principle" value="It reduces repeated decisions"> It reduces repeated decisions</label>
+              <label class="cf-opt"><input type="checkbox" name="cf-principle" value="It avoids trend chasing"> It avoids trend chasing</label>
+              <label class="cf-opt"><input type="checkbox" name="cf-principle" value="It includes documentation logic"> It includes documentation logic</label>
+            </div>
+          </div>
+          <div class="cfield full">
+            <label id="lbl-ready">Is this contribution ready for review?</label>
+            <div class="cf-options" role="radiogroup" aria-labelledby="lbl-ready">
+              <label class="cf-opt"><input type="radio" name="cf-ready" value="yes"> Yes</label>
+              <label class="cf-opt"><input type="radio" name="cf-ready" value="no"> No, I need feedback first</label>
+            </div>
+          </div>
+        </div>
+        <div class="btn-row" style="margin-top:var(--rds-space-5)">
+          <button class="rds-btn rds-btn--primary" id="cf-submit">Submit for review</button>
+        </div>
+        <div class="cform-note">${I.tick} This v0.1 form demonstrates the contribution review workflow. It is a front-end prototype, no data is stored. Backend submission will be added later.</div>
+      </div>
+
+      <div class="review-result" id="cf-result">
+        <div class="review-card pending">
+          <div class="review-head">
+            <span class="review-badge pending"> Pending</span>
+            <span style="font-size:14px;font-weight:600;color:var(--rds-color-text-primary)">Contribution submitted for review.</span>
+          </div>
+          <div class="review-row">RDS will review this against clarity, reusability, accessibility, and maintainability.</div>
+          <div class="review-row"><b>Review outcome:</b> Pending &nbsp;·&nbsp; <b>Accepted:</b> Not decided yet</div>
+          <div class="review-row"><b>Next step:</b> RDS will review this against the contribution quality checklist.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">Review outcome model</div>
+      <h2 class="section-title">How a decision gets made.</h2>
+      <p class="section-intro">Submitting does not mean accepting. Every contribution moves through three states, and the decision follows clear logic, not taste.</p>
+      <div class="grid grid-3" style="margin-bottom:var(--rds-space-5)">
+        <div class="card" style="display:flex;align-items:center;gap:10px"><span class="review-badge pending">Pending</span><span style="font-size:13.5px;color:var(--rds-color-text-secondary)">Received, awaiting review.</span></div>
+        <div class="card" style="display:flex;align-items:center;gap:10px"><span class="review-badge accepted">Accepted</span><span style="font-size:13.5px;color:var(--rds-color-text-secondary)">Meets the bar, will be documented.</span></div>
+        <div class="card" style="display:flex;align-items:center;gap:10px"><span class="review-badge declined">Declined</span><span style="font-size:13.5px;color:var(--rds-color-text-secondary)">Does not fit the system yet.</span></div>
+      </div>
+      <div class="compare">
+        <div class="compare-col us" style="border-color:var(--rds-color-success)">
+          <h4 style="color:var(--rds-color-success)">More likely accepted if it</h4>
+          <ul>
+            <li>${I.tick}Solves a reusable problem</li>
+            <li>${I.tick}Improves clarity, consistency, accessibility, or maintainability</li>
+            <li>${I.tick}Includes documentation logic</li>
+            <li>${I.tick}Fits the RDS naming and token system</li>
+            <li>${I.tick}Can work across more than one product type</li>
+            <li>${I.tick}Avoids purely decorative or trend-driven UI</li>
+          </ul>
+        </div>
+        <div class="compare-col them" style="border-color:var(--rds-color-destructive)">
+          <h4 style="color:var(--rds-color-destructive-text)">More likely declined if it</h4>
+          <ul>
+            <li>${I.x}Only solves one screen</li>
+            <li>${I.x}Adds visual noise without system value</li>
+            <li>${I.x}Duplicates an existing pattern</li>
+            <li>${I.x}Does not consider accessibility</li>
+            <li>${I.x}Uses weak naming</li>
+            <li>${I.x}Adds complexity without clear benefit</li>
+            <li>${I.x}Feels like trend chasing</li>
+            <li>${I.x}Makes RDS harder to maintain</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">Worked examples</div>
+      <h2 class="section-title">What accept and decline look like.</h2>
+      <div class="grid grid-2">
+        <div class="review-card accepted">
+          <div class="review-head"><span class="review-badge accepted">${I.tick} Accepted: Yes</span></div>
+          <div class="review-row" style="font-weight:600;color:var(--rds-color-text-primary)">Add Input component documentation</div>
+          <div class="review-row"><b>Reason.</b> This contribution solves a reusable form pattern, includes accessibility guidance, and supports future Input documentation.</div>
+        </div>
+        <div class="review-card declined">
+          <div class="review-head"><span class="review-badge declined">${I.x} Accepted: No</span></div>
+          <div class="review-row" style="font-weight:600;color:var(--rds-color-text-primary)">Animated gradient hero badge</div>
+          <div class="review-row"><b>Reason.</b> This contribution is mostly decorative, does not solve a reusable system problem, and lacks accessibility guidance.</div>
+        </div>
+      </div>
     </section>
 
     <div class="cta-band">
