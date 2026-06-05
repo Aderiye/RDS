@@ -37,7 +37,7 @@
   --rds-color-border-default:     #d9d1c1;
   --rds-color-border-strong:      #c2b8a4;
   --rds-color-success:            #3f6f4a;
-  --rds-color-danger:             #a23a2a;
+  --rds-color-danger:             #c24135;
   --rds-code-bg:                  #2a2520;
   --rds-code-text:                #ece6da;
 
@@ -233,7 +233,7 @@ body {
 }
 .theme-toggle:hover { border-color: var(--rds-color-border-strong); color: var(--rds-color-text-primary); }
 
-.content { max-width: 1080px; margin: 0 auto; padding: var(--rds-space-8) var(--rds-space-6) var(--rds-space-9); }
+.content { max-width: 1080px; margin: 0 auto; padding: var(--rds-space-8) var(--rds-space-6) var(--rds-space-7); }
 .page { display: none; animation: fadeUp 0.5s cubic-bezier(0.32,0.72,0,1); }
 .page.active { display: block; }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
@@ -501,7 +501,7 @@ p { color: var(--rds-color-text-secondary); }
 }
 .comp-status.available { background: var(--rds-accent); color: #fff; }
 .comp-status.available .pdot { width: 5px; height: 5px; border-radius: 50%; background: #fff; }
-.comp-status.soon { background: var(--rds-color-surface-sunken); color: var(--rds-color-text-muted); border: 1px solid var(--rds-color-border-default); }
+.comp-status.soon { background: var(--rds-color-surface-sunken); color: var(--rds-color-text-secondary); border: 1px solid var(--rds-color-border-strong); }
 .comp-desc { font-size: 13.5px; line-height: 1.55; color: var(--rds-color-text-secondary); }
 .comp-preview {
   margin-top: 2px; background: var(--rds-color-surface-sunken);
@@ -593,6 +593,44 @@ p { color: var(--rds-color-text-secondary); }
 .review-result.show { display: block; animation: fadeUp 0.4s var(--rds-motion-base); }
 @media (max-width: 900px) { .cform-grid { grid-template-columns: 1fr; } }
 
+/* ===== Footer ===== */
+.rds-footer {
+  margin-top: 0;
+  border-top: 1px solid var(--rds-color-border-strong);
+  background: var(--rds-color-background-alt);
+  background-image: linear-gradient(var(--rds-grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--rds-grid-line) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+.footer-inner { max-width: 1080px; margin: 0 auto; padding: var(--rds-space-7) var(--rds-space-6) var(--rds-space-6); }
+.footer-cols { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: var(--rds-space-6); }
+.footer-brand .f-mark { display: flex; align-items: center; gap: 11px; margin-bottom: var(--rds-space-3); }
+.footer-brand .brand-mark { width: 34px; height: 34px; }
+.footer-brand .f-title { font-family: var(--rds-font-display); font-weight: 600; font-size: 20px; letter-spacing: -0.02em; }
+.footer-brand .f-desc { font-size: 13.5px; line-height: 1.6; color: var(--rds-color-text-secondary); max-width: 38ch; margin-bottom: var(--rds-space-4); }
+.footer-meta { display: flex; flex-direction: column; gap: 6px; }
+.footer-meta .fm-own { font-size: 13px; color: var(--rds-color-text-primary); font-weight: 500; }
+.footer-meta .fm-ver { display: inline-flex; align-items: center; gap: 7px; }
+.footer-meta .fm-note { font-size: 12.5px; color: var(--rds-color-text-muted); font-style: italic; margin-top: 2px; }
+.footer-col h4 { font-family: var(--rds-font-mono); font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--rds-color-text-muted); margin-bottom: var(--rds-space-4); }
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+.footer-link { display: inline-flex; align-items: center; gap: 8px; font-size: 13.5px; color: var(--rds-color-text-secondary); text-decoration: none; cursor: pointer; background: none; border: none; padding: 0; font-family: var(--rds-font-body); text-align: left; transition: color var(--rds-motion-fast); border-radius: var(--rds-radius-sm); white-space: nowrap; }
+.footer-link:hover { color: var(--rds-accent); }
+.footer-link:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--rds-color-background-alt), 0 0 0 4px var(--rds-focus-ring); }
+.footer-link.soon { color: var(--rds-color-text-muted); cursor: default; }
+.footer-link.soon:hover { color: var(--rds-color-text-muted); }
+.footer-soon-tag { flex-shrink: 0; font-family: var(--rds-font-mono); font-size: 9.5px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--rds-color-text-secondary); background: var(--rds-color-surface-card); border: 1px solid var(--rds-color-border-strong); border-radius: 4px; padding: 2px 6px; white-space: nowrap; }
+.footer-bottom { border-top: 1px solid var(--rds-color-border-default); margin-top: var(--rds-space-7); padding: var(--rds-space-5) 0 0; display: flex; align-items: center; justify-content: space-between; gap: var(--rds-space-4); flex-wrap: wrap; }
+.footer-bottom .fb-left { font-size: 12.5px; color: var(--rds-color-text-muted); }
+.footer-bottom .fb-right { font-family: var(--rds-font-serif); font-size: 14px; font-style: italic; color: var(--rds-color-text-secondary); }
+@media (max-width: 900px) {
+  .footer-cols { grid-template-columns: 1fr 1fr; gap: var(--rds-space-6); }
+  .footer-brand { grid-column: 1 / -1; }
+}
+@media (max-width: 560px) {
+  .footer-cols { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; }
+}
+
 /* ===== Keyboard accessibility: global focus-visible ===== */
 a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-visible, .nav-link:focus-visible, .ql:focus-visible, .comp-card:focus-visible {
   outline: none; box-shadow: 0 0 0 2px var(--rds-color-background-default), 0 0 0 4px var(--rds-focus-ring); border-radius: var(--rds-radius-sm);
@@ -627,7 +665,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-vis
 .nav-search .s-kbd { display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-family: var(--rds-font-mono); font-size: 10px; color: var(--rds-color-text-muted); border: 1px solid var(--rds-color-border-default); border-radius: 4px; padding: 1px 5px; line-height: 1; pointer-events: none; }
 .nav-link.hidden-search { display: none; }
 .nav-group.hidden-search { display: none; }
-.nav-soon { margin-left: auto; font-family: var(--rds-font-mono); font-size: 9px; color: var(--rds-color-text-muted); border: 1px solid var(--rds-color-border-default); border-radius: 4px; padding: 1px 5px; letter-spacing: 0.03em; }
+.nav-soon { margin-left: auto; font-family: var(--rds-font-mono); font-size: 9.5px; color: var(--rds-color-text-secondary); border: 1px solid var(--rds-color-border-strong); border-radius: 4px; padding: 1px 5px; letter-spacing: 0.03em; }
 .nav-empty { padding: 8px var(--rds-space-5); font-size: 13px; color: var(--rds-color-text-muted); font-style: italic; }
 
 /* ===== Hero preview board (mini design-system board) ===== */
@@ -638,12 +676,23 @@ a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-vis
   padding: var(--rds-space-5); box-shadow: var(--rds-shadow-md);
   background-image: radial-gradient(var(--rds-grid-line) 1.3px, transparent 1.3px); background-size: 16px 16px;
   display: flex; flex-direction: column; gap: var(--rds-space-3);
+  animation: pb-float 7s ease-in-out infinite;
 }
 .preview-board::before { content: "design decisions"; position: absolute; top: -10px; left: 18px; background: var(--rds-color-text-primary); color: var(--rds-color-background-default); font-family: var(--rds-font-mono); font-size: 10px; letter-spacing: 0.06em; padding: 3px 10px; border-radius: 5px; text-transform: uppercase; }
-.pb-item { background: var(--rds-color-surface-card); border: 1px solid var(--rds-color-border-default); border-radius: var(--rds-radius-md); padding: 12px 14px; position: relative; border-left: 3px solid var(--rds-accent); }
+.pb-item { background: var(--rds-color-surface-card); border: 1px solid var(--rds-color-border-default); border-radius: var(--rds-radius-md); padding: 12px 14px; position: relative; border-left: 3px solid var(--rds-accent); transition: transform var(--rds-motion-fast), border-color var(--rds-motion-fast), box-shadow var(--rds-motion-fast); opacity: 0; animation: pb-reveal 0.55s var(--rds-motion-base) forwards; }
+.pb-item:nth-child(1) { animation-delay: 0.05s; }
+.pb-item:nth-child(2) { animation-delay: 0.16s; }
+.pb-item:nth-child(3) { animation-delay: 0.27s; }
+.pb-item:nth-child(4) { animation-delay: 0.38s; }
+.pb-item:hover { transform: translateY(-2px); border-color: var(--rds-color-border-strong); box-shadow: var(--rds-shadow-sm); }
 .pb-item.olive { border-left-color: var(--rds-olive); }
 .pb-item.amber { border-left-color: var(--rds-focus-ring); }
-.pb-tag { font-family: var(--rds-font-mono); font-size: 9.5px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; padding: 2px 7px; border-radius: 4px; display: inline-block; margin-bottom: 7px; }
+.pb-tag { font-family: var(--rds-font-mono); font-size: 9.5px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; padding: 2px 7px; border-radius: 4px; display: inline-block; margin-bottom: 7px; position: relative; }
+.pb-tag::after { content: ""; position: absolute; inset: 0; border-radius: 4px; box-shadow: 0 0 0 2px currentColor; opacity: 0; animation: pb-tag-glow 8s ease-in-out infinite; }
+.pb-item:nth-child(1) .pb-tag::after { animation-delay: 0s; }
+.pb-item:nth-child(2) .pb-tag::after { animation-delay: 2s; }
+.pb-item:nth-child(3) .pb-tag::after { animation-delay: 4s; }
+.pb-item:nth-child(4) .pb-tag::after { animation-delay: 6s; }
 .pb-tag.token { background: color-mix(in srgb, var(--rds-accent) 14%, transparent); color: var(--rds-accent); }
 .pb-tag.comp { background: color-mix(in srgb, var(--rds-olive) 18%, transparent); color: var(--rds-olive); }
 .pb-tag.a11y { background: color-mix(in srgb, var(--rds-focus-ring) 18%, transparent); color: var(--rds-focus-ring); }
@@ -651,7 +700,13 @@ a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-vis
 .pb-item code { font-family: var(--rds-font-mono); font-size: 12px; color: var(--rds-color-text-primary); font-weight: 600; }
 .pb-item p { font-size: 12px; color: var(--rds-color-text-secondary); margin-top: 3px; line-height: 1.45; }
 .pb-btn-demo { display: flex; align-items: center; gap: 10px; margin-top: 4px; }
+.pb-item.amber .demo-btn-focus { animation: pb-focus-pulse 3.2s ease-in-out infinite; }
 .hero-nofake { display: inline-flex; align-items: center; gap: 8px; margin-top: var(--rds-space-5); font-size: 13px; color: var(--rds-color-text-muted); font-family: var(--rds-font-mono); }
+
+@keyframes pb-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+@keyframes pb-reveal { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pb-tag-glow { 0%,8%,100% { opacity: 0; } 3% { opacity: 0.5; } }
+@keyframes pb-focus-pulse { 0%,100% { box-shadow: 0 0 0 2px var(--rds-color-surface-card), 0 0 0 3px var(--rds-focus-ring); } 50% { box-shadow: 0 0 0 2px var(--rds-color-surface-card), 0 0 0 5px color-mix(in srgb, var(--rds-focus-ring) 55%, transparent); } }
 
 /* ===== Action cards (Use RDS today) ===== */
 .action-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--rds-space-4); }
@@ -777,6 +832,10 @@ a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-vis
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
   html { scroll-behavior: auto; }
+  .preview-board { animation: none !important; }
+  .pb-item { animation: none !important; opacity: 1 !important; transform: none !important; }
+  .pb-tag::after { animation: none !important; opacity: 0 !important; }
+  .pb-item.amber .demo-btn-focus { animation: none !important; }
 }
 </style>
 </head>
@@ -888,8 +947,75 @@ function buildShell() {
           </div>
         </div>
         <div class="content" id="content"></div>
+        ${buildFooter()}
       </div>
     </div>`;
+}
+
+/* ---- footer ---- */
+function buildFooter() {
+  const link = (label, nav, anchor, soon) => {
+    if (soon) return `<li><span class="footer-link soon">${label} <span class="footer-soon-tag">Coming soon</span></span></li>`;
+    const a = anchor ? ` data-anchor="${anchor}"` : '';
+    return `<li><button class="footer-link" data-nav="${nav}"${a}>${label}</button></li>`;
+  };
+  return `
+  <footer class="rds-footer">
+    <div class="footer-inner">
+      <div class="footer-cols">
+        <div class="footer-brand">
+          <div class="f-mark">
+            <div class="brand-mark"><span></span><span></span><span></span><span></span></div>
+            <div class="f-title">RDS</div>
+          </div>
+          <p class="f-desc">A documentation-first design system for reusable product structure, practical tokens, accessible components, and clearer design decisions.</p>
+          <div class="footer-meta">
+            <span class="fm-own">Created by Aderiye “Riye” Akangbe.</span>
+            <span class="fm-ver"><span class="ver-pill v">v0.1</span><span class="ver-pill phase">Phase 1</span></span>
+            <span class="fm-note">Early, intentional, and built to grow properly.</span>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Product</h4>
+          <ul>
+            ${link('Overview','overview')}
+            ${link('Getting Started','getting-started')}
+            ${link('Use RDS Today','overview','sec-use-today')}
+            ${link('RDS in Action','overview','sec-in-action')}
+            ${link('Use RDS with AI','use-with-ai')}
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>System</h4>
+          <ul>
+            ${link('Foundations','foundations')}
+            ${link('Design Tokens','design-tokens')}
+            ${link('Components','components')}
+            ${link('Button','button')}
+            ${link('Accessibility','accessibility')}
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Project</h4>
+          <ul>
+            ${link('Roadmap','roadmap')}
+            ${link('Changelog','changelog')}
+            ${link('Contribution Guide','contributing')}
+            ${link('Submit Contribution','contributing','sec-submit-contribution')}
+            ${link('GitHub Repository',null,null,true)}
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span class="fb-left">© 2026 RDS, Riye Design System. Built by Aderiye “Riye” Akangbe.</span>
+        <span class="fb-right">Reusable structure beats repeated guesswork.</span>
+      </div>
+    </div>
+  </footer>`;
 }
 
 /* ---- helpers ---- */
@@ -985,7 +1111,18 @@ function filterNav(q) {
 function wireEvents() {
   document.body.addEventListener('click', (e) => {
     const nav = e.target.closest('[data-nav]');
-    if (nav) { e.preventDefault(); go(nav.dataset.nav); return; }
+    if (nav) {
+      e.preventDefault();
+      go(nav.dataset.nav);
+      const anchor = nav.dataset.anchor;
+      if (anchor) {
+        requestAnimationFrame(() => {
+          const target = document.getElementById(anchor);
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      }
+      return;
+    }
 
     const copy = e.target.closest('[data-copy]');
     if (copy) {
@@ -1223,7 +1360,7 @@ function pageOverview() {
     </section>
 
     <section class="section">
-      <div class="eyebrow">Use RDS today</div>
+      <div class="eyebrow" id="sec-use-today">Use RDS today</div>
       <h2 class="section-title">Five things you can do right now.</h2>
       <p class="section-intro">RDS is early, but intentional. Even in Phase 1 there is real work you can do with it today, not just reading to do later.</p>
       <div class="action-grid">
@@ -1244,9 +1381,17 @@ function pageOverview() {
     </section>
 
     <section class="section">
-      <div class="eyebrow">RDS in action</div>
+      <div class="eyebrow" id="sec-in-action">RDS in action</div>
       <h2 class="section-title">One real card. Every decision documented.</h2>
       <p class="section-intro">RDS does not just tell you to think in systems. Here is a realistic settings card, with the exact RDS decisions that power it mapped alongside.</p>
+      <div class="grid grid-4" style="margin-bottom:var(--rds-space-5);gap:var(--rds-space-3)">
+        ${[
+          ['This is the UI','A real settings card, not a mockup.'],
+          ['These are the tokens','Every visual value traces to a token.'],
+          ['These are the rules','Hierarchy and accessibility, decided once.'],
+          ['This is why it matters','Reuse the decision, not just the look.'],
+        ].map(([t,d]) => `<div class="card" style="padding:var(--rds-space-4)"><h4 style="font-size:13.5px;font-weight:600;color:var(--rds-color-text-primary);margin-bottom:4px">${t}</h4><p style="font-size:12.5px;line-height:1.45">${d}</p></div>`).join('')}
+      </div>
       <div class="decision-board">
         <div class="db-ui">
           <div>
@@ -1271,13 +1416,14 @@ function pageOverview() {
         <div class="db-annotations">
           ${[
             ['Surface','--rds-color-surface-card'],
-            ['Text','--rds-color-text-primary'],
+            ['Typography','--rds-color-text-primary'],
             ['Spacing','--rds-space-4 · --rds-space-6'],
             ['Radius','--rds-radius-md'],
           ].map(([l,c]) => `<div class="db-anno"><span class="da-label">${l}</span><code>${c}</code></div>`).join('')}
           <div class="db-anno"><span class="da-label">Button</span><span class="da-rule">Primary action only, one per decision area.</span></div>
-          <div class="db-anno amber" style="border-left-color:var(--rds-focus-ring)"><span class="da-label">Accessibility</span><span class="da-rule">Visible focus ring, persistent labels, error in text and icon.</span></div>
-          <div class="db-anno"><span class="da-label">Rule</span><span class="da-rule">Helper text explains consequences before the action.</span></div>
+          <div class="db-anno amber" style="border-left-color:var(--rds-focus-ring)"><span class="da-label">Focus</span><span class="da-rule">Visible amber focus ring on every interactive field.</span></div>
+          <div class="db-anno amber" style="border-left-color:var(--rds-focus-ring)"><span class="da-label">Accessibility</span><span class="da-rule">Persistent labels, and errors shown in text and icon, not colour alone.</span></div>
+          <div class="db-anno"><span class="da-label">Rule</span><span class="da-rule">Reusable structure beats repeated guesswork.</span></div>
         </div>
       </div>
       <div class="future-note">${I.tick} Tab into the fields above to see real RDS focus rings, then click Save changes to see the loading state.</div>
@@ -2234,6 +2380,12 @@ function pageRoadmap() {
 function pageChangelog() {
   const entries = [
     ['5 June 2026','v0.1',[
+      ['improved','Reduced the empty space above the footer so it closes the page naturally.','Removes dead air and makes the footer feel like a deliberate end to the documentation.'],
+      ['added','Subtle, accessible motion to the hero preview: a slow float, a looping tag highlight, staggered reveal, hover lift, and a soft focus-ring pulse.','Makes the hero feel alive and connected without harming readability; fully disabled under reduced-motion.'],
+      ['improved','RDS in action section with a clearer four-point lead-in and fuller decision annotations.','Turns the section into a stronger, more scannable aha moment.'],
+      ['improved','Contrast on Coming soon and metadata badges, and aligned error reds to the destructive red.','Makes small labels legible and keeps destructive visually distinct from the oxblood primary everywhere.'],
+      ['fixed','Footer links no longer shift on hover, and the GitHub Repository Coming soon tag stays on one line.','Keeps the footer calm and tidy, with no movement or awkward wrapping.'],
+      ['added','Site footer with brand and ownership, product, system, and project columns, plus a bottom bar.','Gives the documentation a calm, credible close and reinforces ownership, versioning, and direction.'],
       ['fixed','Sidebar search is now a single full-width text field with leading and trailing icons, instead of an input boxed between them.','Makes the search bar read and behave as one clear, clickable field.'],
       ['added','Contributor vetting form with validation and a Pending / Accepted / Declined review model.','Lets RDS stay open to contribution while protecting the system from becoming messy.'],
       ['improved','Destructive button now uses a distinct semantic error red, separate from the oxblood primary.','Removes the hierarchy confusion between brand actions and risky, irreversible ones.'],
@@ -2457,7 +2609,7 @@ function pageContributing() {
 
 
     <section class="section">
-      <div class="eyebrow">Submit a contribution for review</div>
+      <div class="eyebrow" id="sec-submit-contribution">Submit a contribution for review</div>
       <h2 class="section-title">Propose something. We will vet it.</h2>
       <div class="cform-prelude">
         RDS accepts documented decisions, not random components. Use this form to explain what you want to contribute, why it matters, and how it improves the system. Contributions can be accepted or declined based on fit, clarity, accessibility, and maintainability.
