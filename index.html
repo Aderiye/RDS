@@ -683,6 +683,10 @@ a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-vis
 .comp-mat-row { display: flex; justify-content: space-between; font-size: 11.5px; }
 .comp-mat-row .mk { color: var(--rds-color-text-muted); font-family: var(--rds-font-mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.04em; }
 .comp-mat-row .mv { color: var(--rds-color-text-secondary); font-weight: 500; }
+.comp-mat-row .mat-good { color: var(--rds-color-success); }
+.comp-mat-row .mat-warn { color: var(--rds-focus-ring); }
+.comp-mat-row .mat-research { color: var(--rds-olive); }
+.comp-mat-row .mat-planned { color: var(--rds-color-text-muted); }
 .comp-card .comp-hover-reveal { max-height: 0; overflow: hidden; opacity: 0; transition: max-height var(--rds-motion-base), opacity var(--rds-motion-base), margin var(--rds-motion-base); }
 .comp-card.soon:hover .comp-hover-reveal, .comp-card.soon:focus-within .comp-hover-reveal { max-height: 160px; opacity: 1; margin-top: 4px; }
 .comp-hover-reveal .hr-title { font-family: var(--rds-font-mono); font-size: 10px; color: var(--rds-olive); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
@@ -957,11 +961,23 @@ function wireEvents() {
 
     // changelog filters
     const clf = e.target.closest('.cl-filter');
-    if (clf) {
+    if (clf && clf.dataset.type) {
       const type = clf.dataset.type;
-      document.querySelectorAll('.cl-filter').forEach(f => f.classList.toggle('active', f === clf));
+      document.querySelectorAll('#promptFilters .cl-filter, .cl-filters .cl-filter[data-type]').forEach(()=>{});
+      clf.parentElement.querySelectorAll('.cl-filter').forEach(f => f.classList.toggle('active', f === clf));
       document.querySelectorAll('.cl-change').forEach(c => {
         c.classList.toggle('filtered-out', type !== 'all' && c.dataset.type !== type);
+      });
+      return;
+    }
+
+    // prompt filters (Use RDS with AI)
+    const pf = e.target.closest('.cl-filter');
+    if (pf && pf.dataset.ptype) {
+      const t = pf.dataset.ptype;
+      pf.parentElement.querySelectorAll('.cl-filter').forEach(f => f.classList.toggle('active', f === pf));
+      document.querySelectorAll('#promptGrid .prompt-card').forEach(c => {
+        c.style.display = (t === 'all' || c.dataset.ptype === t) ? '' : 'none';
       });
       return;
     }
@@ -1157,29 +1173,26 @@ function pageOverview() {
 
     <section class="section">
       <div class="eyebrow">Positioning</div>
-      <h2 class="section-title">Not just another UI kit.</h2>
-      <p class="section-intro">RDS is not trying to win by having the largest number of components, templates, or ready-made screens. It is built to help you understand and reuse the decisions behind good interfaces, prioritising clarity, accessibility, documentation, and system thinking before scale.</p>
+      <h2 class="section-title">Asset kits help you copy faster. RDS helps you decide better.</h2>
+      <p class="section-intro">RDS is not trying to win by having the most components or screen packs. It helps designers understand, document, and reuse the decisions behind consistent interfaces.</p>
       <div class="compare">
         <div class="compare-col them">
-          <h4>Asset-heavy UI kits focus on</h4>
+          <h4>Asset-heavy UI kits often optimise for</h4>
           <ul>
-            ${['Large component libraries','Ready-made screens','Visual speed','Templates and examples','Immediate output']
+            ${['Ready-made screens','Large component volume','Fast visual copying','Template variety','Immediate output','Surface-level consistency']
               .map(x => `<li>${I.dash}${x}</li>`).join('')}
           </ul>
         </div>
         <div class="compare-col us">
-          <h4>RDS focuses on</h4>
+          <h4>RDS optimises for</h4>
           <ul>
-            ${['Reusable foundations','Design tokens','Documentation','Accessibility guidance','Component rules','System thinking','Long-term maintainability']
+            ${['Reusable foundations','Documented decisions','Practical tokens','Accessibility guidance','Component rules','System thinking','Long-term maintainability']
               .map(x => `<li>${I.tick}${x}</li>`).join('')}
           </ul>
         </div>
       </div>
-      <div class="grid grid-2" style="margin-top:var(--rds-space-5)">
-        <div class="card"><p class="statement" style="font-size:19px;max-width:none">Built for reusable decisions, not one-off screens.</p></div>
-        <div class="card"><p class="statement" style="font-size:19px;max-width:none">Start with structure before scaling into templates.</p></div>
-        <div class="card"><p style="font-size:15.5px;color:var(--rds-color-text-primary);font-family:var(--rds-font-serif)">Design systems should help you understand what to use, when to use it, and why it matters.</p></div>
-        <div class="card"><p style="font-size:15.5px;color:var(--rds-color-text-primary);font-family:var(--rds-font-serif)">RDS focuses on the decisions behind the interface, not just the interface itself.</p></div>
+      <div class="card" style="margin-top:var(--rds-space-5);background:var(--rds-color-text-primary);color:var(--rds-color-background-default);border:none;text-align:center">
+        <p style="font-family:var(--rds-font-serif);font-size:18px;color:var(--rds-color-background-default);max-width:none">RDS is not against speed. It is against rebuilding the same decisions without a system.</p>
       </div>
     </section>
 
@@ -1483,6 +1496,11 @@ function pageDesignTokens() {
 
   const cats = [['all','All'],['colour','Colour'],['typography','Typography'],['spacing','Spacing'],['radius','Radius'],['elevation','Elevation'],['motion','Motion'],['focus','Focus'],['theme','Theme']];
 
+  const payloadFor = (cat) => tokens.filter(t => t.cat === cat)
+    .map(t => `${t.name}: ${t.value};`).join('\n');
+  const colourPayload = payloadFor('colour');
+  const spacePayload = payloadFor('spacing');
+
   return `
   <div class="page" id="page-design-tokens">
     <div class="eyebrow">Design tokens</div>
@@ -1493,6 +1511,18 @@ function pageDesignTokens() {
       <div class="statement-block">
         <div class="eyebrow">Token philosophy</div>
         <p class="statement" style="max-width:38ch">Tokens are reusable decisions, not abstract variables. They power real components.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">Use tokens today</div>
+      <h2 class="section-title">Take the whole set, not one at a time.</h2>
+      <p class="section-intro">Copy a category in one click to paste into your styles, your handoff, or an AI prompt. Export actions are honestly marked as coming soon, no fake behaviour.</p>
+      <div class="btn-row" style="margin-top:0">
+        <button class="rds-btn rds-btn--secondary sm" data-copy="${colourPayload.replace(/"/g,'&quot;')}" data-toast="Colour tokens copied">${I.copy}<span>Copy all colour tokens</span></button>
+        <button class="rds-btn rds-btn--secondary sm" data-copy="${spacePayload.replace(/"/g,'&quot;')}" data-toast="Spacing tokens copied">${I.copy}<span>Copy all spacing tokens</span></button>
+        <span class="rds-btn rds-btn--tertiary sm" aria-disabled="true" style="opacity:.55;cursor:not-allowed">Copy CSS variable set <span class="tag" style="margin-left:6px">Coming soon</span></span>
+        <span class="rds-btn rds-btn--tertiary sm" aria-disabled="true" style="opacity:.55;cursor:not-allowed">Export token JSON <span class="tag" style="margin-left:6px">Coming soon</span></span>
       </div>
     </section>
 
@@ -1609,9 +1639,20 @@ function pageComponents() {
     <span class="rds-btn rds-btn--ghost sm">Ghost</span>`;
 
   // stage mapping: most planned components are v1.0; more complex ones v2.0
-  const stageV2 = ['Tooltip','Toast','Table','Accordion','Breadcrumb','Avatar','Select'];
+  const stageV2 = ['Tooltip','Toast','Table','Accordion','Breadcrumb','Avatar','Select','Checkbox','Radio','Textarea'];
   const stageFor = (name, isAvail) => isAvail ? 'v0.1' : (stageV2.includes(name) ? 'v2.0' : 'v1.0');
-  const maturityFor = (isAvail) => isAvail ? 'Complete for Phase 1' : 'Planned';
+  // per-component documentation maturity; default Planned
+  const maturityMap = {
+    Button: 'Complete for Phase 1',
+    Modal: 'Needs accessibility review',
+    Table: 'Researching',
+    Tooltip: 'Needs accessibility review',
+    Toast: 'Researching',
+    Accordion: 'Researching',
+    Select: 'Needs accessibility review',
+  };
+  const maturityClass = (m) => m === 'Complete for Phase 1' ? 'good' : (m === 'Needs accessibility review' ? 'warn' : (m === 'Researching' ? 'research' : 'planned'));
+  const maturityFor = (name, isAvail) => maturityMap[name] || (isAvail ? 'Complete for Phase 1' : 'Planned');
 
   const card = ([name, status, desc, std]) => {
     const isAvail = status === 'available';
@@ -1627,7 +1668,7 @@ function pageComponents() {
       <div class="comp-preview">${preview}</div>
       <p class="comp-desc">${desc}</p>
       <div class="comp-maturity">
-        <div class="comp-mat-row"><span class="mk">Documentation</span><span class="mv">${maturityFor(isAvail)}</span></div>
+        <div class="comp-mat-row"><span class="mk">Documentation</span><span class="mv mat-${maturityClass(maturityFor(name, isAvail))}">${maturityFor(name, isAvail)}</span></div>
         <div class="comp-mat-row"><span class="mk">Stage</span><span class="mv">${stageFor(name, isAvail)}</span></div>
       </div>
       ${isAvail
@@ -1647,7 +1688,7 @@ function pageComponents() {
 
     <div class="card" style="margin-top:var(--rds-space-6);background:var(--rds-color-surface-card);border-left:2px solid var(--rds-accent)">
       <p style="font-family:var(--rds-font-serif);font-size:16.5px;line-height:1.55;color:var(--rds-color-text-primary);max-width:74ch">
-        RDS will not ship shallow components just to look complete. Each component will be added with anatomy, states, accessibility guidance, token usage, and real product examples.
+        RDS will not ship shallow components just to look complete. Each component will be added when its anatomy, states, accessibility guidance, token usage, and usage rules are properly documented.
       </p>
     </div>
 
@@ -2017,20 +2058,24 @@ function pageAccessibility() {
 function pageRoadmap() {
   const stages = [
     { stage:'now', label:'Now', ver:'RDS v0.1', current:true,
-      focus:'Product structure, foundations, tokens, Button documentation, accessibility baseline, roadmap, and changelog.',
+      focus:'Foundations, tokens, Button documentation, accessibility baseline, roadmap, changelog, and AI builder prompts.',
       why:'This proves the system foundation before expanding into more components.',
-      items:['Overview','Getting Started','Foundations','Design Tokens','Button','Accessibility','Roadmap','Changelog'] },
+      impact:'Button is available and fully documented for Phase 1.',
+      items:['Overview','Getting Started','Foundations','Design Tokens','Button','Accessibility','Use RDS with AI','Roadmap','Changelog'] },
     { stage:'next', label:'Next', ver:'RDS v1.0', current:false,
-      focus:'Core component library, Figma-ready library structure, stronger accessibility documentation, pattern library, starter examples, and public contribution guidelines.',
+      focus:'Core components, Figma-ready structure, stronger accessibility documentation, pattern library, starter examples, and contribution guide.',
       why:'This turns RDS from a documented foundation into a usable design system library.',
+      impact:'Input, Card, Badge, Form field, Modal, Tabs, and Navigation move from Coming soon to documented components.',
       items:['Input','Card','Badge','Form field','Modal','Tabs','Navigation','Contribution guide','Starter examples'] },
     { stage:'later', label:'Later', ver:'RDS v2.0', current:false,
-      focus:'Industry examples, theme builder, advanced tokens, community feedback process, documentation search, and Built with RDS gallery.',
-      why:'This shows how RDS can adapt across product types without becoming a random template library.',
+      focus:'Industry examples, theme builder, advanced tokens, community feedback, documentation search, and Built with RDS gallery.',
+      why:'This shows how RDS adapts across product types without becoming a random template library.',
+      impact:'Table, Toast, Tooltip, Accordion, Breadcrumb, Avatar, Checkbox, Radio, Select, and Textarea mature into documented components.',
       items:['SaaS dashboard example','Marketplace flow','Admin panel','Authentication flow','Settings page','Hospitality booking flow','Web3 wallet dashboard','EV product landing page'] },
     { stage:'future', label:'Future', ver:'RDS v3.0', current:false,
       focus:'React component library, Tailwind token package, public documentation site, contribution model, and wider adoption strategy.',
-      why:'This prepares RDS for broader use beyond the initial design documentation.',
+      why:'This prepares RDS for broader use beyond design documentation.',
+      impact:'RDS becomes usable across design documentation, code, and implementation workflows.',
       items:['React component library','Tailwind token package','Public documentation site','Contribution model','Wider adoption strategy'] },
   ];
   return `
@@ -2050,6 +2095,7 @@ function pageRoadmap() {
             </div>
             <div class="rm-focus"><b style="color:var(--rds-color-text-primary);font-weight:600">Focus.</b> ${s.focus}</div>
             <div class="rm-why">Why it matters: ${s.why}</div>
+            <div class="db-anno" style="border-left-color:var(--rds-accent);margin:4px 0 var(--rds-space-3)"><span class="da-label">Components</span><span class="da-rule">${s.impact}</span></div>
             <ul class="rm-list">${s.items.map(x => `<li>${x}</li>`).join('')}</ul>
           </div>`).join('')}
       </div>
@@ -2120,18 +2166,19 @@ function pageChangelog() {
 
 function pageUseWithAI() {
   const prompts = [
-    ['Build a page using RDS','Use RDS as the source of truth. Follow the RDS colour tokens, spacing rules, typography hierarchy, component guidance, and accessibility principles. Do not create random styles outside the system. Build the page from reusable structure before adding visual polish.'],
-    ['Review this interface against RDS','Review this interface against RDS principles. Check spacing, typography hierarchy, colour usage, button hierarchy, accessibility, focus states, token consistency, and whether any UI decisions feel disconnected from the system.'],
-    ['Convert this screen into reusable structure','Analyse this screen and identify which decisions should become reusable tokens, components, patterns, or documentation rules in RDS.'],
-    ['Apply RDS button rules','Review the buttons in this interface. Check action hierarchy, pairing, loading states, destructive usage, focus states, labels, and whether there are too many competing primary actions.'],
-    ['Check accessibility using RDS','Review this interface using the RDS accessibility checklist. Flag poor contrast, missing labels, unclear errors, invisible focus states, weak keyboard support, poor touch targets, unclear loading states, and motion issues.'],
-    ['Generate a system aligned component','Create a component that follows RDS documentation standards. Include anatomy, variants, states, token usage, accessibility guidance, usage rules, and real product examples. Do not create purely decorative variants.'],
+    ['Build a page using RDS','build','Use RDS as the source of truth. Follow the RDS colour tokens, spacing rules, typography hierarchy, component guidance, and accessibility principles. Do not create random styles outside the system. Build the page from reusable structure before adding visual polish.'],
+    ['Review this interface against RDS','review','Review this interface against RDS principles. Check spacing, typography hierarchy, colour usage, button hierarchy, accessibility, focus states, token consistency, and whether any UI decisions feel disconnected from the system.'],
+    ['Convert this screen into reusable structure','tokens','Analyse this screen and identify which decisions should become reusable tokens, components, patterns, or documentation rules in RDS.'],
+    ['Apply RDS button rules','components','Review the buttons in this interface. Check action hierarchy, pairing, loading states, destructive usage, focus states, labels, and whether there are too many competing primary actions.'],
+    ['Check accessibility using RDS','accessibility','Review this interface using the RDS accessibility checklist. Flag poor contrast, missing labels, unclear errors, invisible focus states, weak keyboard support, poor touch targets, unclear loading states, and motion issues.'],
+    ['Generate a system aligned component','components','Create a component that follows RDS documentation standards. Include anatomy, variants, states, token usage, accessibility guidance, usage rules, and real product examples. Do not create purely decorative variants.'],
   ];
+  const chips = [['all','All'],['build','Build'],['review','Review'],['accessibility','Accessibility'],['components','Components'],['tokens','Tokens']];
   return `
   <div class="page" id="page-use-with-ai">
     <div class="eyebrow">${I.spark} Guides · Use RDS with AI</div>
     <h1 class="page-title">Give AI builders a source of truth.</h1>
-    <p class="lede">AI and no-code builders are fast, but they often generate disconnected UI decisions. RDS gives them a clear reference for spacing, typography, colour, component behaviour, accessibility, and structure, so the output stays part of one system.</p>
+    <p class="lede">AI builders are useful, but they often generate disconnected UI decisions. RDS gives you a source of truth for spacing, typography, colour, components, accessibility, and structure, so generated interfaces are easier to review, refine, and maintain.</p>
 
     <section class="section" style="margin-top:var(--rds-space-6)">
       <div class="grid grid-3">
@@ -2145,11 +2192,14 @@ function pageUseWithAI() {
 
     <section class="section">
       <div class="eyebrow">Ready to copy</div>
-      <h2 class="section-title">Six prompts that keep AI on-system.</h2>
-      <p class="section-intro">Copy any prompt, paste it into your builder of choice, and attach or link your RDS reference. These are tools, not theory.</p>
-      <div class="prompt-grid">
-        ${prompts.map(([title,body]) => `
-          <div class="prompt-card">
+      <h2 class="section-title">A prompt library for working with AI.</h2>
+      <p class="section-intro">Copy any prompt, paste it into your builder of choice, and attach or link your RDS reference. Filter by what you are trying to do.</p>
+      <div class="cl-filters" id="promptFilters">
+        ${chips.map(([t,l],i) => `<button class="cl-filter ${i===0?'active':''}" data-ptype="${t}">${l}</button>`).join('')}
+      </div>
+      <div class="prompt-grid" id="promptGrid">
+        ${prompts.map(([title,tag,body]) => `
+          <div class="prompt-card" data-ptype="${tag}">
             <div class="prompt-head">
               <h4>${title}</h4>
               <button class="copy-btn" data-copy="${body.replace(/"/g,'&quot;')}" data-toast="Prompt copied" aria-label="Copy prompt: ${title}">${I.copy}<span>Copy</span></button>
@@ -2208,6 +2258,45 @@ function pageContributing() {
           'Components should not be added just to make the library look bigger.',
           'Documentation quality matters as much as visual quality.',
         ].map(p => `<div class="card" style="display:flex;gap:11px;align-items:flex-start;padding:14px 16px"><span class="cc-dot" style="margin-top:6px"></span><span style="font-size:14px;color:var(--rds-color-text-primary)">${p}</span></div>`).join('')}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">The process</div>
+      <h2 class="section-title">Seven steps from idea to changelog.</h2>
+      <div class="card" style="padding:var(--rds-space-3) var(--rds-space-5)">
+        <div class="steps">
+          ${[
+            ['Suggest an improvement','Open with the change you want to see, kept specific.'],
+            ['Explain the reusable problem it solves','Show it recurs across projects, not just one screen.'],
+            ['Map it to the system','Tie it to tokens, components, accessibility, or documentation.'],
+            ['Review against RDS principles','Check it improves clarity, consistency, accessibility, or maintainability.'],
+            ['Add usage guidance','Document when and why to use it, not just what it is.'],
+            ['Credit the contributor if accepted','Accepted work is attributed to the person who proposed it.'],
+            ['Add an update to the changelog','Every accepted change is recorded transparently.'],
+          ].map(([t,d],i)=>`<div class="step"><div class="step-num">${i+1}</div><div class="step-body"><h4>${t}</h4><p>${d}</p></div></div>`).join('')}
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">Accepts and rejects</div>
+      <h2 class="section-title">A clear line keeps the system clean.</h2>
+      <div class="compare">
+        <div class="compare-col us" style="border-color:var(--rds-color-success)">
+          <h4 style="color:var(--rds-color-success)">RDS accepts</h4>
+          <ul>
+            ${['Documented component improvements','Accessibility improvements','Reusable token proposals','Clearer usage rules','Real product examples','Better AI builder prompts','Inconsistency reports']
+              .map(x => `<li>${I.tick}${x}</li>`).join('')}
+          </ul>
+        </div>
+        <div class="compare-col them" style="border-color:var(--rds-color-danger)">
+          <h4 style="color:var(--rds-color-danger)">RDS rejects</h4>
+          <ul>
+            ${['Purely decorative components','Trend-driven UI with no reusable purpose','Components without accessibility guidance','Tokens that solve only one screen','Duplicate patterns','Weak naming','Fake proof or inflated claims','Contributions that make RDS harder to maintain']
+              .map(x => `<li>${I.x}${x}</li>`).join('')}
+          </ul>
+        </div>
       </div>
     </section>
 
