@@ -520,7 +520,7 @@ p { color: var(--rds-color-text-secondary); }
 .pv-pill { padding: 2px 9px; border-radius: 999px; font-size: 10px; font-family: var(--rds-font-mono); border: 1px solid var(--rds-color-border-strong); color: var(--rds-color-text-muted); background: var(--rds-color-surface-card); }
 .pv-dot { width: 8px; height: 8px; border-radius: 50%; }
 @media (max-width: 900px) { .lib-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 560px) { .lib-grid { grid-template-columns: 1fr; } }
+@media (max-width: 640px) { .lib-grid { grid-template-columns: 1fr; } }
 
 /* ---------- Quick links ---------- */
 .quicklinks { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--rds-space-3); }
@@ -626,9 +626,11 @@ p { color: var(--rds-color-text-secondary); }
   .footer-cols { grid-template-columns: 1fr 1fr; gap: var(--rds-space-6); }
   .footer-brand { grid-column: 1 / -1; }
 }
-@media (max-width: 560px) {
-  .footer-cols { grid-template-columns: 1fr; }
-  .footer-bottom { flex-direction: column; align-items: flex-start; }
+@media (max-width: 640px) {
+  .footer-cols { grid-template-columns: 1fr; gap: var(--rds-space-5); }
+  .footer-inner { padding: var(--rds-space-6) var(--rds-space-4) var(--rds-space-5); }
+  .footer-bottom { flex-direction: column; align-items: flex-start; gap: var(--rds-space-2); }
+  .footer-link { font-size: 14px; padding: 2px 0; }
 }
 
 /* ===== Keyboard accessibility: global focus-visible ===== */
@@ -733,7 +735,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-vis
 .db-annotations { display: flex; flex-direction: column; gap: 8px; }
 .db-anno { display: flex; gap: 12px; align-items: flex-start; padding: 11px 14px; background: var(--rds-color-surface-card); border: 1px solid var(--rds-color-border-default); border-radius: var(--rds-radius-md); border-left: 3px solid var(--rds-olive); }
 .db-anno .da-label { font-family: var(--rds-font-mono); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--rds-color-text-muted); min-width: 78px; flex-shrink: 0; padding-top: 2px; }
-.db-anno code { font-family: var(--rds-font-mono); font-size: 12px; color: var(--rds-accent); font-weight: 600; }
+.db-anno code { font-family: var(--rds-font-mono); font-size: 12px; color: var(--rds-accent); font-weight: 600; word-break: break-all; }
 .db-anno .da-rule { font-size: 13px; color: var(--rds-color-text-primary); }
 
 /* ===== Token category tabs ===== */
@@ -750,7 +752,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-vis
 .t2c-map { display: flex; flex-direction: column; gap: 8px; }
 .t2c-row { display: flex; gap: 12px; align-items: center; padding: 10px 13px; background: var(--rds-color-surface-card); border: 1px solid var(--rds-color-border-default); border-radius: var(--rds-radius-md); }
 .t2c-part { font-size: 13px; font-weight: 600; color: var(--rds-color-text-primary); min-width: 92px; }
-.t2c-row code { font-family: var(--rds-font-mono); font-size: 12px; color: var(--rds-accent); }
+.t2c-row code { font-family: var(--rds-font-mono); font-size: 12px; color: var(--rds-accent); word-break: break-all; }
 
 /* ===== Good / weak pattern frames ===== */
 .gw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--rds-space-4); }
@@ -810,25 +812,77 @@ a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-vis
 .comp-hover-reveal .hr-title { font-family: var(--rds-font-mono); font-size: 10px; color: var(--rds-olive); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
 
 /* ===== Responsive ---------- */
+/* ===================== RESPONSIVE ===================== */
+
+/* Tablet landscape and below: tighten the wide content, ease hero scale */
+@media (max-width: 1024px) {
+  .content { max-width: 100%; }
+  .hero h1 { max-width: 20ch; }
+}
+
+/* Tablet portrait / collapse sidebar (≤900px) */
 @media (max-width: 900px) {
-  .sidebar { position: fixed; transform: translateX(-100%); box-shadow: var(--rds-shadow-lg); }
+  .sidebar { position: fixed; transform: translateX(-100%); box-shadow: var(--rds-shadow-lg); width: 300px; max-width: 86vw; }
   .sidebar.open { transform: translateX(0); }
   .menu-btn { display: inline-flex; }
   .scrim.show { display: block; }
+  .hero-layout { grid-template-columns: 1fr; gap: var(--rds-space-6); }
   .grid-3, .grid-4, .quicklinks { grid-template-columns: repeat(2, 1fr); }
   .compare, .anatomy, .grid-2 { grid-template-columns: 1fr; }
   .state-grid { grid-template-columns: 1fr; }
   .rm-list { grid-template-columns: 1fr; }
-  .cl-entry { grid-template-columns: 1fr; gap: var(--rds-space-3); }
-  .hero-layout { grid-template-columns: 1fr; }
+  .cl-entry { grid-template-columns: 1fr; gap: var(--rds-space-2); }
   .action-grid { grid-template-columns: repeat(2, 1fr); }
-  .decision-board, .t2c, .gw-grid, .prompt-grid, .contrib-grid { grid-template-columns: 1fr; }
-  .content { padding: var(--rds-space-6) var(--rds-space-4) var(--rds-space-8); }
+  .decision-board, .t2c, .gw-grid, .prompt-grid, .contrib-grid, .cform-grid { grid-template-columns: 1fr; }
+  .section { margin-top: var(--rds-space-8); }
+  .content { padding: var(--rds-space-6) var(--rds-space-5) var(--rds-space-7); }
+  /* roomier tap targets once the bar is touch-first */
+  .nav-link { padding: 11px var(--rds-space-3); font-size: 15px; }
+  .nav-link.sub { padding-top: 9px; padding-bottom: 9px; }
 }
-@media (max-width: 560px) {
+
+/* Mobile (≤640px) */
+@media (max-width: 640px) {
   .grid-3, .grid-4, .quicklinks, .action-grid { grid-template-columns: 1fr; }
-  body { background-size: 24px 24px; }
+  .topbar { padding: var(--rds-space-3) var(--rds-space-4); }
+  .content { padding: var(--rds-space-5) var(--rds-space-4) var(--rds-space-7); }
+  .section { margin-top: var(--rds-space-7); }
+  .section-intro { font-size: 15.5px; }
+  /* hero: prevent the floating preview from causing horizontal scroll */
+  .hero { padding: var(--rds-space-5) 0 var(--rds-space-6); overflow: hidden; }
+  .hero h1 { font-size: clamp(34px, 9vw, 44px); max-width: 100%; }
+  .preview-board { animation: none; }
+  /* full-width primary actions read better and tap easier */
+  .btn-row { gap: var(--rds-space-2); }
+  .hero .btn-row .rds-btn { flex: 1 1 100%; }
+  /* chip rows scroll instead of cramming */
+  .token-tabs, .cl-filters { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 6px; scrollbar-width: thin; }
+  .token-tab, .cl-filter { flex: 0 0 auto; padding: 8px 14px; }
+  /* decision board annotations: stack label above value so long tokens never clip */
+  .db-anno { flex-direction: column; gap: 3px; }
+  .db-anno .da-label { min-width: 0; }
+  /* changelog: badge above text */
+  .cl-change { gap: 8px; }
+  body { background-size: 26px 26px; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; gap: var(--rds-space-2); }
+  /* token-to-component rows wrap so label, value, and copy never cram */
+  .t2c-row { flex-wrap: wrap; gap: 8px; }
+  .t2c-part { min-width: 0; }
+  .copy-btn { padding: 8px 10px; font-size: 12px; }
+  .theme-toggle { padding: 8px 13px; }
+  .menu-btn { padding: 9px 11px; }
+  .cf-opt input { width: 18px; height: 18px; }
 }
+
+/* Small mobile (≤400px) */
+@media (max-width: 400px) {
+  .content { padding: var(--rds-space-4) var(--rds-space-3) var(--rds-space-6); }
+  body { background-size: 22px 22px; }
+  .hero h1 { font-size: clamp(30px, 9vw, 38px); }
+  .status-badge { font-size: 12px; }
+  .token-name code, .t2c-row code, .db-anno code { font-size: 11.5px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
   html { scroll-behavior: auto; }
@@ -837,6 +891,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-vis
   .pb-tag::after { animation: none !important; opacity: 0 !important; }
   .pb-item.amber .demo-btn-focus { animation: none !important; }
 }
+
 </style>
 </head>
 <body>
@@ -2380,6 +2435,7 @@ function pageRoadmap() {
 function pageChangelog() {
   const entries = [
     ['5 June 2026','v0.1',[
+      ['improved','Full responsive pass across tablet and mobile: layered breakpoints, tighter section spacing, stacked annotations, scrollable chip rows, wrapping token names, and comfortable tap targets.','Keeps spacing, hierarchy, and accessibility intact on every screen size, with no horizontal overflow.'],
       ['improved','Reduced the empty space above the footer so it closes the page naturally.','Removes dead air and makes the footer feel like a deliberate end to the documentation.'],
       ['added','Subtle, accessible motion to the hero preview: a slow float, a looping tag highlight, staggered reveal, hover lift, and a soft focus-ring pulse.','Makes the hero feel alive and connected without harming readability; fully disabled under reduced-motion.'],
       ['improved','RDS in action section with a clearer four-point lead-in and fuller decision annotations.','Turns the section into a stronger, more scannable aha moment.'],
