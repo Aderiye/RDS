@@ -37,7 +37,7 @@
   --rds-color-border-default:     #d9d1c1;
   --rds-color-border-strong:      #c2b8a4;
   --rds-color-success:            #3f6f4a;
-  --rds-color-danger:             #c24135;
+  --rds-color-danger:             #cf3526;
   --rds-code-bg:                  #2a2520;
   --rds-code-text:                #ece6da;
 
@@ -46,9 +46,9 @@
   --rds-color-action-on-primary:  #ffffff;
   --rds-focus-ring-default:       var(--rds-focus-ring);
 
-  /* --- Destructive: a true error red, distinct from oxblood primary --- */
-  --rds-color-destructive:        #c24135;
-  --rds-color-destructive-hover:  #9f2f28;
+  /* --- Destructive: a clear, evident red, distinct from oxblood primary --- */
+  --rds-color-destructive:        #cf3526;
+  --rds-color-destructive-hover:  #a82a1e;
   --rds-color-destructive-soft:   #f7dad6;
   --rds-color-destructive-text:   #a33a32;
   --rds-color-on-destructive:     #fff9f0;
@@ -105,9 +105,9 @@ html[data-theme="dark"] {
   --rds-color-border-default:     #342e27;
   --rds-color-border-strong:      #443d34;
   --rds-color-success:            #6fae7e;
-  --rds-color-danger:             #e08070;
-  --rds-color-destructive:        #e0584a;
-  --rds-color-destructive-hover:  #c24135;
+  --rds-color-danger:             #e85c4d;
+  --rds-color-destructive:        #d23b2e;
+  --rds-color-destructive-hover:  #b22e22;
   --rds-color-destructive-soft:   #3a201c;
   --rds-color-destructive-text:   #f0998c;
   --rds-color-on-destructive:     #fff9f0;
@@ -153,10 +153,23 @@ body {
   overflow-y: auto;
   border-right: 1px solid var(--rds-color-border-default);
   background: var(--rds-color-background-alt);
-  padding: var(--rds-space-5) 0 var(--rds-space-7);
+  padding: var(--rds-space-5) 0 var(--rds-space-4);
   transition: transform var(--rds-motion-base), background var(--rds-motion-base);
   z-index: 40;
+  display: flex;
+  flex-direction: column;
 }
+#navList { flex: 1; }
+.sidebar-version {
+  margin-top: var(--rds-space-4);
+  padding: var(--rds-space-4) var(--rds-space-5) 0;
+  border-top: 1px solid var(--rds-color-border-default);
+  display: flex; align-items: baseline; gap: 8px;
+  font-family: var(--rds-font-mono); font-size: 11px; font-style: italic;
+  color: var(--rds-color-text-muted);
+}
+.sidebar-version .sv-ver { color: var(--rds-color-text-secondary); font-style: normal; font-weight: 600; letter-spacing: 0.02em; }
+.sidebar-version .sv-phase { letter-spacing: 0.03em; }
 .brand {
   display: flex; align-items: center; gap: 12px;
   padding: 0 var(--rds-space-5) var(--rds-space-5);
@@ -447,26 +460,27 @@ p { color: var(--rds-color-text-secondary); }
 /* ---------- Roadmap ---------- */
 .roadmap { position: relative; padding-left: var(--rds-space-6); }
 .roadmap::before { content:""; position: absolute; left: 9px; top: 8px; bottom: 8px; width: 1.5px; background: var(--rds-color-border-strong); }
-.rm-item { position: relative; padding-bottom: var(--rds-space-6); }
+.rm-item { position: relative; padding-bottom: var(--rds-space-5); }
 .rm-item:last-child { padding-bottom: 0; }
-.rm-dot { position: absolute; left: -27px; top: 4px; width: 20px; height: 20px; border-radius: 6px; background: var(--rds-color-surface-card); border: 1.5px solid var(--rds-color-border-strong); display:flex; align-items:center; justify-content:center; }
+.rm-dot { position: absolute; left: -27px; top: 3px; width: 20px; height: 20px; border-radius: 6px; background: var(--rds-color-surface-card); border: 1.5px solid var(--rds-color-border-strong); display:flex; align-items:center; justify-content:center; }
 .rm-item.current .rm-dot { background: var(--rds-accent); border-color: var(--rds-accent); }
 .rm-item.current .rm-dot::after { content:""; width:7px; height:7px; border-radius:2px; background:#fff; }
-.rm-ver { display: flex; align-items: center; gap: 12px; margin-bottom: var(--rds-space-3); }
-.rm-ver h3 { font-family: var(--rds-font-display); font-size: 22px; font-weight: 600; }
+.rm-ver { display: flex; align-items: center; gap: 11px; margin-bottom: 8px; }
+.rm-ver h3 { font-family: var(--rds-font-display); font-size: 20px; font-weight: 600; }
 .rm-pill { font-family: var(--rds-font-mono); font-size: 11px; padding: 3px 9px; border-radius: 5px; font-weight: 600; letter-spacing: 0.04em; }
 .rm-pill.now { background: var(--rds-accent); color: #fff; }
 .rm-pill.next { background: var(--rds-color-surface-sunken); color: var(--rds-color-text-secondary); border: 1px solid var(--rds-color-border-default); }
-.rm-list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 18px; margin-top: var(--rds-space-2); }
-.rm-list li { font-size: 14px; color: var(--rds-color-text-secondary); display: flex; gap: 8px; align-items: center; }
+.rm-list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 18px; margin-top: 10px; }
+.rm-list li { font-size: 13.5px; color: var(--rds-color-text-secondary); display: flex; gap: 8px; align-items: center; }
 .rm-list li::before { content:""; width: 4px; height: 4px; border-radius: 50%; background: var(--rds-color-border-strong); flex-shrink:0; }
+.rm-pacing { display: flex; gap: 9px; align-items: center; margin-top: var(--rds-space-5); padding: var(--rds-space-4) var(--rds-space-5); background: var(--rds-color-surface-card); border: 1px solid var(--rds-color-border-default); border-left: 3px solid var(--rds-accent); border-radius: var(--rds-radius-md); font-size: 14px; color: var(--rds-color-text-primary); }
 
 /* ---------- Changelog ---------- */
-.cl-entry { display: grid; grid-template-columns: 150px 1fr; gap: var(--rds-space-5); padding: var(--rds-space-5) 0; border-bottom: 1px dashed var(--rds-color-border-default); }
+.cl-entry { display: grid; grid-template-columns: 172px 1fr; gap: var(--rds-space-5); padding: var(--rds-space-5) 0; border-bottom: 1px dashed var(--rds-color-border-default); }
 .cl-entry:last-child { border-bottom: none; }
 .cl-meta { display: flex; flex-direction: column; gap: 6px; }
 .cl-date { font-family: var(--rds-font-mono); font-size: 13px; color: var(--rds-color-text-primary); font-weight: 500; }
-.cl-ver { font-family: var(--rds-font-mono); font-size: 12px; color: var(--rds-color-text-muted); }
+.cl-ver { font-family: var(--rds-font-mono); font-size: 11px; color: var(--rds-color-text-muted); letter-spacing: 0.01em; }
 .cl-changes { display: flex; flex-direction: column; gap: var(--rds-space-4); }
 .cl-change { display: flex; gap: 12px; align-items: flex-start; }
 .cl-change-body { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 0; }
@@ -593,6 +607,18 @@ p { color: var(--rds-color-text-secondary); }
 .review-result.show { display: block; animation: fadeUp 0.4s var(--rds-motion-base); }
 @media (max-width: 900px) { .cform-grid { grid-template-columns: 1fr; } }
 
+/* ===== Collapsible details (contribution principles) ===== */
+.rds-details { border: 1px solid var(--rds-color-border-default); border-radius: var(--rds-radius-lg); background: var(--rds-color-surface-card); overflow: hidden; }
+.rds-summary { cursor: pointer; padding: var(--rds-space-4) var(--rds-space-5); font-family: var(--rds-font-display); font-size: 17px; font-weight: 600; color: var(--rds-color-text-primary); list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 10px; transition: background var(--rds-motion-fast); }
+.rds-summary:hover { background: var(--rds-color-surface-sunken); }
+.rds-summary::-webkit-details-marker { display: none; }
+.rds-summary::after { content: "+"; font-family: var(--rds-font-mono); font-size: 20px; font-weight: 400; color: var(--rds-accent); transition: transform var(--rds-motion-base); }
+.rds-details[open] .rds-summary::after { content: "\2212"; }
+.rds-summary:focus-visible { outline: none; box-shadow: inset 0 0 0 2px var(--rds-focus-ring); }
+.rds-details-body { padding: 0 var(--rds-space-5) var(--rds-space-5); }
+.rds-details-body .section { margin-top: var(--rds-space-5); }
+.rds-details-body .section:first-child { margin-top: var(--rds-space-3); }
+
 /* ===== Footer ===== */
 .rds-footer {
   margin-top: 0;
@@ -603,9 +629,11 @@ p { color: var(--rds-color-text-secondary); }
 }
 .footer-inner { max-width: 1080px; margin: 0 auto; padding: var(--rds-space-7) var(--rds-space-6) var(--rds-space-6); }
 .footer-cols { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: var(--rds-space-6); }
-.footer-brand .f-mark { display: flex; align-items: center; gap: 11px; margin-bottom: var(--rds-space-3); }
+.footer-brand .f-mark { display: flex; align-items: flex-start; gap: 11px; margin-bottom: var(--rds-space-3); }
 .footer-brand .brand-mark { width: 34px; height: 34px; }
-.footer-brand .f-title { font-family: var(--rds-font-display); font-weight: 600; font-size: 20px; letter-spacing: -0.02em; }
+.footer-brand .f-title { font-family: var(--rds-font-display); font-weight: 600; font-size: 20px; letter-spacing: -0.02em; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.footer-brand .f-sub { font-family: var(--rds-font-body); font-size: 12px; font-weight: 500; color: var(--rds-color-text-muted); letter-spacing: 0; }
+.footer-brand .f-credit { font-size: 12px; color: var(--rds-color-text-secondary); margin-top: 3px; }
 .footer-brand .f-desc { font-size: 13.5px; line-height: 1.6; color: var(--rds-color-text-secondary); max-width: 38ch; margin-bottom: var(--rds-space-4); }
 .footer-meta { display: flex; flex-direction: column; gap: 6px; }
 .footer-meta .fm-own { font-size: 13px; color: var(--rds-color-text-primary); font-weight: 500; }
@@ -976,10 +1004,6 @@ function buildShell() {
             <div class="brand-sub">Riye Design System</div>
           </div>
         </a>
-        <div class="ver-badges">
-          <span class="ver-pill v">v0.1</span>
-          <span class="ver-pill phase">Phase 1</span>
-        </div>
         <div class="nav-search">
           <label class="search-wrap" for="navSearch">
             <span class="s-icon">${I.search}</span>
@@ -988,6 +1012,10 @@ function buildShell() {
           </label>
         </div>
         <div id="navList">${nav}</div>
+        <div class="sidebar-version">
+          <span class="sv-ver">RDS V1.0</span>
+          <span class="sv-phase">Phase 1</span>
+        </div>
       </aside>
       <div class="main">
         <div class="topbar">
@@ -1021,12 +1049,10 @@ function buildFooter() {
         <div class="footer-brand">
           <div class="f-mark">
             <div class="brand-mark"><span></span><span></span><span></span><span></span></div>
-            <div class="f-title">RDS</div>
+            <div class="f-title">RDS <span class="f-sub">Riye Design System</span></div>
           </div>
           <p class="f-desc">A documentation-first design system for reusable product structure, practical tokens, accessible components, and clearer design decisions.</p>
           <div class="footer-meta">
-            <span class="fm-own">Created by Aderiye “Riye” Akangbe.</span>
-            <span class="fm-ver"><span class="ver-pill v">v0.1</span><span class="ver-pill phase">Phase 1</span></span>
             <span class="fm-note">Early, intentional, and built to grow properly.</span>
           </div>
         </div>
@@ -1066,7 +1092,7 @@ function buildFooter() {
       </div>
 
       <div class="footer-bottom">
-        <span class="fb-left">© 2026 RDS, Riye Design System. Built by Aderiye “Riye” Akangbe.</span>
+        <span class="fb-left">© 2026 RDS, Riye Design System. Created by Aderiye “Riye” Akangbe.</span>
         <span class="fb-right">Reusable structure beats repeated guesswork.</span>
       </div>
     </div>
@@ -1318,7 +1344,7 @@ function pageOverview() {
     <section class="hero">
       <div class="hero-layout">
         <div>
-          <div class="status-badge"><span class="pulse"></span>Phase 1: <code>Foundations &amp; system identity</code></div>
+          <div class="status-badge"><span class="pulse"></span><code>RDS V1.0, Phase 1</code> · Foundations &amp; system identity</div>
           <h1>Build faster without <em>rebuilding</em> the basics.</h1>
           <p class="lede">RDS is a documentation-first design system for designers and small teams who want reusable foundations, practical tokens, accessible components, and clearer product structure.</p>
           <div class="btn-row">
@@ -1460,7 +1486,7 @@ function pageOverview() {
           </div>
           <div class="db-field">
             <label for="db-name">Display name</label>
-            <input id="db-name" type="text" placeholder="Required" aria-invalid="true" aria-describedby="db-err">
+            <input id="db-name" type="text" placeholder="Enter display name" aria-invalid="true" aria-describedby="db-err">
             <div class="db-error" id="db-err">${I.x} Display name is required.</div>
           </div>
           <div class="db-actions">
@@ -2378,10 +2404,10 @@ function pageAccessibility() {
 
 function pageRoadmap() {
   const stages = [
-    { stage:'now', label:'Now', ver:'RDS v0.1', current:true,
-      focus:'Foundations, tokens, Button documentation, accessibility baseline, roadmap, changelog, and AI builder prompts.',
-      why:'This proves the system foundation before expanding into more components.',
-      impact:'Button is available and fully documented for Phase 1.',
+    { stage:'now', label:'Now', ver:'RDS V1.0, Phase 1', current:true,
+      focus:'Foundations, tokens, Button documentation, accessibility baseline, AI builder prompts, roadmap, changelog, and contribution workflow.',
+      why:'This establishes the foundation of RDS before expanding into more components.',
+      impact:'Button is the first fully documented component. Other components are planned and staged.',
       items:['Overview','Getting Started','Foundations','Design Tokens','Button','Accessibility','Use RDS with AI','Roadmap','Changelog'] },
     { stage:'next', label:'Next', ver:'RDS v1.0', current:false,
       focus:'Core components, Figma-ready structure, stronger accessibility documentation, pattern library, starter examples, and contribution guide.',
@@ -2420,49 +2446,49 @@ function pageRoadmap() {
             <ul class="rm-list">${s.items.map(x => `<li>${x}</li>`).join('')}</ul>
           </div>`).join('')}
       </div>
-    </section>
-
-    <section class="section">
-      <div class="card" style="background:var(--rds-color-text-primary);color:var(--rds-color-background-default);border:none;position:relative;overflow:hidden">
-        <div class="grid-deco"></div>
-        <div class="eyebrow" style="color:var(--rds-accent-soft)">A note on pacing</div>
-        <p class="statement" style="color:var(--rds-color-background-default);max-width:42ch">RDS will not chase scale before usefulness. Each version should deepen the system before expanding it.</p>
-      </div>
+      <div class="rm-pacing">${I.tick} RDS will not chase scale before usefulness. Each version should deepen the system before expanding it.</div>
     </section>
   </div>`;
 }
 
 function pageChangelog() {
   const entries = [
-    ['5 June 2026','v0.1',[
+    ['9 June 2026','RDS V1.0, Phase 1',[
+      ['added','Creator credit in the footer copyright line.','Restores clear ownership attribution in a calm, fitting place.'],
+      ['improved','Completed the Phase 1 polish pass with improved mobile behaviour, contribution hierarchy, sidebar version treatment, footer polish, roadmap spacing, and final UI consistency checks.','RDS now feels ready to share as an early documentation-first design system focused on reusable structure, practical tokens, accessibility, and clearer design decisions.'],
+      ['improved','Contribution Guide reordered so the form appears early, with detailed principles moved into a collapsible section.','Lets contributors understand the model and submit quickly, without reading everything first.'],
+      ['improved','Moved version and phase to quiet metadata at the bottom of the sidebar, and adopted the RDS V1.0, Phase 1 release label throughout.','Keeps versioning visible but calmer, matching the maturity of an early release.'],
+      ['fixed','Account Settings example placeholder changed from “Required” to “Enter display name”.','Gives natural input guidance instead of a validation label used as a placeholder.'],
+    ]],
+    ['5 June 2026','RDS V1.0, Phase 1',[
       ['improved','Full responsive pass across tablet and mobile: layered breakpoints, tighter section spacing, stacked annotations, scrollable chip rows, wrapping token names, and comfortable tap targets.','Keeps spacing, hierarchy, and accessibility intact on every screen size, with no horizontal overflow.'],
       ['improved','Reduced the empty space above the footer so it closes the page naturally.','Removes dead air and makes the footer feel like a deliberate end to the documentation.'],
       ['added','Subtle, accessible motion to the hero preview: a slow float, a looping tag highlight, staggered reveal, hover lift, and a soft focus-ring pulse.','Makes the hero feel alive and connected without harming readability; fully disabled under reduced-motion.'],
       ['improved','RDS in action section with a clearer four-point lead-in and fuller decision annotations.','Turns the section into a stronger, more scannable aha moment.'],
       ['improved','Contrast on Coming soon and metadata badges, and aligned error reds to the destructive red.','Makes small labels legible and keeps destructive visually distinct from the oxblood primary everywhere.'],
       ['fixed','Footer links no longer shift on hover, and the GitHub Repository Coming soon tag stays on one line.','Keeps the footer calm and tidy, with no movement or awkward wrapping.'],
-      ['added','Site footer with brand and ownership, product, system, and project columns, plus a bottom bar.','Gives the documentation a calm, credible close and reinforces ownership, versioning, and direction.'],
+      ['added','Site footer with product, system, and project columns, plus a bottom bar.','Gives the documentation a calm, credible close and reinforces direction.'],
       ['fixed','Sidebar search is now a single full-width text field with leading and trailing icons, instead of an input boxed between them.','Makes the search bar read and behave as one clear, clickable field.'],
       ['added','Contributor vetting form with validation and a Pending / Accepted / Declined review model.','Lets RDS stay open to contribution while protecting the system from becoming messy.'],
       ['improved','Destructive button now uses a distinct semantic error red, separate from the oxblood primary.','Removes the hierarchy confusion between brand actions and risky, irreversible ones.'],
       ['fixed','Sidebar search icon alignment so it sits centred inside the input.','Small detail, but a design system cannot ship misaligned UI in its own search field.'],
       ['fixed','Changelog impact now aligns under each change record.','Makes the record easier to scan and read as a single unit.'],
     ]],
-    ['31 May 2026','v0.1',[
+    ['31 May 2026','RDS V1.0, Phase 1',[
       ['added','Accessibility baseline and copyable checklist.','Helps users review interface decisions before shipping.'],
       ['added','Design Tokens page with categories, examples, and copy interactions.','Makes tokens a practical working asset, not a static reference.'],
       ['improved','Button documentation with anatomy, states, variants, pairing rules, decisions, and good and weak patterns.','Helps users make better decisions around action hierarchy and interaction behaviour.'],
     ]],
-    ['24 May 2026','v0.1',[
+    ['24 May 2026','RDS V1.0, Phase 1',[
       ['added','Foundation pages for colour, typography, spacing, and layout.','Gives users a clearer starting point before applying tokens or components.'],
       ['improved','Overview positioning with a product preview and Use RDS today actions.','Makes the product easier to understand within the first few seconds.'],
     ]],
-    ['17 May 2026','v0.1',[
+    ['17 May 2026','RDS V1.0, Phase 1',[
       ['added','Roadmap with Now, Next, Later, and Future staging.','Connects honest planning to real component availability.'],
       ['added','System identity: logo lockup, grid motif, and token-card treatment.','Gives RDS a distinct, ownable visual signature.'],
       ['fixed','Inconsistent spacing between documentation sections.','Improves scannability across long pages.'],
     ]],
-    ['09 May 2026','v0.1',[
+    ['09 May 2026','RDS V1.0, Phase 1',[
       ['added','Initial project structure and navigation.','Establishes the documentation shell the system grows inside.'],
       ['deprecated','Early placeholder copy in favour of outcome-based messaging.','Removes vague marketing language in favour of practical value.'],
     ]],
@@ -2572,7 +2598,7 @@ function pageContributing() {
   <div class="page" id="page-contributing">
     <div class="eyebrow">Guides · Contribution</div>
     <h1 class="page-title">Contributing to RDS.</h1>
-    <p class="lede">RDS may eventually open to other designers. Governance comes early, on purpose, so the system stays intentional instead of becoming a dumping ground for trendy patterns.</p>
+    <p class="lede">RDS is open to useful contributions, but every contribution must improve clarity, consistency, accessibility, or maintainability. Use the form below to explain what you want to add, why it matters, and how it supports the system.</p>
 
     <section class="section" style="margin-top:var(--rds-space-6)">
       <div class="statement-block">
@@ -2580,89 +2606,6 @@ function pageContributing() {
         <p class="statement" style="max-width:34ch">RDS accepts documented decisions, not random components.</p>
       </div>
     </section>
-
-    <section class="section">
-      <div class="eyebrow">Principles</div>
-      <h2 class="section-title">What a contribution must respect.</h2>
-      <div class="grid grid-2" style="gap:10px 16px;margin-top:var(--rds-space-5)">
-        ${[
-          'Every component must include anatomy, states, tokens, accessibility, and usage rules.',
-          'Every new token must solve a reusable system problem.',
-          'Every contribution must improve clarity, consistency, accessibility, or maintainability.',
-          'RDS should not become a dumping ground for trendy UI patterns.',
-          'Components should not be added just to make the library look bigger.',
-          'Documentation quality matters as much as visual quality.',
-        ].map(p => `<div class="card" style="display:flex;gap:11px;align-items:flex-start;padding:14px 16px"><span class="cc-dot" style="margin-top:6px"></span><span style="font-size:14px;color:var(--rds-color-text-primary)">${p}</span></div>`).join('')}
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="eyebrow">The process</div>
-      <h2 class="section-title">Seven steps from idea to changelog.</h2>
-      <div class="card" style="padding:var(--rds-space-3) var(--rds-space-5)">
-        <div class="steps">
-          ${[
-            ['Suggest an improvement','Open with the change you want to see, kept specific.'],
-            ['Explain the reusable problem it solves','Show it recurs across projects, not just one screen.'],
-            ['Map it to the system','Tie it to tokens, components, accessibility, or documentation.'],
-            ['Review against RDS principles','Check it improves clarity, consistency, accessibility, or maintainability.'],
-            ['Add usage guidance','Document when and why to use it, not just what it is.'],
-            ['Credit the contributor if accepted','Accepted work is attributed to the person who proposed it.'],
-            ['Add an update to the changelog','Every accepted change is recorded transparently.'],
-          ].map(([t,d],i)=>`<div class="step"><div class="step-num">${i+1}</div><div class="step-body"><h4>${t}</h4><p>${d}</p></div></div>`).join('')}
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="eyebrow">Accepts and rejects</div>
-      <h2 class="section-title">A clear line keeps the system clean.</h2>
-      <div class="compare">
-        <div class="compare-col us" style="border-color:var(--rds-color-success)">
-          <h4 style="color:var(--rds-color-success)">RDS accepts</h4>
-          <ul>
-            ${['Documented component improvements','Accessibility improvements','Reusable token proposals','Clearer usage rules','Real product examples','Better AI builder prompts','Inconsistency reports']
-              .map(x => `<li>${I.tick}${x}</li>`).join('')}
-          </ul>
-        </div>
-        <div class="compare-col them" style="border-color:var(--rds-color-danger)">
-          <h4 style="color:var(--rds-color-danger)">RDS rejects</h4>
-          <ul>
-            ${['Purely decorative components','Trend-driven UI with no reusable purpose','Components without accessibility guidance','Tokens that solve only one screen','Duplicate patterns','Weak naming','Fake proof or inflated claims','Contributions that make RDS harder to maintain']
-              .map(x => `<li>${I.x}${x}</li>`).join('')}
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="eyebrow">Ways to contribute</div>
-      <h2 class="section-title">Seven useful contributions.</h2>
-      <div class="contrib-grid">
-        ${[
-          'Suggest a component','Improve documentation','Add accessibility guidance','Propose a token','Share a product example','Report inconsistency','Improve AI builder prompts',
-        ].map(c => `<div class="contrib-chip"><span class="cc-dot"></span>${c}</div>`).join('')}
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="eyebrow">Quality checklist</div>
-      <h2 class="section-title">Before you propose anything.</h2>
-      <p class="section-intro">Tap to check each one. If a contribution cannot answer these, it is not ready for RDS yet.</p>
-      <ul class="checklist">
-        ${[
-          'Does this improve the system?',
-          'Is it reusable across product types?',
-          'Is it accessible?',
-          'Does it follow RDS naming and token logic?',
-          'Is the documentation clear?',
-          'Does it avoid trend chasing?',
-          'Does it reduce repeated decisions?',
-          'Would another designer understand when and why to use it?',
-        ].map(x => `<li><span class="box">${I.checkW}</span><span>${x}</span></li>`).join('')}
-      </ul>
-    </section>
-
 
     <section class="section">
       <div class="eyebrow" id="sec-submit-contribution">Submit a contribution for review</div>
@@ -2830,6 +2773,97 @@ function pageContributing() {
           <div class="review-row"><b>Reason.</b> This contribution is mostly decorative, does not solve a reusable system problem, and lacks accessibility guidance.</div>
         </div>
       </div>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">Accepts and rejects</div>
+      <h2 class="section-title">A clear line keeps the system clean.</h2>
+      <div class="compare">
+        <div class="compare-col us" style="border-color:var(--rds-color-success)">
+          <h4 style="color:var(--rds-color-success)">RDS accepts</h4>
+          <ul>
+            ${['Documented component improvements','Accessibility improvements','Reusable token proposals','Clearer usage rules','Real product examples','Better AI builder prompts','Inconsistency reports']
+              .map(x => `<li>${I.tick}${x}</li>`).join('')}
+          </ul>
+        </div>
+        <div class="compare-col them" style="border-color:var(--rds-color-danger)">
+          <h4 style="color:var(--rds-color-danger)">RDS rejects</h4>
+          <ul>
+            ${['Purely decorative components','Trend-driven UI with no reusable purpose','Components without accessibility guidance','Tokens that solve only one screen','Duplicate patterns','Weak naming','Fake proof or inflated claims','Contributions that make RDS harder to maintain']
+              .map(x => `<li>${I.x}${x}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">Ways to contribute</div>
+      <h2 class="section-title">Seven useful contributions.</h2>
+      <div class="contrib-grid">
+        ${[
+          'Suggest a component','Improve documentation','Add accessibility guidance','Propose a token','Share a product example','Report inconsistency','Improve AI builder prompts',
+        ].map(c => `<div class="contrib-chip"><span class="cc-dot"></span>${c}</div>`).join('')}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">Quality checklist</div>
+      <h2 class="section-title">Before you propose anything.</h2>
+      <p class="section-intro">Tap to check each one. If a contribution cannot answer these, it is not ready for RDS yet.</p>
+      <ul class="checklist">
+        ${[
+          'Does this improve the system?',
+          'Is it reusable across product types?',
+          'Is it accessible?',
+          'Does it follow RDS naming and token logic?',
+          'Is the documentation clear?',
+          'Does it avoid trend chasing?',
+          'Does it reduce repeated decisions?',
+          'Would another designer understand when and why to use it?',
+        ].map(x => `<li><span class="box">${I.checkW}</span><span>${x}</span></li>`).join('')}
+      </ul>
+    </section>
+
+
+    <section class="section">
+      <details class="rds-details">
+        <summary class="rds-summary">Detailed contribution principles</summary>
+        <div class="rds-details-body">
+    <section class="section">
+      <div class="eyebrow">Principles</div>
+      <h2 class="section-title">What a contribution must respect.</h2>
+      <div class="grid grid-2" style="gap:10px 16px;margin-top:var(--rds-space-5)">
+        ${[
+          'Every component must include anatomy, states, tokens, accessibility, and usage rules.',
+          'Every new token must solve a reusable system problem.',
+          'Every contribution must improve clarity, consistency, accessibility, or maintainability.',
+          'RDS should not become a dumping ground for trendy UI patterns.',
+          'Components should not be added just to make the library look bigger.',
+          'Documentation quality matters as much as visual quality.',
+        ].map(p => `<div class="card" style="display:flex;gap:11px;align-items:flex-start;padding:14px 16px"><span class="cc-dot" style="margin-top:6px"></span><span style="font-size:14px;color:var(--rds-color-text-primary)">${p}</span></div>`).join('')}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">The process</div>
+      <h2 class="section-title">Seven steps from idea to changelog.</h2>
+      <div class="card" style="padding:var(--rds-space-3) var(--rds-space-5)">
+        <div class="steps">
+          ${[
+            ['Suggest an improvement','Open with the change you want to see, kept specific.'],
+            ['Explain the reusable problem it solves','Show it recurs across projects, not just one screen.'],
+            ['Map it to the system','Tie it to tokens, components, accessibility, or documentation.'],
+            ['Review against RDS principles','Check it improves clarity, consistency, accessibility, or maintainability.'],
+            ['Add usage guidance','Document when and why to use it, not just what it is.'],
+            ['Credit the contributor if accepted','Accepted work is attributed to the person who proposed it.'],
+            ['Add an update to the changelog','Every accepted change is recorded transparently.'],
+          ].map(([t,d],i)=>`<div class="step"><div class="step-num">${i+1}</div><div class="step-body"><h4>${t}</h4><p>${d}</p></div></div>`).join('')}
+        </div>
+      </div>
+    </section>
+
+        </div>
+      </details>
     </section>
 
     <div class="cta-band">
