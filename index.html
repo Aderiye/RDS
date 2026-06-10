@@ -601,6 +601,12 @@ p { color: var(--rds-color-text-secondary); }
 .review-badge.pending { background: color-mix(in srgb, var(--rds-focus-ring) 18%, transparent); color: var(--rds-focus-ring); }
 .review-badge.accepted { background: color-mix(in srgb, var(--rds-color-success) 18%, transparent); color: var(--rds-color-success); }
 .review-badge.declined { background: var(--rds-color-destructive-soft); color: var(--rds-color-destructive-text); }
+/* Ticks signify a positive: render green in accept / good contexts */
+.compare-col.us li svg { color: var(--rds-color-success); }
+.gw-frame.good .gw-label svg { color: var(--rds-color-success); }
+.review-badge.accepted svg { color: var(--rds-color-success); }
+/* Info-note ticks keep the warm accent */
+.future-note svg, .hero-nofake svg, .cform-note svg { color: var(--rds-accent); }
 .review-row { font-size: 14px; color: var(--rds-color-text-secondary); }
 .review-row b { color: var(--rds-color-text-primary); font-weight: 600; }
 .review-result { display: none; margin-top: var(--rds-space-5); }
@@ -937,7 +943,7 @@ const I = {
   checkW: '<svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.5 3.5L13 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   plus: '<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
   dash: '<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10" stroke="var(--rds-color-text-muted)" stroke-width="1.5" stroke-linecap="round"/></svg>',
-  tick: '<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.5 3.5L13 5" stroke="var(--rds-accent)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  tick: '<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   sun: '<svg width="15" height="15" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3.2" stroke="currentColor" stroke-width="1.3"/><path d="M8 1v1.5M8 13.5V15M15 8h-1.5M2.5 8H1M12.7 3.3l-1 1M4.3 11.7l-1 1M12.7 12.7l-1-1M4.3 4.3l-1-1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>',
   moon: '<svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M13.5 9.5A5.5 5.5 0 016.5 2.5 5.5 5.5 0 1013.5 9.5z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>',
   x: '<svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="var(--rds-color-danger)" stroke-width="1.5" stroke-linecap="round"/></svg>',
@@ -1013,7 +1019,7 @@ function buildShell() {
         </div>
         <div id="navList">${nav}</div>
         <div class="sidebar-version">
-          <span class="sv-ver">RDS V1.0</span>
+          <span class="sv-ver">RDS V1.0,</span>
           <span class="sv-phase">Phase 1</span>
         </div>
       </aside>
@@ -1979,7 +1985,7 @@ function pageComponents() {
 
   // stage mapping: most planned components are v1.0; more complex ones v2.0
   const stageV2 = ['Tooltip','Toast','Table','Accordion','Breadcrumb','Avatar','Select','Checkbox','Radio','Textarea'];
-  const stageFor = (name, isAvail) => isAvail ? 'v0.1' : (stageV2.includes(name) ? 'v2.0' : 'v1.0');
+  const stageFor = (name, isAvail) => isAvail ? 'Phase 1' : (stageV2.includes(name) ? 'v2.0' : 'v1.0');
   // per-component documentation maturity; default Planned
   const maturityMap = {
     Button: 'Complete for Phase 1',
@@ -2454,6 +2460,8 @@ function pageRoadmap() {
 function pageChangelog() {
   const entries = [
     ['9 June 2026','RDS V1.0, Phase 1',[
+      ['fixed','Acceptance ticks on the Contribution Guide now render green instead of the oxblood accent.','Green reads correctly as accepted or positive, matching the meaning of the mark.'],
+      ['fixed','Release label made fully consistent: sidebar metadata reads RDS V1.0, Phase 1 and the available component stage no longer shows a version that could be mistaken for a release label.','Removes the last version-label inconsistencies before sharing.'],
       ['added','Creator credit in the footer copyright line.','Restores clear ownership attribution in a calm, fitting place.'],
       ['improved','Completed the Phase 1 polish pass with improved mobile behaviour, contribution hierarchy, sidebar version treatment, footer polish, roadmap spacing, and final UI consistency checks.','RDS now feels ready to share as an early documentation-first design system focused on reusable structure, practical tokens, accessibility, and clearer design decisions.'],
       ['improved','Contribution Guide reordered so the form appears early, with detailed principles moved into a collapsible section.','Lets contributors understand the model and submit quickly, without reading everything first.'],
